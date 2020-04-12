@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const path = require('path');
 
 const app = express();
 mongoose.connect('mongodb://localhost/ingenio_database')
@@ -17,12 +18,11 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 // Routes
-app.use('/ingenio', require('./routes/tasks'));
+app.use('/ingenio', require('./routes/routes'));
 
 // Static files
 
-// note: set route with Valeria
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(path.join(__dirname, '../../front_end/src/public')));
 
 
 // Server is listening
