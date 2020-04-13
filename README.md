@@ -14,7 +14,7 @@
 
 ## Pasos de configuración
 
-Los directorios de Back-End y Front-End, deben estar uvicados en una
+Los directorios de Back-End y Front-End, deben estar ubicados en una
 misma carpeta. Desde la terminal ejecutar:
 
 1. Para inicializar la base de datos:
