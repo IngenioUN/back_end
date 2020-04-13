@@ -15,7 +15,7 @@
 ## Pasos de configuración
 
 Los directorios de Back-End y Front-End, deben estar ubicados en una
-misma carpeta. Desde la terminal ejecutar:
+misma carpeta. Desde la terminal, en el directorio back_end, ejecutar:
 
 1. Para inicializar la base de datos:
 	* Si es en windows: `mongod`
