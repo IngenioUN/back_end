@@ -1,7 +1,7 @@
-const express = require('express');
-const morgan = require('morgan');
-const mongoose = require('mongoose');
-const path = require('path');
+const express = require('express'); // Framework 
+const morgan = require('morgan');   // Show browser requests
+const mongoose = require('mongoose');   //Connect to MongoDB
+const path = require('path');   // Manage directory path
 
 const app = express();
 mongoose.connect('mongodb://localhost/ingenio_database')
@@ -21,7 +21,7 @@ app.use(express.json());
 app.use('/ingenio', require('./routes/routes'));
 
 // Static files
-
+// Describe the path of the front_end directory
 app.use(express.static(path.join(__dirname, '../../front_end/src/public')));
 
 

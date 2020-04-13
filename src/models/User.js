@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
+// The structure must be improved
+
 const User = new Schema({
     //firstName: String,
     //lastName: String,

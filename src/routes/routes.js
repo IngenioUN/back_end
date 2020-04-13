@@ -1,7 +1,6 @@
 const express = require('express');
-// meaning: router - object to define routes
-const router = express.Router();
-const User = require('../models/User');
+const router = express.Router();    // router - object to define routes
+const User = require('../models/User'); //Model of a type User element
 
 // Route definition
 
