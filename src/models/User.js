@@ -3,23 +3,12 @@ const { Schema } = mongoose;
 
 
 const User = new Schema({
-    title: {type: String, required: true},
-    description: {type: String, required: true}
+    firstName: { type: String, required: true },
+    lastName: { type: String, required: true },
+    email1: { type: String, required: true },
+    password: { type: String, required: true },
+    email2: { type: String, required: true },
+    description: String
 });
 
-// The structure must be improved
-
-/*
-const User = new Schema({
-    //firstName: String,
-    //lastName: String,
-    eMail: String,
-    //backUpEmail: String,
-    //desc: String
-    pass1: String,
-    pass2: String,
-    type: String
-});
-*/
-    
 module.exports = mongoose.model('User', User);
