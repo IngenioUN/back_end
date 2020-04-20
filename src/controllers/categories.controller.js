@@ -27,7 +27,7 @@ categoriesCtrl.getCategory = async (req, res) => {
     res.json({category});
 };
 
-categoriesCtrl.getCategorys = async (req, res) => {
+categoriesCtrl.getCategories = async (req, res) => {
     const categories = await Category.find();
     console.log('continue');
     res.json(categories);
