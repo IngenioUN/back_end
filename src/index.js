@@ -26,6 +26,8 @@ app.use(express.json());
 app.use('/user', require('./routes/user'));
 app.use('/publication', require('./routes/publication'));
 app.use('/category', require('./routes/category'));
+app.use('/admin', require('./routes/admin'));
+app.use('/admin', require('./routes/author'));
 
 // Static files
 // Describe the path of the front_end directory
