@@ -5,32 +5,70 @@ const router = express.Router();    // router - object to define routes
 const adminsCtrl = {};
 
 adminsCtrl.createAdmin = async (req, res) => {
-    const admin = new Admin(req.body);
-    await admin.save();
-    console.log(admin);
-    res.json({message: "Admin saved"});
+    try{
+        const admin = new Admin(req.body);
+        await admin.save();
+        console.log(admin);
+        return res.status(201).json({
+            message: "Registered Administrator"
+        })
+    }catch(err){
+        return res.status(400).json({
+            message: "Incomplete or poorly structured data",
+            err
+        })
+    }
 };
 
 adminsCtrl.updateAdmin = async (req, res) => {
-    await Admin.findByIdAndUpdate(req.params.id, req.body);
-    res.json({message: "Admin Updated"});
+    try{
+        await Admin.findByIdAndUpdate(req.params.id, req.body);
+        return res.status(200).json({
+            message: "Administrator Updated"
+        })
+    }catch(err){
+        return res.status(400).json({
+            message: "Incomplete or poorly structured data",
+            err
+        })
+    }
 };
 
 adminsCtrl.deleteAdmin = async (req, res) => {
-    const admin = await Admin.findByIdAndDelete(req.params.id);
-    res.json({message: "Admin deleted", admin});
+    try{
+        const admin = await Admin.findByIdAndDelete(req.params.id);
+        return res.status(200).json({
+            message: "Administrator Deleted"
+        })
+    }catch(err){
+        return res.status(400).json({
+            message: "Administrator not found",
+            err
+        })
+    }
 };
 
 adminsCtrl.getAdmin = async (req, res) => {
-    const admin = await Admin.findById(req.params.id);
-    console.log(admin);
-    res.json({admin});
+    try{
+        const admin = await Admin.findById(req.params.id);
+        return res.status(200).json(admin)
+    }catch(err){
+        return res.status(400).json({
+            message: "Administrator not found",
+            err
+        })
+    }
 };
 
 adminsCtrl.getAdmins = async (req, res) => {
-    const admins = await Admin.find();
-    console.log('continue');
-    res.json(admins);
+    try{
+        const admins = await Admin.find();
+        return res.status(200).json(admins)
+    }catch(err){
+        return res.status(400).json({
+            message: "Bad request"
+        })
+    }
 };
 
 module.exports = adminsCtrl;

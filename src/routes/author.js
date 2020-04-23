@@ -7,7 +7,7 @@ const {
     deleteAuthor,
     getAuthors,
     getAuthor
-} = require("../controllers/author.controller");
+} = require("../controllers/authors.controller");
 
 //routes
 

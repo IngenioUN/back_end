@@ -5,32 +5,70 @@ const router = express.Router();    // router - object to define routes
 const usersCtrl = {};
 
 usersCtrl.createUser = async (req, res) => {
-    const user = new User(req.body);
-    await user.save();
-    console.log(user);
-    res.json({message: "User saved"});
+    try{
+        const user = new User(req.body);
+        await user.save();
+        return res.status(201).json({
+            message: "Registered User"
+        })
+    }catch(err){
+        return res.status(400).json({
+            message: "Incomplete or poorly structured data",
+            err
+        })
+    }
 };
 
 usersCtrl.updateUser = async (req, res) => {
-    await User.findByIdAndUpdate(req.params.id, req.body);
-    res.json({message: "User Updated"});
+    try{
+        await User.findByIdAndUpdate(req.params.id, req.body);
+        return res.status(200).json({
+            message: "Updated User"
+        })  
+    }catch(err){
+        return res.status(400).json({
+            message: "Incomplete or poorly structured data",
+            err
+        })
+    }
 };
 
 usersCtrl.deleteUser = async (req, res) => {
-    const user = await User.findByIdAndDelete(req.params.id);
-    res.json({message: "User deleted", user});
+    try{
+        const user = await User.findByIdAndDelete(req.params.id);
+        return res.status(200).json({
+            message: "User Deleted"
+        })
+    }catch(err){
+        return res.status(400).json({
+            message: "User not found",
+            err
+        })
+    }
 };
 
 usersCtrl.getUser = async (req, res) => {
-    const user = await User.findById(req.params.id);
-    console.log(user);
-    res.json({user});
+    try{
+        const user = await User.findById(req.params.id);
+        console.log(user);
+        return res.status(200).json(user)
+    }catch(err){
+        return res.status().json({
+            message: "User not found",
+            err
+        })
+    }
 };
 
 usersCtrl.getUsers = async (req, res) => {
-    const users = await User.find();
-    console.log('continue');
-    res.json(users);
+    try{
+        const users = await User.find();
+        return res.status(200).json(users);
+    }catch(err){
+        return res.status(400).json({
+            message: "Bad request"
+        })
+    }
 };
 
 module.exports = usersCtrl;
