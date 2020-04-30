@@ -7,6 +7,6 @@ const Admin = new Schema({
     eMail: String,
     backUpEmail: String,
     desc: String
-});   
+});
 
 module.exports = mongoose.model('Admin', Admin);

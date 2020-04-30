@@ -9,5 +9,5 @@ const Author = new Schema({
     desc: String,
     author_desc: String
 });
-    
+
 module.exports = mongoose.model('Author', Author);

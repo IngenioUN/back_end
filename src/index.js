@@ -1,4 +1,4 @@
-const express = require('express'); // Framework 
+const express = require('express'); // Framework
 const morgan = require('morgan');   // Show browser requests
 const mongoose = require('mongoose');   //Connect to MongoDB
 const path = require('path');   // Manage directory path
@@ -35,5 +35,5 @@ app.use(express.static(path.join(__dirname, '../../front_end/src/public')));
 
 // Server is listening
 app.listen(app.get('port'), () => {
-    console.log('Server on port', app.get('port'));    
+    console.log('Server on port', app.get('port'));
 });

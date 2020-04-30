@@ -24,7 +24,7 @@ usersCtrl.updateUser = async (req, res) => {
         await User.findByIdAndUpdate(req.params.id, req.body);
         return res.status(200).json({
             message: "Updated User"
-        })  
+        })
     }catch(err){
         return res.status(400).json({
             message: "Incomplete or poorly structured data",

@@ -9,5 +9,5 @@ const Publication = new Schema({
     type: { type: [String], required: true },
     text: { type: String, required: true }
 });
-    
+
 module.exports = mongoose.model('Publication', Publication);

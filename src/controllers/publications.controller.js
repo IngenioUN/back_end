@@ -41,7 +41,7 @@ publicationsCtrl.deletePublication = async (req, res) => {
         })
     }catch(err){
         return res.status(400).json({
-            message: "User not found"            
+            message: "User not found"
         })
     }
 };
