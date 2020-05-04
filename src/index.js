@@ -2,14 +2,9 @@ const express = require('express'); // Framework
 const morgan = require('morgan');   // Show browser requests
 const mongoose = require('mongoose');   //Connect to MongoDB
 const path = require('path');   // Manage directory path
-<<<<<<< HEAD
-var cors = require('cors') // CORS
-=======
-const methodOverride = require('method-override'); //evaluar
 const session = require('express-session');
 const passport = require('passport');
 const cors = require('cors');
->>>>>>> feature/multiple_session
 
 const app = express();
 require('./config/passport');
@@ -30,7 +25,6 @@ app.set('port', process.env.PORT || 3000);
 // Middleware
 app.use(morgan('dev'));
 app.use(express.json());
-<<<<<<< HEAD
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
@@ -39,14 +33,6 @@ app.use((req, res, next) => {
     next();
 });
 
-// Routes
-
-app.use('/user', require('./routes/user'));
-app.use('/publication', require('./routes/publication'));
-app.use('/category', require('./routes/category'));
-app.use('/admin', require('./routes/admin'));
-app.use('/admin', require('./routes/author'));
-=======
 app.use(cors());
 app.use(session({
     secret: 'IngenioUN',
@@ -57,8 +43,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Routes
+
 app.use('/ingenio', require('./routes/session'));
->>>>>>> feature/multiple_session
+app.use('/user', require('./routes/user'));
+app.use('/publication', require('./routes/publication'));
+app.use('/category', require('./routes/category'));
+app.use('/admin', require('./routes/admin'));
+app.use('/admin', require('./routes/author'));
+
 
 // Server is listening
 app.listen(app.get('port'), () => {

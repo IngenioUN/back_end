@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const passport = require('passport');
 const router = Router();
+
 const {
     signup,
     signin,
@@ -24,4 +25,5 @@ router
 router
     .route("/signout")
     .get(signout);
+
 module.exports = router;
