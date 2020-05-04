@@ -35,10 +35,9 @@ passport.use("local-signup", new localStrategy({
     newUser.password =  await newUser.encryptPassword(password);
     await newUser.save();
     return done(null, newUser, { message: "Registered user", status: 201});
-}))
+}));
 
 passport.serializeUser((user, done) => {
-    console.log(user);
     console.log("serialize");
     done(null, user._id);
 });

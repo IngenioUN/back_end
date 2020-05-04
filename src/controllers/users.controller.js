@@ -13,28 +13,6 @@ usersCtrl.signout = (req, res) => {
 
 usersCtrl.signup = passport.authenticate("local-signup");
 
-/*
-usersCtrl.signup = async (req, res) => {
-    try{
-        const {email1, email2, password, confirmPassword} = req.body;
-        const emailUser = await User.findOne({ email1: email1 });
-
-        if(emailUser) throw "The email is already in use";
-        if(password.toString().length < 3) throw "The password must be at least 3 characters";
-        if(password != confirmPassword) throw "Password do not match";
-
-        const user = new User(req.body);
-        user.password =  await user.encryptPassword(password);
-        await user.save();
-        return res.status(201).json({ message: "Registered user"});
-    }catch(err){
-        console.log(err);
-        if(err.name == 'ValidationError') {err = "Incomplete data";}
-        return res.status(400).json({message: err});
-    }
-};
-*/
-
 usersCtrl.updateUser = async (req, res) => {
     try{
         await User.findByIdAndUpdate(req.params.id, req.body);

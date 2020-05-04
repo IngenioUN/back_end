@@ -36,14 +36,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Routes
-app.use('/ingenio', require('./routes/user'));
-/*
-app.use('/user', require('./routes/user'));
-app.use('/publication', require('./routes/publication'));
-app.use('/category', require('./routes/category'));
-app.use('/admin', require('./routes/admin'));
-app.use('/admin', require('./routes/author'));
-*/
+app.use('/ingenio', require('./routes/session'));
 
 // Static files
 // Describe the path of the front_end directory
