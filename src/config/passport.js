@@ -4,18 +4,16 @@ const localStrategy = require('passport-local').Strategy;
 const User = require('../models/User');
 
 passport.use("local-signin", new localStrategy({
-    usernameField: "email1",
-    passwordField: "password",
-    passReqToCallback: true
+    usernameField: "email1"
 }, async(email1, password, done) =>{
     console.log('ENTRA A SIGNIN');
-    console.log(email1, password);
+    //console.log(email1, password);
     const user = await User.findOne({email1: email1});
     if(!user){
         console.log("USUARIO NO EXISTE");
         return done(null, false, { message: "Not user founf" }, status = 400);
     } else {
-        const match = await user.matchPassword(password);
+        const match = await user.matchPassword(password.toString());
         if(match) {
             return done(null, user, { message: "User logged in" , status: 200});
         } else {
@@ -38,7 +36,7 @@ passport.use("local-signup", new localStrategy({
     if(password != confirmPassword) return done(null, false, { message: "Password do not match", status: 400});
 
     const newUser = new User(req.body);
-    newUser.password =  await newUser.encryptPassword(password);
+    newUser.password =  await newUser.encryptPassword(password.toString());
     console.log("USUARIO GUARDADO");
     console.log(newUser);
     await newUser.save();
