@@ -1,23 +1,17 @@
 const express = require('express');
 const User = require('../models/User');
-const router = express.Router();    // router - object to define routes
+const passport = require('passport');
 
 const usersCtrl = {};
 
-usersCtrl.createUser = async (req, res) => {
-    try{
-        const user = new User(req.body);
-        await user.save();
-        return res.status(201).json({
-            message: "Registered User"
-        })
-    }catch(err){
-        return res.status(400).json({
-            message: "Incomplete or poorly structured data",
-            err
-        })
-    }
-};
+usersCtrl.signin = passport.authenticate("local-signin");
+
+usersCtrl.signout = (req, res) => {
+    req.logout();
+    return res.status(200).json({message: "Bye"});
+}
+
+usersCtrl.signup = passport.authenticate("local-signup");
 
 usersCtrl.updateUser = async (req, res) => {
     try{

@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const router = Router();
 
+<<<<<<< HEAD
 const {
     createUser,
     updateUser,
@@ -29,4 +30,6 @@ router
     .route("/signin")
     .post(  )// Entrar y permanecer autentificado
 
+=======
+>>>>>>> feature/multiple_session
 module.exports = router;
