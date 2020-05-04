@@ -21,7 +21,6 @@ mongoose.connect('mongodb://localhost/ingenio_database', {
 // Settings
 app.set('port', process.env.PORT || 3000);
 
-
 // Middleware
 app.use(morgan('dev'));
 app.use(express.json());
