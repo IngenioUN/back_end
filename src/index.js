@@ -31,6 +31,7 @@ app.use((req, res, next) => {
 });
 
 // Routes
+
 app.use('/user', require('./routes/user'));
 app.use('/publication', require('./routes/publication'));
 app.use('/category', require('./routes/category'));

@@ -7,18 +7,26 @@ const {
     deleteUser,
     getUsers,
     getUser
-} = require("../controllers/users.controller");
+} = require("../controllers/user.controller");
 
 
 router
     .route("/")
     .get(getUsers)
-    .post(createUser);
+  // .post(createUser);
 
 router
     .route("/:id")
     .get(getUser)
     .put(updateUser)
     .delete(deleteUser);
+
+router
+    .route("/signup")
+    .post(createUser);
+
+router
+    .route("/signin")
+    .post(  )// Entrar y permanecer autentificado
 
 module.exports = router;

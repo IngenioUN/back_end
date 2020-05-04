@@ -7,7 +7,7 @@ const {
     deletePublication,
     getPublications,
     getPublication
-} = require("../controllers/publications.controller");
+} = require("../controllers/publication.controller");
 
 //routes
 

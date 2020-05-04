@@ -71,4 +71,8 @@ usersCtrl.getUsers = async (req, res) => {
     }
 };
 
+/*
+usersCtrl.signinUser
+*/
+
 module.exports = usersCtrl;
