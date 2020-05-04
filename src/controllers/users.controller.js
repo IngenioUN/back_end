@@ -4,13 +4,16 @@ const passport = require('passport');
 
 const usersCtrl = {};
 
-usersCtrl.signin = passport.authenticate('local');
+usersCtrl.signin = passport.authenticate("local-signin");
 
 usersCtrl.signout = (req, res) => {
     req.logout();
     return res.status(200).json({message: "Bye"});
 }
 
+usersCtrl.signup = passport.authenticate("local-signup");
+
+/*
 usersCtrl.signup = async (req, res) => {
     try{
         const {email1, email2, password, confirmPassword} = req.body;
@@ -30,6 +33,7 @@ usersCtrl.signup = async (req, res) => {
         return res.status(400).json({message: err});
     }
 };
+*/
 
 usersCtrl.updateUser = async (req, res) => {
     try{

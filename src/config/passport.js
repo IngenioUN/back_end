@@ -3,7 +3,7 @@ const localStrategy = require('passport-local').Strategy;
 
 const User = require('../models/User');
 
-passport.use(new localStrategy({
+passport.use("local-signin", new localStrategy({
     usernameField: 'email1'
 }, async(email1, password, done) =>{
     const user = await User.findOne({email1: email1});
@@ -19,9 +19,28 @@ passport.use(new localStrategy({
     }
 }));
 
+passport.use("local-signup", new localStrategy({
+    usernameField: "email1",
+    passwordField: "password",
+    passReqToCallback: true
+}, async(req, email1, password, done) => {
+    const user = await User.findOne({ "email1": email1 });
+    const {confirmPassword} = req.body;
+
+    if(user) return done(null, false, {message: "The email is already taken.", status: 400});
+    if(password.toString().length < 3) return done(null, false, { message: "The password must be at least 3 characters", status: 400 });
+    if(password != confirmPassword) return done(null, false, { message: "Password do not match", status: 400});
+
+    const newUser = new User(req.body);
+    newUser.password =  await newUser.encryptPassword(password);
+    await newUser.save();
+    return done(null, newUser, { message: "Registered user", status: 201});
+}))
+
 passport.serializeUser((user, done) => {
+    console.log(user);
     console.log("serialize");
-    done(null, user.id);
+    done(null, user._id);
 });
 
 passport.deserializeUser((id, done) => {

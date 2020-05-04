@@ -23,11 +23,9 @@ mongoose.connect('mongodb://localhost/ingenio_database', {
 app.set('port', process.env.PORT || 3000);
 
 
-// Middlewares
-// meaning: dev - small message
+// Middleware
 app.use(morgan('dev'));
 app.use(express.json());
-app.use(methodOverride('_method')); //otros metodos PUT y DELETE -> evaluar
 app.use(cors());
 app.use(session({
     secret: 'IngenioUN',

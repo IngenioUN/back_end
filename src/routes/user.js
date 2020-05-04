@@ -16,7 +16,10 @@ router
 
 router
     .route("/signup")
-    .post(signup);
+    .post(signup, function(req, res){
+        const temp = res.req.authInfo;
+        return res.status(temp.status).json({message: temp.message});
+    });
 
 router
     .route("/signout")
