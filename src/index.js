@@ -5,8 +5,11 @@ const path = require('path');   // Manage directory path
 const methodOverride = require('method-override'); //evaluar
 const session = require('express-session');
 const passport = require('passport');
+const cors = require('cors');
 
 const app = express();
+require('./config/passport');
+
 mongoose.connect('mongodb://localhost/ingenio_database', {
     useCreateIndex: true,
     useNewUrlParser: true,
@@ -17,7 +20,7 @@ mongoose.connect('mongodb://localhost/ingenio_database', {
 .catch(err => console.error(err));
 
 // Settings
-app.set('port', process.env.PORT || 3106);
+app.set('port', process.env.PORT || 3000);
 
 
 // Middlewares
@@ -25,6 +28,7 @@ app.set('port', process.env.PORT || 3106);
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(methodOverride('_method')); //otros metodos PUT y DELETE -> evaluar
+app.use(cors());
 app.use(session({
     secret: 'IngenioUN',
     resave: true,
@@ -34,11 +38,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Routes
+app.use('/ingenio', require('./routes/user'));
+/*
 app.use('/user', require('./routes/user'));
 app.use('/publication', require('./routes/publication'));
 app.use('/category', require('./routes/category'));
 app.use('/admin', require('./routes/admin'));
 app.use('/admin', require('./routes/author'));
+*/
 
 // Static files
 // Describe the path of the front_end directory

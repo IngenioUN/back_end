@@ -1,31 +1,24 @@
 const { Router } = require("express");
+const passport = require('passport');
 const router = Router();
 const {
-    createUser,
-    updateUser,
-    deleteUser,
-    getUsers,
-    getUser
+    signup,
+    signin,
+    signout
 } = require("../controllers/users.controller");
-const passport = require('passport');
 
 router
     .route("/signin")
-    .post(passport.authenticate('local'));
-
-router
-    .route("/")
-    .get(getUsers)
-    .post(createUser);
-
-router
-    .route("/:id")
-    .get(getUser)
-    .put(updateUser)
-    .delete(deleteUser);
+    .post(signin, function(req, res){
+        const temp = res.req.authInfo;
+        return res.status(temp.status).json({message: temp.message});
+    });
 
 router
     .route("/signup")
-    .post(createUser);
+    .post(signup);
 
+router
+    .route("/signout")
+    .get(signout);
 module.exports = router;

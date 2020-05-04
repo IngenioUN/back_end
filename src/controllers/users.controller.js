@@ -1,39 +1,17 @@
 const express = require('express');
 const User = require('../models/User');
 const passport = require('passport');
-const localStrategy = require('passport-local');
-const router = express.Router();    // router - object to define routes
 
 const usersCtrl = {};
 
-passport.use(new localStrategy({
-    usernameField: 'email1'
-}, async (email1, password, done) => {
-    const user = User.findOne({ email1: email1 });
-    if(!user){
-        return done(null, false, { message: "Not user found." });
-    }else{
-        var match = true;
-        //const match = await User.matchPassword(password);
-        if(match){
-            return done(nul, user);
-        }else{
-            return done(null, false, "Incorrect password");
-        }
-    }
-}));
+usersCtrl.signin = passport.authenticate('local');
 
-passport.serializeUser((user, dode) => {
-    done(null, user.id);
-});
+usersCtrl.signout = (req, res) => {
+    req.logout();
+    return res.status(200).json({message: "Bye"});
+}
 
-passport.deserializeUser((id, done) => {
-    User.findById(id, (err, user) => {
-        done(err, user);
-    });
-})
-
-usersCtrl.createUser = async (req, res) => {
+usersCtrl.signup = async (req, res) => {
     try{
         const {email1, email2, password, confirmPassword} = req.body;
         const emailUser = await User.findOne({ email1: email1 });
@@ -43,9 +21,8 @@ usersCtrl.createUser = async (req, res) => {
         if(password != confirmPassword) throw "Password do not match";
 
         const user = new User(req.body);
-        //user.password =  user.encryptPassword(password);
+        user.password =  await user.encryptPassword(password);
         await user.save();
-
         return res.status(201).json({ message: "Registered user"});
     }catch(err){
         console.log(err);
