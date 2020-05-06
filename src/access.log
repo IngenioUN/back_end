@@ -1,0 +1,21 @@
+::1 - - [06/May/2020:19:57:08 +0000] "GET /user/ HTTP/1.1" 200 2285 "-" "PostmanRuntime/7.24.1"
+::1 - - [06/May/2020:19:57:48 +0000] "GET /user/ HTTP/1.1" 200 2285 "-" "PostmanRuntime/7.24.1"
+::1 - - [06/May/2020:19:58:15 +0000] "POST /user/registrar HTTP/1.1" 404 154 "-" "PostmanRuntime/7.24.1"
+::1 - - [06/May/2020:20:06:35 +0000] "POST /session/signup HTTP/1.1" 404 154 "-" "PostmanRuntime/7.24.1"
+::1 - - [06/May/2020:20:07:26 +0000] "POST /ingenio/signup HTTP/1.1" 401 - "-" "PostmanRuntime/7.24.1"
+::1 - - [06/May/2020:20:08:16 +0000] "POST /ingenio/signup HTTP/1.1" 401 -
+::1 - - [06/May/2020:20:32:17 +0000] "GET /user HTTP/1.1" 200 2285
+::1 - - [06/May/2020:20:32:20 +0000] "OPTIONS /user HTTP/1.1" 204 0
+::1 - - [06/May/2020:20:32:20 +0000] "POST /user HTTP/1.1" 404 144
+::1 - - [06/May/2020:20:33:02 +0000] "OPTIONS /ingenio/signin HTTP/1.1" 204 0
+::1 - - [06/May/2020:20:33:02 +0000] "POST /ingenio/signin HTTP/1.1" 401 -
+::1 - - [06/May/2020:20:33:14 +0000] "OPTIONS /ingenio/signin HTTP/1.1" 204 0
+::1 - - [06/May/2020:20:33:14 +0000] "POST /ingenio/signin HTTP/1.1" 401 -
+::1 - - [06/May/2020:20:33:22 +0000] "OPTIONS /ingenio/signin HTTP/1.1" 204 0
+::1 - - [06/May/2020:20:33:22 +0000] "POST /ingenio/signin HTTP/1.1" 401 -
+::1 - - [06/May/2020:20:33:29 +0000] "OPTIONS /ingenio/signin HTTP/1.1" 204 0
+::1 - - [06/May/2020:20:33:29 +0000] "POST /ingenio/signin HTTP/1.1" 401 -
+::1 - - [06/May/2020:20:33:55 +0000] "OPTIONS /ingenio/signin HTTP/1.1" 204 0
+::1 - - [06/May/2020:20:33:55 +0000] "POST /ingenio/signin HTTP/1.1" 401 -
+::1 - - [06/May/2020:20:34:26 +0000] "OPTIONS /ingenio/signup HTTP/1.1" 204 0
+::1 - - [06/May/2020:20:34:26 +0000] "POST /ingenio/signup HTTP/1.1" 401 -

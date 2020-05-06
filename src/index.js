@@ -5,6 +5,7 @@ const path = require('path');   // Manage directory path
 const session = require('express-session');
 const passport = require('passport');
 const cors = require('cors');
+const fs = require('fs');
 
 const app = express();
 require('./config/passport');
@@ -22,7 +23,10 @@ mongoose.connect('mongodb://localhost/ingenio_database', {
 app.set('port', process.env.PORT || 3000);
 
 // Middleware
-app.use(morgan('dev'));
+var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+
+// setup the logger
+app.use(morgan('common', { stream: accessLogStream }))
 app.use(express.json());
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
