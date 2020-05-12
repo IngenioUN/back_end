@@ -2,7 +2,6 @@ const { Router } = require("express");
 const router = Router();
 
 const {
-    createUser,
     updateUser,
     deleteUser,
     getUsers,
@@ -20,13 +19,5 @@ router
     .get(getUser)
     .put(updateUser)
     .delete(deleteUser);
-
-router
-    .route("/signup")
-    .post(createUser);
-
-router
-    .route("/signin")
-    .post(  )// Entrar y permanecer autentificado
 
 module.exports = router;

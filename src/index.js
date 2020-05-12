@@ -2,9 +2,13 @@ const express = require('express'); // Framework
 const morgan = require('morgan');   // Show browser requests
 const mongoose = require('mongoose');   //Connect to MongoDB
 const path = require('path');   // Manage directory path
-var cors = require('cors') // CORS
+const session = require('express-session');
+const passport = require('passport');
+const cors = require('cors');
 
 const app = express();
+require('./config/passport');
+
 mongoose.connect('mongodb://localhost/ingenio_database', {
     useCreateIndex: true,
     useNewUrlParser: true,
@@ -17,9 +21,7 @@ mongoose.connect('mongodb://localhost/ingenio_database', {
 // Settings
 app.set('port', process.env.PORT || 3000);
 
-
-// Middlewares
-// meaning: dev - small message
+// Middleware
 app.use(morgan('dev'));
 app.use(express.json());
 app.use((req, res, next) => {
@@ -30,13 +32,24 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use(cors());
+app.use(session({
+    secret: 'IngenioUN',
+    resave: true,
+    saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Routes
 
+app.use('/ingenio', require('./routes/session'));
 app.use('/user', require('./routes/user'));
 app.use('/publication', require('./routes/publication'));
 app.use('/category', require('./routes/category'));
 app.use('/admin', require('./routes/admin'));
 app.use('/admin', require('./routes/author'));
+
 
 // Server is listening
 app.listen(app.get('port'), () => {
