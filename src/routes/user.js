@@ -8,10 +8,11 @@ const {
     getUser
 } = require("../controllers/user.controller");
 
+const { isAuthenticated } = require("../helpers/authenticated");
 
 router
-    .route("/")
-    .get(getUsers)
+    .route("/profile")
+    .get(isAuthenticated, getUsers)
   // .post(createUser);
 
 router

@@ -28,8 +28,12 @@ passport.use("local-signup", new localStrategy({
     passwordField: "password",
     passReqToCallback: true
 }, async(req, email1, password, done) => {
+    const {firstName, lastName, confirmPassword} = req.body;
+
+    if(!firstName | !lastName | !email1 | !password | !confirmPassword)
+    return done(null, false, { message: "Incomplete data", status: 400 });
+
     const user = await User.findOne({ "email1": email1 });
-    const {confirmPassword} = req.body;
 
     if(user) return done(null, false, {message: "The email is already taken.", status: 400});
     if(password.toString().length < 3) return done(null, false, { message: "The password must be at least 3 characters", status: 400 });
@@ -37,7 +41,6 @@ passport.use("local-signup", new localStrategy({
 
     const newUser = new User(req.body);
     newUser.password =  await newUser.encryptPassword(password.toString());
-    console.log("USUARIO GUARDADO");
     console.log(newUser);
     await newUser.save();
     return done(null, newUser, { message: "Registered user", status: 201});
