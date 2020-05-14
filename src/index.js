@@ -35,7 +35,7 @@ app.use((req, res, next) => {
     res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
     next();
 });
-
+// app.use('dev');
 app.use(cors());
 app.use(session({
     secret: 'IngenioUN',
