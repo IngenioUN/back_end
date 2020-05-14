@@ -11,7 +11,12 @@ usersCtrl.signout = (req, res) => {
     return res.status(200).json({message: "Bye"});
 }
 
-usersCtrl.signup = passport.authenticate("local-signup");
+usersCtrl.signup = function(req, res) {
+    passport.authenticate("local-signup", function(req, aux, done) {
+        return res.status(done.status).json({ message: done.message });
+    })(req, res);
+}
+
 
 usersCtrl.updateUser = async (req, res) => {
     try{
