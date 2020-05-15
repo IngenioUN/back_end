@@ -47,13 +47,8 @@ app.use(passport.session());
 
 // Routes
 
-app.use('/ingenio', require('./routes/session'));
+app.use('/session', require('./routes/session'));
 app.use('/user', require('./routes/user'));
-app.use('/publication', require('./routes/publication'));
-app.use('/category', require('./routes/category'));
-app.use('/admin', require('./routes/admin'));
-app.use('/admin', require('./routes/author'));
-
 
 // Server is listening
 app.listen(app.get('port'), () => {

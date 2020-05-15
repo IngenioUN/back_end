@@ -7,10 +7,6 @@ const User = new Schema({
     lastName: { type: String, required: true },
     email1: { type: String, required: true },
     password: { type: String, required: true },
-    confirmPassword: { type: String, required: true},
-    email2: { type: String, required: true },
-    active: { type: Boolean, default: true},
-    //myList: { type: [String], required: false},
     description: String
 });
 
@@ -19,8 +15,20 @@ User.methods.encryptPassword = async password => {
     return await bcrypt.hash(password, salt);
 };
 
-User.methods.matchPassword = async function(password){
+User.methods.matchPassword = async function (password) {
     return await bcrypt.compare(password, this.password);
+};
+
+User.methods.emailIsValid = function (email) {
+    var exp = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/;
+    if (exp.test(email)) return true;
+    else return false;
+};
+
+User.methods.passwordIsValid = function (password) {
+    var exp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+    if (exp.test(password)) return true;
+    else return false;
 }
 
 module.exports = model('User', User);

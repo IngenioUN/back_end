@@ -8,16 +8,20 @@ const {
     getUser
 } = require("../controllers/user.controller");
 
+router
+    .route("/todos")
+    .get(getUsers);
+
+
+const { isAuthenticated } = require("../helpers/authenticated");
 
 router
-    .route("/")
-    .get(getUsers)
-  // .post(createUser);
+    .route("/profile")
+    .get(isAuthenticated, getUser);
 
 router
     .route("/:id")
-    .get(getUser)
-    .put(updateUser)
-    .delete(deleteUser);
-
+    .get(isAuthenticated ,getUser)
+    .put(isAuthenticated, updateUser)
+    .delete(isAuthenticated, deleteUser);
 module.exports = router;
