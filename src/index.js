@@ -53,6 +53,12 @@ app.use(passport.session());
 
 app.use('/session', require('./routes/session'));
 app.use('/user', require('./routes/user'));
+//Juan
+app.use('/author-request', require('./routes/authorRequest'));
+//TATIANA
+
+
+//Carlos
 
 // Server is listening
 app.listen(app.get('port'), () => {
