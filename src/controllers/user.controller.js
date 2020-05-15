@@ -4,23 +4,39 @@ const passport = require('passport');
 
 const usersCtrl = {};
 
-usersCtrl.signin = passport.authenticate("local-signin");
+usersCtrl.signup = function(req, res, next) {
+    passport.authenticate("local-signup", function(err, user, info) {
+        if(user) {
+            req.logIn(user, function(err) {
+                if(err) return next(err);
+            })
+        }
+        return res.status(info.status).json({ message: info.message });
+    })(req, res, next);
+}
+
+usersCtrl.signin = function(req, res, next) {
+    passport.authenticate("local-signin", function(err, user, info) {
+        if(user) {
+            req.logIn(user, function(err) {
+                if(err) return next(err);
+            })
+        }
+        return res.status(info.status).json({ message: info.message });
+    })(req, res, next);
+}
 
 usersCtrl.signout = (req, res) => {
     req.logout();
     return res.status(200).json({message: "Bye"});
 }
 
-usersCtrl.signup = function(req, res) {
-    passport.authenticate("local-signup", function(req, aux, done) {
-        return res.status(done.status).json({ message: done.message });
-    })(req, res);
-}
-
-
 usersCtrl.updateUser = async (req, res) => {
     try{
-        await User.findByIdAndUpdate(req.params.id, req.body);
+        console.log(req.params.id);
+        console.log(req.body);
+        console.log(req.user);
+        await User.findByIdAndUpdate(req.params.id, req.body); // req.body.id
         return res.status(200).json({
             message: "Updated User"
         })
@@ -48,14 +64,25 @@ usersCtrl.deleteUser = async (req, res) => {
 
 usersCtrl.getUser = async (req, res) => {
     try{
-        const user = await User.findById(req.params.id);
-        console.log(user);
-        return res.status(200).json(user)
-    }catch(err){
-        return res.status().json({
-            message: "User not found",
-            err
+        // req.body -> JSON
+        // req.params.id -> URL
+        // req.user -> Usuario logueado
+        // if(req.user.type != 2) throw "No autorizado";
+
+        const type = 2;
+        if(type != 2) throw "No tiene permisos";
+        var user;
+        if(req.params.id) // req.body.id
+            user = await User.findById(req.params.id);
+        else
+            user = await User.findById(req.user.id);
+        const { firstName, lastName } = user;
+        return res.status(200).json({
+            firstName, lastName
         })
+    }catch(err){
+        if(!err.message) return res.status(400).json({ message: err });
+        else return res.status(400).json({ message: "User not found" });
     }
 };
 
@@ -69,9 +96,5 @@ usersCtrl.getUsers = async (req, res) => {
         })
     }
 };
-
-/*
-usersCtrl.signinUser
-*/
 
 module.exports = usersCtrl;
