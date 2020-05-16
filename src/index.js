@@ -6,9 +6,13 @@ const session = require('express-session');
 const passport = require('passport');
 const cors = require('cors');
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 const rfs = require('rotating-file-stream'); //version 2.x
 >>>>>>> d0cfdc701346ced124a737ec1c46b42892caee71
+=======
+const rfs = require('rotating-file-stream'); //version 2.x
+>>>>>>> feature/models
 
 const app = express();
 require('./config/passport');
@@ -43,10 +47,14 @@ app.use((req, res, next) => {
     next();
 });
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 // app.use('dev');
 >>>>>>> d0cfdc701346ced124a737ec1c46b42892caee71
+=======
+// app.use('dev');
+>>>>>>> feature/models
 app.use(cors());
 app.use(session({
     secret: 'IngenioUN',
@@ -59,6 +67,7 @@ app.use(passport.session());
 // Routes
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 app.use('/ingenio', require('./routes/session'));
 app.use('/user', require('./routes/user'));
 app.use('/publication', require('./routes/publication'));
@@ -67,6 +76,8 @@ app.use('/admin', require('./routes/admin'));
 app.use('/admin', require('./routes/author'));
 
 =======
+=======
+>>>>>>> feature/models
 app.use('/session', require('./routes/session'));
 app.use('/user', require('./routes/user'));
 //Juan
@@ -75,7 +86,10 @@ app.use('/author-request', require('./routes/authorRequest'));
 
 
 //Carlos
+<<<<<<< HEAD
 >>>>>>> d0cfdc701346ced124a737ec1c46b42892caee71
+=======
+>>>>>>> feature/models
 
 // Server is listening
 app.listen(app.get('port'), () => {
