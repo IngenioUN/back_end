@@ -6,20 +6,15 @@ const User = require('../models/User');
 passport.use("local-signin", new localStrategy({
     usernameField: "email1"
 }, async(email1, password, done) =>{
-    console.log('ENTRA A SIGNIN');
-    //console.log(email1, password);
     const user = await User.findOne({email1: email1});
-    if(!user){
-        console.log("USUARIO NO EXISTE");
-        return done(null, false, { message: "Not user founf" }, status = 400);
-    } else {
+    if(!user)
+        return done(null, false, { message: "Not user founf", status: 400 });
+    else {
         const match = await user.matchPassword(password.toString());
-        if(match) {
-            return done(null, user, { message: "User logged in" , status: 200});
-        } else {
-            console.log("CONTRASEÑA INCORRECTA");
-            return done(null, false, {message : "Incorrect Password"}, status = 400);
-        }
+        if(match)
+            return done(null, user, { message: "User logged in" , status: 200 });
+        else
+            return done(null, false, {message : "Incorrect Password", status: 400 });
     }
 }));
 
@@ -28,24 +23,34 @@ passport.use("local-signup", new localStrategy({
     passwordField: "password",
     passReqToCallback: true
 }, async(req, email1, password, done) => {
-    const user = await User.findOne({ "email1": email1 });
-    const {confirmPassword} = req.body;
+    const {firstName, lastName, confirmPassword} = req.body;
 
-    if(user) return done(null, false, {message: "The email is already taken.", status: 400});
-    if(password.toString().length < 3) return done(null, false, { message: "The password must be at least 3 characters", status: 400 });
-    if(password != confirmPassword) return done(null, false, { message: "Password do not match", status: 400});
+    if(!firstName | !lastName | !email1 | !password | !confirmPassword)
+        return done(null, false, { message: "Incomplete data", status: 400 });
+
+    const user = await User.findOne({ "email1": email1 })
+    if(user)
+        return done(null, false, {message: "The email is already taken.", status: 400});
 
     const newUser = new User(req.body);
+    const checkEmail = newUser.emailIsValid(email1);
+    const checkPassword = newUser.passwordIsValid(password);
+
+    if(!checkEmail)
+        return done(null, false, { message: "The email format is not valid", status: 400 });
+    if(!checkPassword)
+        return done(null, false, { message: "The password format is not valid", status: 400 });
+    if(password != confirmPassword)
+        return done(null, false, { message: "Password do not match", status: 400});
     newUser.password =  await newUser.encryptPassword(password.toString());
-    console.log("USUARIO GUARDADO");
-    console.log(newUser);
+
     await newUser.save();
     return done(null, newUser, { message: "Registered user", status: 201});
 }));
 
 passport.serializeUser((user, done) => {
     console.log("serialize");
-    done(null, user._id);
+    done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {

@@ -9,6 +9,7 @@ const User = new Schema({
     lastName: { type: String, required: true },
     email1: { type: String, required: true },
     password: { type: String, required: true },
+<<<<<<< HEAD
     confirmPassword: { type: String, required: true},
     email2: { type: String, required: true },
     description: String,
@@ -16,6 +17,9 @@ const User = new Schema({
     employementHistory: String,
     academicHistory: String,
     roles: {type: Schema.Types.Number, ref:"Role", default: 0}
+=======
+    description: String
+>>>>>>> d0cfdc701346ced124a737ec1c46b42892caee71
 });
 
 User.methods.encryptPassword = async password => {
@@ -23,8 +27,20 @@ User.methods.encryptPassword = async password => {
     return await bcrypt.hash(password, salt);
 };
 
-User.methods.matchPassword = async function(password){
+User.methods.matchPassword = async function (password) {
     return await bcrypt.compare(password, this.password);
+};
+
+User.methods.emailIsValid = function (email) {
+    var exp = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/;
+    if (exp.test(email)) return true;
+    else return false;
+};
+
+User.methods.passwordIsValid = function (password) {
+    var exp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+    if (exp.test(password)) return true;
+    else return false;
 }
 
 module.exports = model('User', User);

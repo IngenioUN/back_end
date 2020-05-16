@@ -1,6 +1,10 @@
 const { Router } = require("express");
 const passport = require('passport');
 const router = Router();
+<<<<<<< HEAD
+=======
+const User = require('../models/User');
+>>>>>>> d0cfdc701346ced124a737ec1c46b42892caee71
 
 const {
     signup,
@@ -10,17 +14,11 @@ const {
 
 router
     .route("/signin")
-    .post(signin,function(req, res){
-        const temp = res.req.authInfo;
-        return res.status(temp.status).json({message: temp.message});
-    });
+    .post(signin);
 
 router
     .route("/signup")
-    .post(signup, function(req, res){
-        const temp = res.req.authInfo;
-        return res.status(temp.status).json({message: temp.message});
-    });
+    .post(signup);
 
 router
     .route("/signout")
