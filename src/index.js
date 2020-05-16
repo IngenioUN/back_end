@@ -5,10 +5,7 @@ const path = require('path');   // Manage directory path
 const session = require('express-session');
 const passport = require('passport');
 const cors = require('cors');
-<<<<<<< HEAD
-=======
 const rfs = require('rotating-file-stream'); //version 2.x
->>>>>>> d0cfdc701346ced124a737ec1c46b42892caee71
 
 const app = express();
 require('./config/passport');
@@ -42,11 +39,7 @@ app.use((req, res, next) => {
     res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
     next();
 });
-<<<<<<< HEAD
-
-=======
 // app.use('dev');
->>>>>>> d0cfdc701346ced124a737ec1c46b42892caee71
 app.use(cors());
 app.use(session({
     secret: 'IngenioUN',
@@ -58,15 +51,6 @@ app.use(passport.session());
 
 // Routes
 
-<<<<<<< HEAD
-app.use('/ingenio', require('./routes/session'));
-app.use('/user', require('./routes/user'));
-app.use('/publication', require('./routes/publication'));
-app.use('/category', require('./routes/category'));
-app.use('/admin', require('./routes/admin'));
-app.use('/admin', require('./routes/author'));
-
-=======
 app.use('/session', require('./routes/session'));
 app.use('/user', require('./routes/user'));
 //Juan
@@ -75,7 +59,6 @@ app.use('/author-request', require('./routes/authorRequest'));
 
 
 //Carlos
->>>>>>> d0cfdc701346ced124a737ec1c46b42892caee71
 
 // Server is listening
 app.listen(app.get('port'), () => {

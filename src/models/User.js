@@ -9,7 +9,6 @@ const User = new Schema({
     lastName: { type: String, required: true },
     email1: { type: String, required: true },
     password: { type: String, required: true },
-<<<<<<< HEAD
     confirmPassword: { type: String, required: true},
     email2: { type: String, required: true },
     description: String,
@@ -17,9 +16,6 @@ const User = new Schema({
     employementHistory: String,
     academicHistory: String,
     roles: {type: Schema.Types.Number, ref:"Role", default: 0}
-=======
-    description: String
->>>>>>> d0cfdc701346ced124a737ec1c46b42892caee71
 });
 
 User.methods.encryptPassword = async password => {
