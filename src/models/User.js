@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const { Schema, model } = mongoose;
+const Role = require('../models/Role');
+
 
 const User = new Schema({
     firstName: { type: String, required: true },
@@ -9,9 +11,11 @@ const User = new Schema({
     password: { type: String, required: true },
     confirmPassword: { type: String, required: true},
     email2: { type: String, required: true },
-    active: { type: Boolean, default: true},
-    //myList: { type: [String], required: false},
-    description: String
+    description: String,
+    professionalCard: String,
+    employementHistory: String,
+    academicHistory: String,
+    roles: {type: Schema.Types.Number, ref:"Role", default: 0}
 });
 
 User.methods.encryptPassword = async password => {

@@ -6,7 +6,6 @@ const Publication = new Schema({
     title: { type: String, required: true },
     abstract: { type: String, required: true },
     keyWords: { type: [String], required: true },
-    type: { type: [String], required: true },
     text: { type: String, required: true }
 });
 
