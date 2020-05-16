@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-const {Schema} = mongoose;
+const { Schema } = mongoose;
 
-const Publication = new Schema({
+const AuthorRequest = new Schema({
     date: { type: Date, default: Date.now },
     email2: { type: String, required: true },
     professionalCard: { type: String, required: true },

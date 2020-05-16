@@ -13,8 +13,6 @@ router
     .get(getUsers);
 
 
-<<<<<<< HEAD
-=======
 const { isAuthenticated } = require("../helpers/authenticated");
 
 router
@@ -26,5 +24,4 @@ router
     .get(isAuthenticated ,getUser)
     .put(isAuthenticated, updateUser)
     .delete(isAuthenticated, deleteUser);
->>>>>>> d0cfdc701346ced124a737ec1c46b42892caee71
 module.exports = router;
