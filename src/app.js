@@ -3,12 +3,22 @@ const passport = require('passport');
 const express = require('express'); // Framework
 const morgan = require('morgan');   // Show browser requests
 const cors = require('cors');
+const path = require('path');   // Manage directory path
+const rfs = require('rotating-file-stream'); //version 2.x
 
 require('./config/passport');
 const app = express();
 
 // Settings
 app.set('port', process.env.PORT || 3000);
+
+// setup the logger
+var accessLogStream = rfs.createStream('access.log', {
+    interval: '1d',
+    path: path.join(__dirname, 'log')
+ });
+
+app.use(morgan('combined', { stream: accessLogStream }))
 
 // Middleware
 app.use(morgan('dev'));
@@ -40,6 +50,5 @@ app.use('/user', require('./routes/user'));
 app.use('/author-request', require('./routes/authorRequest'));
 
 // Valeria
-
 
 module.exports = app;
