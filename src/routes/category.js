@@ -1,29 +1,33 @@
 const { Router } = require("express");
 const router = Router();
-
+/*
 const {
-    createCategory,
-    updateCategory,
-    deleteCategory,
-    getCategories,
-    getCategory
+    // Juan
+
+    // Valeria
+
+    // Carlos
+
+    // Tatiana
+
 } = require("../controllers/category.controller");
+*/
+// Juan
 
-//routes
+// Valeria
 
-router
-    .route("/all")           //get all categories
-    .get(getCategories);
+// Carlos
 
-router
-    .route("/:id")          //get category by id, it should be by name?
-    .get(getCategory)
-    .put(updateCategory)
-    .delete(deleteCategory);
+// Tatiana
 
-router
-    .route("/new")
-    .post(createCategory);
+const { isAuthenticated } = require("../helpers/authenticated");
 
+// Juan
+
+// Valeria
+
+// Carlos
+
+// Tatiana
 
 module.exports = router;

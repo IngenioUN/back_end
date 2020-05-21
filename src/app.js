@@ -1,10 +1,10 @@
+const rfs = require('rotating-file-stream'); //version 2.x
 const session = require('express-session');
 const passport = require('passport');
 const express = require('express'); // Framework
 const morgan = require('morgan');   // Show browser requests
 const cors = require('cors');
 const path = require('path');   // Manage directory path
-const rfs = require('rotating-file-stream'); //version 2.x
 
 require('./config/passport');
 const app = express();
@@ -43,16 +43,17 @@ app.use((req, res, next) => {
 // Routes
 
 app.use('/session', require('./routes/session'));
-// Carlos
 app.use('/user', require('./routes/user'));
+app.use('/author-request', require('./routes/authorRequest'));
+app.use('/publication', require('./routes/publication'));
+app.use('/category', require('./routes/category'));
 
 // Juan
-app.use('/author-request', require('./routes/authorRequest'));
 
 // Valeria
 
+// Carlos
 
-//Tatiana
-
+// Tatiana
 
 module.exports = app;

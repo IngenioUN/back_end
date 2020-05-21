@@ -16,8 +16,10 @@ router
     .route("/signup")
     .post(signup);
 
+const { isAuthenticated } = require("../helpers/authenticated");
+
 router
     .route("/signout")
-    .get(signout);
+    .get(isAuthenticated, signout);
 
 module.exports = router;

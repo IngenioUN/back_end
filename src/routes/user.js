@@ -2,26 +2,35 @@ const { Router } = require("express");
 const router = Router();
 
 const {
-    updateUser,
-    deleteUser,
-    getUsers,
-    getUser
+    // Juan
+
+    // Valeria
+
+    // Carlos
+
+    // Tatiana
+    getPersonalData
 } = require("../controllers/user.controller");
 
-router
-    .route("/todos")
-    .get(getUsers);
+// Juan
 
+// Valeria
+
+// Carlos
+
+// Tatiana
 
 const { isAuthenticated } = require("../helpers/authenticated");
 
-router
-    .route("/profile")
-    .get(isAuthenticated, getUser);
+// Juan
 
+// Valeria
+
+// Carlos
+
+// Tatiana
 router
-    .route("/:id")
-    .get(isAuthenticated ,getUser)
-    .put(isAuthenticated, updateUser)
-    .delete(isAuthenticated, deleteUser);
+    .route("/get-personal-data")
+    .get(isAuthenticated, getPersonalData)
+
 module.exports = router;

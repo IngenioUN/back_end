@@ -1,16 +1,33 @@
 const { Router } = require("express");
 const router = Router();
-
 /*
 const {
-    //Juan
+    // Juan
 
-    //Valeria
+    // Valeria
+
+    // Carlos
+
+    // Tatiana
+
 } = require("../controllers/authorReuest.controller");
 */
+// Juan
 
-//Juan
+// Valeria
 
-//Valeria
+// Carlos
+
+// Tatiana
+
+const { isAuthenticated } = require("../helpers/authenticated");
+
+// Juan
+
+// Valeria
+
+// Carlos
+
+// Tatiana
 
 module.exports = router;

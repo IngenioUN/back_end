@@ -49,12 +49,10 @@ passport.use("local-signup", new localStrategy({
 }));
 
 passport.serializeUser((user, done) => {
-    console.log("serialize");
     done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {
-    console.log("desserialize");
     User.findById(id, (err, user) => {
         done(err, user);
     });

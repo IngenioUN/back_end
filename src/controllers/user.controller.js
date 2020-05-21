@@ -1,4 +1,3 @@
-const express = require('express');
 const User = require('../models/User');
 const passport = require('passport');
 
@@ -31,70 +30,31 @@ usersCtrl.signout = (req, res) => {
     return res.status(200).json({message: "Bye"});
 }
 
-usersCtrl.updateUser = async (req, res) => {
-    try{
-        console.log(req.params.id);
-        console.log(req.body);
-        console.log(req.user);
-        await User.findByIdAndUpdate(req.params.id, req.body); // req.body.id
-        return res.status(200).json({
-            message: "Updated User"
-        })
-    }catch(err){
-        return res.status(400).json({
-            message: "Incomplete or poorly structured data",
-            err
-        })
-    }
-};
+// Valeria
 
-usersCtrl.deleteUser = async (req, res) => {
-    try{
-        const user = await User.findByIdAndDelete(req.params.id);
-        return res.status(200).json({
-            message: "User Deleted"
-        })
-    }catch(err){
-        return res.status(400).json({
-            message: "User not found",
-            err
-        })
-    }
-};
+// Carlos
 
-usersCtrl.getUser = async (req, res) => {
-    try{
-        // req.body -> JSON
-        // req.params.id -> URL
-        // req.user -> Usuario logueado
-        // if(req.user.type != 2) throw "No autorizado";
+// Juan
 
-        const type = 2;
-        if(type != 2) throw "No tiene permisos";
+// Tatiana
+
+// Any type of user can access this information
+usersCtrl.getPersonalData = async (req, res) => {
+    try{
         var user;
-        if(req.params.id) // req.body.id
-            user = await User.findById(req.params.id);
+        if(req.body.id)
+            user = await User.findById(req.body.id);
         else
             user = await User.findById(req.user.id);
-        const { firstName, lastName } = user;
+        const { firstName, lastName, email1, description, role } = user;
         return res.status(200).json({
-            firstName, lastName
-        })
-    }catch(err){
-        if(!err.message) return res.status(400).json({ message: err });
-        else return res.status(400).json({ message: "User not found" });
-    }
-};
-
-usersCtrl.getUsers = async (req, res) => {
-    try{
-        const users = await User.find();
-        return res.status(200).json(users);
+            firstName, lastName, email1, description, role
+        });
     }catch(err){
         return res.status(400).json({
-            message: "Bad request"
-        })
+            message: "The user is not registered on the platform"
+        });
     }
-};
+}
 
 module.exports = usersCtrl;
