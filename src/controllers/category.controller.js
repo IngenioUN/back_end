@@ -10,14 +10,13 @@ const categoriesCtrl = {};
 
 // Tatiana
 
+// Only the administrator can use this function
 categoriesCtrl.addCategory = async (req, res) => {
     try{
-        console.log('entra');
         if(req.user.role != 2)
             return res.status(401).json({
                 message: "You do not have the required permissions"
              });
-        console.log(req.body);
         const { name, description } = req.body;
         if(!name | !description)
             throw "Incomplete data";
@@ -40,7 +39,9 @@ categoriesCtrl.addCategory = async (req, res) => {
 // Any user can access this information
 categoriesCtrl.getCategories = async (req, res) => {
     try{
-        const categories = await Category.find();
+        const categories = await Category.find({}, {
+            name: 1
+        });
         return res.status(201).json( categories );
     }catch(err){
         return res.status(400).json({
@@ -54,8 +55,6 @@ categoriesCtrl.getListCategories = async (req, res) => {
     try {
         if(!req.body.listCategories)
             throw "Incomplete data";
-        console.log(req.body.listCategories);
-        console.log(req.body.listCategories.length);
         var categories = [];
         var temp;
         for(var i = 0; i < req.body.listCategories.length; i++) {
