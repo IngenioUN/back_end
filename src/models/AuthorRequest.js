@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { Schema } = mongoose;
+const {Schema} = mongoose;
 
 const AuthorRequest = new Schema({
     date: { type: Date, default: Date.now },

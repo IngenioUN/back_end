@@ -1,26 +1,30 @@
 const { Router } = require("express");
 const router = Router();
-/*
+
 const {
     // Juan
-
+    addAuthorRequest
     // Valeria
 
     // Carlos
 
     // Tatiana
 
-} = require("../controllers/authorReuest.controller");
-*/
-// Juan
+} = require("../controllers/authorRequest.controller");
 
+// Juan
+const { isAuthenticated } = require("../helpers/authenticated");
+
+router
+    .route("/add-author-request")
+    .post(isAuthenticated, addAuthorRequest)
 // Valeria
 
 // Carlos
 
 // Tatiana
 
-const { isAuthenticated } = require("../helpers/authenticated");
+
 
 // Juan
 
