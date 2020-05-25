@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const router = Router();
-/*
+
 const {
     // Juan
 
@@ -9,9 +9,11 @@ const {
     // Carlos
 
     // Tatiana
-
+    getAllPublications,
+    getPublication,
+    addPublication
 } = require("../controllers/publication.controller");
-*/
+
 // Juan
 
 // Valeria
@@ -29,5 +31,8 @@ const { isAuthenticated } = require("../helpers/authenticated");
 // Carlos
 
 // Tatiana
+router
+    .route("/add-publication")
+    .post(isAuthenticated, addPublication);
 
 module.exports = router;
