@@ -20,14 +20,13 @@ authorRequestCtrl.addAuthorRequest = async (req, res) => {
                 message: "You have already send an author request"
             });
         }
-        req.body.date = Date.now();   //Should we pass the date?
+
         const { email2, professionalCard, employmentHistory, academicHistory } = req.body;
 
         if(!email2 | !professionalCard | !employmentHistory | !academicHistory)
             throw "Incomplete data";
 
         const newAuthorRequest = new AuthorRequest(req.body);
-        console.log(req.body);
         await newAuthorRequest.save();
 
         return res.status(201).json({
