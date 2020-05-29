@@ -5,7 +5,7 @@ const {
     // Juan
 
     // Valeria
-
+    addAuthor,
     // Carlos
 
     // Tatiana
@@ -25,7 +25,9 @@ const { isAuthenticated } = require("../helpers/authenticated");
 // Juan
 
 // Valeria
-
+router
+    .route("/add-author")
+    .put( addAuthor)
 // Carlos
 
 // Tatiana

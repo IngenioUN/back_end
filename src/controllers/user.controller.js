@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const AuthorRequest = require('../models/AuthorRequest');
 const passport = require('passport');
 
 const usersCtrl = {};
@@ -32,6 +33,42 @@ usersCtrl.signout = (req, res) => {
 
 // Valeria
 
+usersCtrl.addAuthor = async (req, res) => {
+    try {/*
+        if (req.user.role != 2)
+            return res.status(401).json({
+                message: "You do not have the required permissions"
+            });*/
+        const { userId } = req.body;
+        if (!userId)
+            throw "Incomplete data";
+            //console.log(userId);
+        const request = await AuthorRequest.findOne({ userId: userId });
+        if (!request)
+            throw "No exist request";
+        var user = await User.findById(userId) ;
+        if (!user)
+            throw "no exits";
+        console.log(user);
+        user.role = 5;
+        user.email2 = request.email2;
+        user.professionalCard = request.professionalCard;
+        user.employementHistory = request.employementHistory;
+        user.academicHistory = request.academicHistory;
+        await User.findByIdAndUpdate(userId, user); // req.body.id
+        
+        return res.status(200).json({
+            message: "The operation was successful"
+        });
+    } catch (err) {
+        if (!err.message)
+            return res.status(400).json({ message: err });
+        else
+            return res.status(400).json({
+                message: err.message
+            });
+    }  
+};
 // Carlos
 
 // Juan

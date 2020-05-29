@@ -3,11 +3,12 @@ const router = Router();
 
 const {
     // Juan
-    addAuthorRequest
+    addAuthorRequest,
     // Valeria
-
+    getAuthorRequest,
+    getAllAuthorRequest
     // Carlos
-
+    
     // Tatiana
 
 } = require("../controllers/authorRequest.controller");
@@ -29,6 +30,12 @@ router
 // Juan
 
 // Valeria
+router
+    .route("/get-author-request")
+    .get(  getAuthorRequest)
+router
+    .route("/get-all-author-requests")
+    .get( getAllAuthorRequest);
 
 // Carlos
 
