@@ -14,14 +14,18 @@ const {
 } = require("../controllers/authorRequest.controller");
 
 // Juan
+const { isAuthenticated } = require("../helpers/authenticated");
 
+router
+    .route("/add-author-request")
+    .post(isAuthenticated, addAuthorRequest)
 // Valeria
 
 // Carlos
 
 // Tatiana
 
-const { isAuthenticated } = require("../helpers/authenticated");
+
 
 // Juan
 
