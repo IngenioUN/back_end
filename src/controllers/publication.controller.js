@@ -13,13 +13,17 @@ publicationsCtrl.addPublication = async (req, res) => {
     try{
         if(req.user.role != 1)
             throw "You do not have the required permissions";
+
         const { title, abstract, keyWords, text } = req.body;
         if(!title | !abstract | !keyWords | !text)
             throw "Incomplate data";
+
         req.body.keyWords = keyWords.split(/, | , | /);
         const newPublication = new Publication(req.body);
+
         newPublication.listCategories = req.body.listCategories;
         newPublication.authorId = req.user.id;
+
         await newPublication.save();
         return res.status(200).json({
             message: "The publication was successfully added"

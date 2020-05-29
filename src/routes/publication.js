@@ -9,8 +9,6 @@ const {
     // Carlos
 
     // Tatiana
-    getAllPublications,
-    getPublication,
     addPublication
 } = require("../controllers/publication.controller");
 
