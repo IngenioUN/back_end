@@ -27,7 +27,7 @@ const { isAuthenticated } = require("../helpers/authenticated");
 // Valeria
 router
     .route("/add-author")
-    .put(isAuthenticated, addAuthor)
+    .put( addAuthor)
 // Carlos
 
 // Tatiana

@@ -27,19 +27,12 @@ const { isAuthenticated } = require("../helpers/authenticated");
 
 // Valeria
 router
-    //with params
-    //.route("/get-author-request/:id")
-    //.get(isAuthenticated, getAuthorRequest)
-
     .route("/get-author-request")
-    .get( getAuthorRequest)
+    .get(  getAuthorRequest)
 router
     .route("/get-all-author-requests")
-    .get(isAuthenticated, getAllAuthorRequest);
+    .get( getAllAuthorRequest);
 
-router
-    .route("/add-author-request")
-    .post(isAuthenticated, addAuthorRequest);
 // Carlos
 
 // Tatiana

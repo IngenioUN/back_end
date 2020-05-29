@@ -34,25 +34,23 @@ usersCtrl.signout = (req, res) => {
 // Valeria
 
 usersCtrl.addAuthor = async (req, res) => {
-    try {
+    try {/*
         if (req.user.role != 2)
             return res.status(401).json({
                 message: "You do not have the required permissions"
-            });
+            });*/
         const { userId } = req.body;
         if (!userId)
             throw "Incomplete data";
+            //console.log(userId);
         const request = await AuthorRequest.findOne({ userId: userId });
         if (!request)
             throw "No exist request";
-        // Opción 1  
-        //await User.findByIdAndUpdate(userId, request); // req.body.id doesn't work
-        // Opción 2
         var user = await User.findById(userId) ;
         if (!user)
             throw "no exits";
-        //console.log(user);
-        user.role = 1;
+        console.log(user);
+        user.role = 5;
         user.email2 = request.email2;
         user.professionalCard = request.professionalCard;
         user.employementHistory = request.employementHistory;

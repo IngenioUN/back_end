@@ -8,7 +8,6 @@ const AuthorRequest = new Schema({
     professionalCard: { type: String, required: true },
     employementHistory: { type: String, required: true },
     academicHistory: { type: String, required: true },
-    //userId: {type:String, require: true}
     userId: { type: Schema.ObjectId, ref: "User" } 
 });
 
