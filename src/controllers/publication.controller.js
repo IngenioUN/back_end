@@ -34,4 +34,32 @@ publicationsCtrl.addPublication = async (req, res) => {
     }
 };
 
+// Any user can make this request
+publicationsCtrl.getSummaryOfPublications = async (req, res) => {
+    try {
+        var publications;
+        if(req.body.categoryId)
+            publications = await Publication.find({
+                listCategories: req.body.categoryId
+            }, {
+                date: 1,
+                title: 1,
+                abstract: 1,
+                listCategories: 1
+            });
+        else
+            publications = await Publication.find({},{
+                date: 1,
+                title: 1,
+                abstract: 1,
+                listCategories: 1
+            });
+        return res.status(200).json(publications);
+    } catch (err) {
+        return res.status(400).json({
+            message: "Category does no exist"
+        })
+    }
+}
+
 module.exports = publicationsCtrl;
