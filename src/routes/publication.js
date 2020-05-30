@@ -9,6 +9,7 @@ const {
     // Carlos
 
     // Tatiana
+    getSummaryOfPublications,
     addPublication
 } = require("../controllers/publication.controller");
 
@@ -19,6 +20,10 @@ const {
 // Carlos
 
 // Tatiana
+
+router
+    .route("/get-all-publications")
+    .get(getSummaryOfPublications);
 
 const { isAuthenticated } = require("../helpers/authenticated");
 
