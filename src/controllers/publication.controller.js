@@ -18,12 +18,8 @@ publicationsCtrl.addPublication = async (req, res) => {
         if(!title | !abstract | !keyWords | !text)
             throw "Incomplate data";
 
-        req.body.keyWords = keyWords.split(/, | , | /);
         const newPublication = new Publication(req.body);
-
-        newPublication.listCategories = req.body.listCategories;
         newPublication.authorId = req.user.id;
-
         await newPublication.save();
         return res.status(200).json({
             message: "The publication was successfully added"
