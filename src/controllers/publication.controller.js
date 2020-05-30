@@ -24,7 +24,7 @@ publicationsCtrl.addPublication = async (req, res) => {
         return res.status(200).json({
             message: "The publication was successfully added"
         })
-    }catch(err){
+    }catch(err) {
         if(!err.message)
             return res.status(400).json({ message: err });
         else
