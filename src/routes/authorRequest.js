@@ -18,7 +18,7 @@ const { isAuthenticated } = require("../helpers/authenticated");
 
 router
     .route("/add-author-request")
-    .post(isAuthenticated, addAuthorRequest)
+    .post(addAuthorRequest)
 // Valeria
 
 // Carlos
