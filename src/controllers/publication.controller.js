@@ -62,4 +62,22 @@ publicationsCtrl.getSummaryOfPublications = async (req, res) => {
     }
 }
 
+// Any user can make this request
+publicationsCtrl.getPublication = async (req, res) => {
+    try {
+        const publicationId = req.body.id;
+        if(!publicationId)
+            throw "Incomplate data";
+        const publication = await Publication.findById(publicationId);
+        return res.status(200).json(publication);
+    } catch (err) {
+        if(!err.message)
+            return res.status(400).json({ message: err });
+        else
+            return res.status(400).json({
+                message: "The publication you request does not exist"
+            });
+    }
+}
+
 module.exports = publicationsCtrl;

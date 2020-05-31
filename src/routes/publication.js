@@ -10,6 +10,7 @@ const {
 
     // Tatiana
     getSummaryOfPublications,
+    getPublication,
     addPublication
 } = require("../controllers/publication.controller");
 
@@ -20,6 +21,10 @@ const {
 // Carlos
 
 // Tatiana
+
+router
+    .route("/get-publication")
+    .get(getPublication);
 
 router
     .route("/get-all-publications")
