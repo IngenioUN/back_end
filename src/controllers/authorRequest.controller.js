@@ -27,7 +27,7 @@ authorRequestCtrl.addAuthorRequest = async (req, res) => {
             throw "Incomplete data";
 
         const newAuthorRequest = new AuthorRequest(req.body);
-        console.log(newAuthorRequest);
+
         await newAuthorRequest.save();
 
         return res.status(201).json({
