@@ -8,34 +8,34 @@ const {
     getAuthorRequest,
     getAllAuthorRequest
     // Carlos
-    
+
     // Tatiana
 
 } = require("../controllers/authorRequest.controller");
 
 // Juan
-const { isAuthenticated } = require("../helpers/authenticated");
-
+/*
 router
     .route("/add-author-request")
-    .post(addAuthorRequest)
+    .post(addAuthorRequest);
+*/
 // Valeria
 
 // Carlos
 
 // Tatiana
 
-
+const { isAuthenticated } = require("../helpers/authenticated");
 
 // Juan
 
 // Valeria
 router
     .route("/get-author-request/:userId")
-    .get(  getAuthorRequest)
+    .get(getAuthorRequest);
 router
     .route("/get-all-author-requests")
-    .get( getAllAuthorRequest);
+    .get(getAllAuthorRequest);
 
 // Carlos
 
