@@ -3,46 +3,7 @@ const User = require('../models/User');
 const authorRequestCtrl = {};
 
 // Juan
-authorRequestCtrl.addAuthorRequest = async (req, res) => {
-    try{
-        if(req.user.role != 0){
-            return res.status(401).json({   // It has already author permission
-                message: "You do not have the required permissions"
-             });
-        }
 
-        req.body.userId = req.user.id;
-
-        const Author = await AuthorRequest.findOne({ userId: req.body.userId});
-
-        if(Author){
-
-            return res.status(200).json({
-                message: "You have already send an author request"
-            });
-        }
-
-        const { email2, professionalCard, employmentHistory, academicHistory } = req.body;
-
-        if(!email2 | !professionalCard | !employmentHistory | !academicHistory)
-            throw "Incomplete data";
-
-        const newAuthorRequest = new AuthorRequest(req.body);
-        console.log(newAuthorRequest);
-        await newAuthorRequest.save();
-
-        return res.status(201).json({
-            message: "The author request has been created successfully"
-        });
-    }catch(err){
-        if(!err.message)
-            return res.status(400).json({ message: err });
-        else
-            return res.status(400).json({
-                message: "The author request could not be created"
-            });
-    }
-};
 // Valeria
 authorRequestCtrl.getAllAuthorRequest = async (req, res) => {
     try {
@@ -61,11 +22,14 @@ authorRequestCtrl.getAllAuthorRequest = async (req, res) => {
 }
 authorRequestCtrl.getAuthorRequest = async (req, res) => {
     try{
-        const { userId } = req.body;
+        console.log(req.params);
+        const userId = req.params.userId;
+        //const { userId } = req.body;
+        
         if (!userId)
             throw "Incomplete data";
-        const authorRequest = await AuthorRequest.findOne({userId});
-        return res.status(200).json(authorRequest);
+        const authorRequest = await AuthorRequest.findOne({ userId: userId });
+        return res.status(200).json(authorRequest)
     }catch(err){
         return res.status(400).json({
             message: "Could not access requested information"

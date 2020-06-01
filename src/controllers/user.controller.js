@@ -50,7 +50,7 @@ usersCtrl.addAuthor = async (req, res) => {
         if (!user)
             throw "no exits";
         console.log(user);
-        user.role = 5;
+        user.role = 1;
         user.email2 = request.email2;
         user.professionalCard = request.professionalCard;
         user.employementHistory = request.employementHistory;
