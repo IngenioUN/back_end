@@ -31,7 +31,7 @@ router
 
 // Valeria
 router
-    .route("/get-author-request")
+    .route("/get-author-request/:userId")
     .get(  getAuthorRequest)
 router
     .route("/get-all-author-requests")
