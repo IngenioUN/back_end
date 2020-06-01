@@ -3,34 +3,26 @@ const User = require('../models/User');
 const authorRequestCtrl = {};
 
 // Juan
+/*
 authorRequestCtrl.addAuthorRequest = async (req, res) => {
     try{
         if(req.user.role != 0){
-            return res.status(401).json({   // It has already author permission
-                message: "You do not have the required permissions"
-             });
+            throw "You do not have the required permissions";
         }
-
-        req.body.userId = req.user.id;
-
-        const Author = await AuthorRequest.findOne({ userId: req.body.userId});
-
-        if(Author){
-
-            return res.status(200).json({
-                message: "You have already send an author request"
-            });
-        }
-
+        const Author = await AuthorRequest.findById(req.user._id);
+​
+        if(Author)
+            throw "You have already send an author request";
+​
         const { email2, professionalCard, employmentHistory, academicHistory } = req.body;
-
+​
         if(!email2 | !professionalCard | !employmentHistory | !academicHistory)
             throw "Incomplete data";
-
+​
         const newAuthorRequest = new AuthorRequest(req.body);
-
+​
         await newAuthorRequest.save();
-
+​
         return res.status(201).json({
             message: "The author request has been created successfully"
         });
@@ -43,7 +35,7 @@ authorRequestCtrl.addAuthorRequest = async (req, res) => {
             });
     }
 };
-
+*/
 // Valeria
 authorRequestCtrl.getAllAuthorRequest = async (req, res) => {
     try {
