@@ -3,7 +3,7 @@ const router = Router();
 
 const {
     // Juan
-    
+    addAuthorRequest,
     // Valeria
     getAuthorRequest,
     getAllAuthorRequest
@@ -16,6 +16,9 @@ const {
 // Juan
 const { isAuthenticated } = require("../helpers/authenticated");
 
+router
+    .route("/add-author-request")
+    .post(isAuthenticated, addAuthorRequest)
 // Valeria
 
 // Carlos
