@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
-//mongoose.connect(process.inv.MONGODB_URI || 'mongodb://localhost/ingenio_database', {
-    mongoose.connect('mongodb://<dbuser>:<dbpassword>@ds145584.mlab.com:45584/heroku_1hthtw0p', {
+//mongoose.connect('mongodb://localhost/ingenio_database', {
+mongoose.connect('mongodb+srv://Ingenio123:Ingenio123@clusteringenio-jv1l1.gcp.mongodb.net/<dbname>?retryWrites=true&w=majority', {
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
