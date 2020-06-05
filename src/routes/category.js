@@ -11,7 +11,8 @@ const {
     // Tatiana
     getListCategories,
     getCategories,
-    addCategory
+    addCategory,
+    welcomeCategories
 } = require("../controllers/category.controller");
 
 // Juan
@@ -19,7 +20,10 @@ const {
 // Valeria
 
 // Carlos
-
+//Para probar funcionamiento en Heroku
+router
+    .route("/welcomeCategories")
+    .get(welcomeCategories);
 // Tatiana
 router
     .route("/get-all-categories")

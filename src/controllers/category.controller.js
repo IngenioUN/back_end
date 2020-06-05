@@ -73,4 +73,8 @@ categoriesCtrl.getListCategories = async (req, res) => {
     }
 }
 
+categoriesCtrl.welcomeCategories = async (req, res) => {
+    return res.status(200).json("Welcome to Categories");
+}
+
 module.exports = categoriesCtrl;
