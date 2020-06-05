@@ -42,6 +42,7 @@ app.use((req, res, next) => {
 
 // Routes
 
+app.use('/Ingenio', "Bienvenido a Ingenio");
 app.use('/session', require('./routes/session'));
 app.use('/user', require('./routes/user'));
 app.use('/author-request', require('./routes/authorRequest'));
