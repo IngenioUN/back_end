@@ -39,9 +39,9 @@ authorRequestCtrl.addAuthorRequest = async (req, res) => {
 // Valeria
 authorRequestCtrl.getAllAuthorRequest = async (req, res) => {
     try {
-        
+
         const authorRequest = await AuthorRequest.find().populate({path:'userId', select:['firstName','lastName']}).select('userId');
-        
+
         return res.status(200).json(authorRequest)
     } catch (err) {
         if(!err.message)
@@ -57,7 +57,7 @@ authorRequestCtrl.getAuthorRequest = async (req, res) => {
         console.log(req.params);
         const userId = req.params.userId;
         //const { userId } = req.body;
-        
+
         if (!userId)
             throw "Incomplete data";
         const authorRequest = await AuthorRequest.findOne({ userId: userId });

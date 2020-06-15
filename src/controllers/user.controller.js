@@ -56,7 +56,7 @@ usersCtrl.addAuthor = async (req, res) => {
         user.employementHistory = request.employementHistory;
         user.academicHistory = request.academicHistory;
         await User.findByIdAndUpdate(userId, user); // req.body.id
-        
+
         return res.status(200).json({
             message: "The operation was successful"
         });
@@ -67,7 +67,7 @@ usersCtrl.addAuthor = async (req, res) => {
             return res.status(400).json({
                 message: err.message
             });
-    }  
+    }
 };
 // Carlos
 

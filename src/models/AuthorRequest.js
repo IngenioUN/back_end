@@ -8,7 +8,7 @@ const AuthorRequest = new Schema({
     professionalCard: { type: String, required: true },
     employmentHistory: { type: String, required: true },
     academicHistory: { type: String, required: true },
-    userId: { type: Schema.ObjectId, ref: "User" } 
+    userId: { type: Schema.ObjectId, ref: "User" }
 });
 
 module.exports = mongoose.model('AuthorRequest', AuthorRequest);
