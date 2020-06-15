@@ -18,7 +18,7 @@ categoriesCtrl.addCategory = async (req, res) => {
                 message: "You do not have the required permissions"
              });
         const { name, description } = req.body;
-        if(!name | !description)
+        if(!name || !description)
             throw "Incomplete data";
 
         const newCategory = new Category(req.body);

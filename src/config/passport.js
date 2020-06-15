@@ -25,7 +25,7 @@ passport.use("local-signup", new localStrategy({
 }, async(req, email1, password, done) => {
     const {firstName, lastName, confirmPassword} = req.body;
 
-    if(!firstName | !lastName | !email1 | !password | !confirmPassword)
+    if(!firstName || !lastName || !email1 || !password || !confirmPassword)
         return done(null, false, { message: "Incomplete data", status: 400 });
 
     const user = await User.findOne({ "email1": email1 })

@@ -16,7 +16,7 @@ authorRequestCtrl.addAuthorRequest = async (req, res) => {
 ​
         const { email2, professionalCard, employmentHistory, academicHistory } = req.body;
 ​
-        if(!email2 | !professionalCard | !employmentHistory | !academicHistory)
+        if(!email2 || !professionalCard || !employmentHistory || !academicHistory)
             throw "Incomplete data";
 ​
         const newAuthorRequest = new AuthorRequest(req.body);

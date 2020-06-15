@@ -15,7 +15,7 @@ publicationsCtrl.addPublication = async (req, res) => {
             throw "You do not have the required permissions";
 
         const { title, abstract, keyWords, text } = req.body;
-        if(!title | !abstract | !keyWords | !text)
+        if(!title || !abstract || !keyWords || !text)
             throw "Incomplate data";
 
         const newPublication = new Publication(req.body);
