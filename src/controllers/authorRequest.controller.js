@@ -4,33 +4,33 @@ const authorRequestCtrl = { };
 
 // Juan
 /*
-authorRequestCtrl.addAuthorRequest = async (req, res) => {
+authorRequestCtrl.addAuthorRequest = async ( req, res ) => {
     try{
-        if(req.user.role != 0){
+        if ( req.user.role != 0 )
             throw "You do not have the required permissions";
-        }
-        const Author = await AuthorRequest.findById(req.user._id);
+
+        const Author = await AuthorRequest.findById( req.user._id );
 ​
-        if(Author)
+        if( Author )
             throw "You have already send an author request";
 ​
         const { email2, professionalCard, employmentHistory, academicHistory } = req.body;
 ​
-        if(!email2 || !professionalCard || !employmentHistory || !academicHistory)
+        if( !email2 || !professionalCard || !employmentHistory || !academicHistory )
             throw "Incomplete data";
 ​
-        const newAuthorRequest = new AuthorRequest(req.body);
+        const newAuthorRequest = new AuthorRequest( req.body );
 ​
-        await newAuthorRequest.save();
+        await newAuthorRequest.save( );
 ​
-        return res.status(201).json({
+        return res.status( 201 ).json({
             message: "The author request has been created successfully"
         });
-    }catch(err){
-        if(!err.message)
-            return res.status(400).json({ message: err });
+    }catch ( err ) {
+        if ( !err.message )
+            return res.status( 400 ).json({ message: err });
         else
-            return res.status(400).json({
+            return res.status( 400 ).json({
                 message: "The author request could not be created"
             });
     }

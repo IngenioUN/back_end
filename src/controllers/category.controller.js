@@ -14,9 +14,7 @@ const categoriesCtrl = { };
 categoriesCtrl.addCategory = async ( req, res ) => {
     try{
         if ( req.user.role != 2 )
-            return res.status( 401 ).json({
-                message: "You do not have the required permissions"
-             });
+            throw "You do not have the required permissions";
 
         const { name, description } = req.body;
         if ( !name || !description )
