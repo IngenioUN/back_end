@@ -1,5 +1,5 @@
-const { Router } = require("express");
-const router = Router();
+const { Router } = require( "express" );
+const router = Router( );
 
 const {
     // Juan
@@ -12,7 +12,7 @@ const {
     getSummaryOfPublications,
     getPublication,
     addPublication
-} = require("../controllers/publication.controller");
+} = require( "../controllers/publication.controller" );
 
 // Juan
 
@@ -23,14 +23,14 @@ const {
 // Tatiana
 
 router
-    .route("/get-publication")
-    .get(getPublication);
+    .route( "/get-publication" )
+    .get( getPublication );
 
 router
-    .route("/get-all-publications")
-    .get(getSummaryOfPublications);
+    .route( "/get-all-publications" )
+    .get( getSummaryOfPublications );
 
-const { isAuthenticated } = require("../helpers/authenticated");
+const { isAuthenticated } = require( "../helpers/authenticated" );
 
 // Juan
 
@@ -40,7 +40,7 @@ const { isAuthenticated } = require("../helpers/authenticated");
 
 // Tatiana
 router
-    .route("/add-publication")
-    .post(isAuthenticated, addPublication);
+    .route( "/add-publication" )
+    .post( isAuthenticated, addPublication );
 
 module.exports = router;

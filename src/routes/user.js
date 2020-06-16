@@ -1,5 +1,5 @@
-const { Router } = require("express");
-const router = Router();
+const { Router } = require( "express" );
+const router = Router( );
 
 const {
     // Juan
@@ -10,7 +10,7 @@ const {
 
     // Tatiana
     getPersonalData
-} = require("../controllers/user.controller");
+} = require( "../controllers/user.controller" );
 
 // Juan
 
@@ -20,19 +20,19 @@ const {
 
 // Tatiana
 
-const { isAuthenticated } = require("../helpers/authenticated");
+const { isAuthenticated } = require( "../helpers/authenticated" );
 
 // Juan
 
 // Valeria
 router
-    .route("/add-author")
-    .put( addAuthor)
+    .route( "/add-author" )
+    .put( addAuthor )
 // Carlos
 
 // Tatiana
 router
-    .route("/get-personal-data")
-    .get(isAuthenticated, getPersonalData)
+    .route( "/get-personal-data" )
+    .get( isAuthenticated, getPersonalData )
 
 module.exports = router;

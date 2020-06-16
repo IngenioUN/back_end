@@ -1,5 +1,5 @@
-const { Router } = require("express");
-const router = Router();
+const { Router } = require( "express" );
+const router = Router( );
 
 const {
     // Juan
@@ -13,27 +13,7 @@ const {
     getCategories,
     addCategory,
     welcomeCategories
-} = require("../controllers/category.controller");
-
-// Juan
-
-// Valeria
-
-// Carlos
-//Para probar funcionamiento en Heroku
-router
-    .route("/welcomeCategories")
-    .get(welcomeCategories);
-// Tatiana
-router
-    .route("/get-all-categories")
-    .get(getCategories);
-
-router
-    .route("/get-list-categories")
-    .get(getListCategories);
-
-const { isAuthenticated } = require("../helpers/authenticated");
+} = require( "../controllers/category.controller" );
 
 // Juan
 
@@ -43,7 +23,24 @@ const { isAuthenticated } = require("../helpers/authenticated");
 
 // Tatiana
 router
-    .route("/add-category")
-    .post(isAuthenticated, addCategory);
+    .route( "/get-all-categories" )
+    .get( getCategories );
+
+router
+    .route( "/get-list-categories" )
+    .get( getListCategories );
+
+const { isAuthenticated } = require( "../helpers/authenticated" );
+
+// Juan
+
+// Valeria
+
+// Carlos
+
+// Tatiana
+router
+    .route( "/add-category" )
+    .post( isAuthenticated, addCategory );
 
 module.exports = router;

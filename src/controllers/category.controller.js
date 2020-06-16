@@ -1,6 +1,6 @@
-const Category = require('../models/Category')
+const Category = require( '../models/Category' );
 
-const categoriesCtrl = {};
+const categoriesCtrl = { };
 
 // Juan
 
@@ -11,70 +11,65 @@ const categoriesCtrl = {};
 // Tatiana
 
 // Only the administrator can use this function
-categoriesCtrl.addCategory = async (req, res) => {
+categoriesCtrl.addCategory = async ( req, res ) => {
     try{
-        if(req.user.role != 2)
-            return res.status(401).json({
-                message: "You do not have the required permissions"
-             });
+        if ( req.user.role != 2 )
+            throw "You do not have the required permissions";
+
         const { name, description } = req.body;
-        if(!name | !description)
+        if ( !name || !description )
             throw "Incomplete data";
 
-        const newCategory = new Category(req.body);
-        await newCategory.save();
-        return res.status(201).json({
+        const newCategory = new Category( req.body );
+        await newCategory.save( );
+        return res.status( 201 ).json({
             message: "The category has been created successfully"
         });
-    }catch(err){
-        if(!err.message)
-            return res.status(400).json({ message: err });
+    }catch ( err ) {
+        if( !err.message )
+            return res.status( 400 ).json({ message: err });
         else
-            return res.status(400).json({
+            return res.status( 400 ).json({
                 message: "The category could not be created"
             });
     }
 };
 
 // Any user can access this information
-categoriesCtrl.getCategories = async (req, res) => {
+categoriesCtrl.getCategories = async ( req, res ) => {
     try{
         const categories = await Category.find({}, {
             name: 1
         });
-        return res.status(201).json( categories );
-    }catch(err){
-        return res.status(400).json({
+        return res.status( 201 ).json( categories );
+    }catch ( err ) {
+        return res.status( 400 ).json({
             message: "Could not access requested information"
         })
     }
 };
 
 // Any user can access this information
-categoriesCtrl.getListCategories = async (req, res) => {
+categoriesCtrl.getListCategories = async ( req, res ) => {
     try {
-        if(!req.body.listCategories)
+        if( !req.body.listCategories )
             throw "Incomplete data";
-        var categories = [];
+        var categories = [ ];
         var temp;
-        for(var i = 0; i < req.body.listCategories.length; i++) {
-            temp = await Category.findById(req.body.listCategories[i]);
+        for( var i = 0; i < req.body.listCategories.length; i++ ) {
+            temp = await Category.findById( req.body.listCategories[i] );
             var { id, name } = temp;
             categories.push({ id, name });
         }
-        return res.status(200).json(categories);
-    } catch (err) {
-        if(!err.message)
-            return res.status(400).json({ message: err });
+        return res.status( 200 ).json( categories );
+    } catch ( err ) {
+        if( !err.message )
+            return res.status( 400 ).json({ message: err });
         else
-            return res.status(400).json({
+            return res.status( 400 ).json({
                 message: "Some of the categories is not registered"
             });
     }
-}
-
-categoriesCtrl.welcomeCategories = async (req, res) => {
-    return res.status(200).json("Welcome to Categories");
 }
 
 module.exports = categoriesCtrl;
