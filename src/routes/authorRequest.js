@@ -1,5 +1,5 @@
-const { Router } = require("express");
-const router = Router();
+const { Router } = require( "express" );
+const router = Router( );
 
 const {
     // Juan
@@ -11,7 +11,7 @@ const {
 
     // Tatiana
 
-} = require("../controllers/authorRequest.controller");
+} = require( "../controllers/authorRequest.controller" );
 
 // Juan
 /*
@@ -25,17 +25,17 @@ router
 
 // Tatiana
 
-const { isAuthenticated } = require("../helpers/authenticated");
+const { isAuthenticated } = require( "../helpers/authenticated" );
 
 // Juan
 
 // Valeria
 router
-    .route("/get-author-request/:userId")
-    .get(getAuthorRequest);
+    .route( "/get-author-request/:userId" )
+    .get( isAuthenticated, getAuthorRequest );
 router
-    .route("/get-all-author-requests")
-    .get(getAllAuthorRequest);
+    .route( "/get-all-author-requests" )
+    .get( isAuthenticated, getAllAuthorRequest );
 
 // Carlos
 

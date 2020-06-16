@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
-const Category = require('../models/Category')
-const User = require('../models/User')
-const {Schema} = mongoose;
+const mongoose = require( 'mongoose' );
+const Category = require( '../models/Category' );
+const User = require( '../models/User' );
+const { Schema } = mongoose;
 
 const Publication = new Schema({
     date: { type: Date, default: Date.now },
@@ -13,4 +13,4 @@ const Publication = new Schema({
     listCategories: [{ type: Schema.Types.ObjectId, ref: 'Category' }]
 });
 
-module.exports = mongoose.model('Publication', Publication);
+module.exports = mongoose.model( 'Publication', Publication );
