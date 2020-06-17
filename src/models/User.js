@@ -11,7 +11,7 @@ const User = new Schema({
     description: { type: String, required: false },
     email2: { type: String, required: false },
     professionalCard: { type: String, required: false },
-    employementHistory: { type: String, required: false },
+    employmentHistory: { type: String, required: false },
     academicHistory: { type: String, required: false },
     role: { type: Number, default: 0 },
 });
