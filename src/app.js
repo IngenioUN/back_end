@@ -3,11 +3,9 @@ const session = require( 'express-session' );
 const passport = require( 'passport' );
 const express = require( 'express' ); // Framework
 const morgan = require( 'morgan' );   // Show browser requests
-const logger = require("./log/logger");
+const logger = require('./log/facadeLogger');
 const httpContext = require('express-http-context');
 const cors = require( 'cors' );
-const uuid = require('uuid');
-const path = require( 'path' );   // Manage directory path
 
 require( './config/passport' );
 const app = express( );

@@ -1,6 +1,8 @@
 const User = require( '../models/User' );
 const AuthorRequest = require( '../models/AuthorRequest' );
+const logger = require( '../log/facadeLogger');
 const passport = require( 'passport' );
+
 
 const usersCtrl = { };
 
@@ -8,7 +10,9 @@ usersCtrl.signup = function ( req, res, next ) {
     passport.authenticate( "local-signup", function( err, user, info ) {
         if ( user ) {
             req.logIn( user, function ( error ) {
-                if ( error ) return next ( error );
+                if ( error ) {
+                    return next ( error );
+                }
             })
         }
         return res.status( info.status ).json({ message: info.message });
@@ -19,9 +23,12 @@ usersCtrl.signin = function ( req, res, next ) {
     passport.authenticate( "local-signin", function ( err, user, info ) {
         if ( user ) {
             req.logIn( user, function ( error ) {
-                if( error ) return next ( error );
+                if( error ) {
+                    return next ( error );
+                }
             })
         }
+        //logger.info("Usuario ingresado Correctamente");   Example of unit log after a petition
         return res.status( info.status ).json({ message: info.message });
     })( req, res, next );
 }
@@ -54,7 +61,7 @@ usersCtrl.addAuthor = async ( req, res ) => {
         user.role = 1;
         user.email2 = request.email2;
         user.professionalCard = request.professionalCard;
-        user.employementHistory = request.employementHistory;
+        user.employmentHistory = request.employmentHistory;
         user.academicHistory = request.academicHistory;
 
         await User.findByIdAndUpdate( userId, user );
