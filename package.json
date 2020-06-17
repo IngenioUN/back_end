@@ -22,6 +22,7 @@
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "express-http-context": "^1.2.3",
     "express-session": "^1.17.0",
     "method-override": "^3.0.0",
     "mongoose": "^5.9.7",
@@ -30,7 +31,10 @@
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
-    "rotating-file-stream": "^2.1.1"
+    "rotating-file-stream": "^2.1.1",
+    "uuid": "^8.1.0",
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^4.5.0"
   },
   "devDependencies": {}
 }

@@ -3,7 +3,10 @@ const session = require( 'express-session' );
 const passport = require( 'passport' );
 const express = require( 'express' ); // Framework
 const morgan = require( 'morgan' );   // Show browser requests
+const logger = require("./log/logger");
+const httpContext = require('express-http-context');
 const cors = require( 'cors' );
+const uuid = require('uuid');
 const path = require( 'path' );   // Manage directory path
 
 require( './config/passport' );
@@ -12,15 +15,18 @@ const app = express( );
 // Settings
 app.set( 'port', process.env.PORT || 3000 );
 
-// setup the logger
-var accessLogStream = rfs.createStream( 'access.log', {
-    interval: '1d',
-    path: path.join(__dirname, 'log')
-});
-
-app.use( morgan( 'combined', { stream: accessLogStream }));
+// setup the logger in logger.js
 
 // Middleware
+//app.use(httpContext.middleware);
+
+//Assigning a unique identifier to each request
+
+
+app.use(morgan('combined', {
+    "stream": logger.stream
+}));
+
 app.use(cors({
     origin: "http://localhost:8080",
     credentials: true
@@ -31,7 +37,6 @@ app.use(( req, res, next ) => {
 	res.header( 'Access-Control-Allow-Headers', 'Content-Type' );
 	next( );
 });
-app.use( morgan('dev') );
 app.use( express.json() );
 app.use( session({
     secret: 'IngenioUN',
