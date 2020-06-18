@@ -9,14 +9,14 @@ const {
 } = require( "../controllers/user.controller" );
 
 router
-    .route( "/signin" )
-    .post( signin );
-
-router
     .route( "/signup" )
     .post( signup );
 
-const { isAuthenticated } = require( "../helpers/authenticated" );
+const { isLogged, isAuthenticated } = require( "../helpers/authenticated" );
+
+router
+    .route( "/signin" )
+    .post( isLogged, signin );
 
 router
     .route( "/signout" )

@@ -1,6 +1,6 @@
 const User = require( '../models/User' );
 const AuthorRequest = require( '../models/AuthorRequest' );
-const logger = require( '../log/facadeLogger');
+//const logger = require( '../log/facadeLogger');
 const passport = require( 'passport' );
 
 
@@ -14,8 +14,14 @@ usersCtrl.signup = function ( req, res, next ) {
                     return next ( error );
                 }
             })
+            return res.status( info.status ).json({
+                message: info.message,
+                role: user.role,
+                id: user.id
+            });
+        } else {
+            return res.status( info.status ).json({ message: info.message });
         }
-        return res.status( info.status ).json({ message: info.message });
     })( req, res, next );
 }
 
@@ -27,9 +33,14 @@ usersCtrl.signin = function ( req, res, next ) {
                     return next ( error );
                 }
             })
+            return res.status( info.status ).json({
+                message: info.message,
+                role: user.role,
+                id: user.id
+            });
+        } else {
+            return res.status( info.status ).json({ message: info.message });
         }
-        //logger.info("Usuario ingresado Correctamente");   Example of unit log after a petition
-        return res.status( info.status ).json({ message: info.message });
     })( req, res, next );
 }
 
