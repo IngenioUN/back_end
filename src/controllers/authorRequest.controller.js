@@ -4,39 +4,40 @@ const logger = require( '../log/facadeLogger');
 const authorRequestCtrl = { };
 
 // Juan
-/*
+
 authorRequestCtrl.addAuthorRequest = async ( req, res ) => {
-    try{
-        if ( req.user.role != 0 )
+    try {
+        if( req.user.role != 0 )
             throw "You do not have the required permissions";
 
-        const Author = await AuthorRequest.findById( req.user._id );
-​
-        if( Author )
+        var authorRequest = await AuthorRequest.findOne({ userId: req.user.id });
+        if( authorRequest )
             throw "You have already send an author request";
-​
+
         const { email2, professionalCard, employmentHistory, academicHistory } = req.body;
-​
         if( !email2 || !professionalCard || !employmentHistory || !academicHistory )
-            throw "Incomplete data";
-​
-        const newAuthorRequest = new AuthorRequest( req.body );
-​
-        await newAuthorRequest.save( );
-​
+            throw "The required data is incomplete";
+
+        const newAuthorRequest = new AuthorRequest(req.body);
+        newAuthorRequest.userId = req.user.id;
+        await newAuthorRequest.save();
+
+        logger.info( "The author request has been created successfully" );
         return res.status( 201 ).json({
             message: "The author request has been created successfully"
         });
-    }catch ( err ) {
-        if ( !err.message )
+    } catch (err) {
+        if ( !err.message ) {
+            logger.warn( err );
             return res.status( 400 ).json({ message: err });
-        else
+        } else {
+            logger.error( "Could not create author request successfully" );
             return res.status( 400 ).json({
                 message: "The author request could not be created"
             });
+        }
     }
-};
-*/
+}
 // Valeria
 authorRequestCtrl.getAllAuthorRequest = async ( req, res ) => {
     try {
@@ -92,5 +93,6 @@ authorRequestCtrl.getAuthorRequest = async ( req, res ) => {
 // Carlos
 
 // Tatiana
+
 
 module.exports = authorRequestCtrl;

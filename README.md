@@ -15,8 +15,13 @@
 ## Pasos de configuración
 
 1. Para inicializar la base de datos:
-	* Si es en windows: `mongod`
-	* Si es en linux: `sudo service mongod start`
+	* Windows: `mongod`
+	* Linux: `sudo service mongod start`
 1. Para instalar las dependencias: `npm install`.
 1. Para ejecutar el programa: `npm run dev`
-1. En el navegador poner `http://localhost:3000`.
+
+## Migración - Valeria
+
+## Logger - Juan
+
+## Heroku - Carlos

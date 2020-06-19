@@ -6,19 +6,15 @@ const {
     addAuthorRequest,
     // Valeria
     getAuthorRequest,
-    getAllAuthorRequest
+    getAllAuthorRequest,
     // Carlos
 
     // Tatiana
-
+    newAuthorRequest
 } = require( "../controllers/authorRequest.controller" );
 
 // Juan
-/*
-router
-    .route("/add-author-request")
-    .post(addAuthorRequest);
-*/
+
 // Valeria
 
 // Carlos
@@ -28,6 +24,10 @@ router
 const { isAuthenticated } = require( "../helpers/authenticated" );
 
 // Juan
+
+router
+    .route("/add-author-request")
+    .post( isAuthenticated, addAuthorRequest);
 
 // Valeria
 router

@@ -1,6 +1,4 @@
 const mongoose = require( 'mongoose' );
-const Category = require( '../models/Category' );
-const User = require( '../models/User' );
 const { Schema } = mongoose;
 
 const Publication = new Schema({
