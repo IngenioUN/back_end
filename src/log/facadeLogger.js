@@ -1,34 +1,42 @@
-const logger = require("./logger");
+const {fileLogger, consoleLogger} = require("./logger");
 
-
- const facadeLogger = {
+const facadeLogger = {
     log: function( level, message ) {
-        logger.log( level, message.trim( ) );
+        fileLogger.log( level, message.trim( ) );
+        consoleLogger.log( level, message.trim( ) );
     },
     error: function( message ) {
-        logger.error( message.trim( ) );
+        fileLogger.error( message.trim( ) );
+        consoleLogger.error( message.trim( ) );
     },
     warn: function( message ) {
-        logger.warn( message.trim( ) );
+        fileLogger.warn( message.trim( ) );
+        consoleLogger.warn( message.trim( ) );
     },
     verbose: function( message ) {
-        logger.verbose( message.trim( ) );
+        fileLogger.verbose( message.trim( ) );
+        consoleLogger.verbose( message.trim( ) );
     },
     info: function( message ) {
-        logger.info( message.trim( ) );
+        fileLogger.info( message.trim( ) );
+        consoleLogger.info( message.trim( ) );
     },
     debug: function( message ) {
-        logger.debug( message.trim( ) );
+        fileLogger.debug( message.trim( ) );
+        consoleLogger.debug( message.trim( ) );
     },
     silly: function( message ) {
-        logger.silly( message.trim( ) );
+        fileLogger.silly( message.trim( ) );
+        consoleLogger.silly( message.trim( ) );
     }
 };
 
 module.exports = facadeLogger;
-module.exports.stream = {
+module.exports.fileStream = {
     write:
-        message =>
-        message.indexOf( 'status:5' ) >= 0 ? logger.error(message.trim() + error) : logger.debug( message.trim( ) )
-        //If status is greather than 0 it prints error level oyherwise it prints debug level log.
+        message =>message.indexOf( 'status:5' ) >= 0 ? fileLogger.error(message.trim() + error) : fileLogger.info( message.trim( ) )
 };
+module.exports.consoleStream = {
+    write:
+        message =>message.indexOf( 'status:5' ) >= 0 ? consoleLogger.error(message.trim() + error) : consoleLogger.info( message.trim( ) )
+}
