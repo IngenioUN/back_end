@@ -1,6 +1,5 @@
 const mongoose = require( 'mongoose' );
 const { Schema } = mongoose;
-const User = require( '../models/User' );
 
 const AuthorRequest = new Schema({
     date: { type: Date, default: Date.now },

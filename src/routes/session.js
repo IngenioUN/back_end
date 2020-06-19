@@ -8,15 +8,15 @@ const {
     signout
 } = require( "../controllers/user.controller" );
 
-router
-    .route( "/signin" )
-    .post( signin );
+const { isLogged, isAuthenticated } = require( "../helpers/authenticated" );
 
 router
     .route( "/signup" )
-    .post( signup );
+    .post( isLogged, signup );
 
-const { isAuthenticated } = require( "../helpers/authenticated" );
+router
+    .route( "/signin" )
+    .post( isLogged, signin );
 
 router
     .route( "/signout" )

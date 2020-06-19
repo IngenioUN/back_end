@@ -1,0 +1,19 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "/home/gtzp/Documentos/UN/M10/IS2/IngenioUN/back_end/src/log/logs/.87c33a012104ba4a518132cce14b6d1fba12d544-audit.json",
+    "files": [
+        {
+            "date": 1592503030074,
+            "name": "/home/gtzp/Documentos/UN/M10/IS2/IngenioUN/back_end/src/log/logs/access.log.2020-06-18",
+            "hash": "d56c7330e1facc953deb93f6c0a537a1"
+        },
+        {
+            "date": 1592547688050,
+            "name": "/home/gtzp/Documentos/UN/M10/IS2/IngenioUN/back_end/src/log/logs/access.log.2020-06-19",
+            "hash": "7ad7816ac9cfd5069eec48a409ab6512"
+        }
+    ]
+}
