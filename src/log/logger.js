@@ -2,7 +2,7 @@
 const {createLogger, format, transports} = require ('winston');
 require ('winston-daily-rotate-file');
 
-var logger = createLogger({
+var consoleLogger = createLogger({
     format: format.simple(),
     transports: [
         new transports.Console({
@@ -10,7 +10,14 @@ var logger = createLogger({
             handleExceptions: true,
             json: false,
             colorize: true
-        }),
+        })
+    ],
+    exitOnError: false
+});
+
+var fileLogger = createLogger({
+    format: format.simple(),
+    transports: [
         new transports.DailyRotateFile({
             filename: `${__dirname}/./logs/access.log`,
             zippedArchive: true,
@@ -21,5 +28,6 @@ var logger = createLogger({
     exitOnError: false
 });
 
-module.exports = logger;
+module.exports.fileLogger = fileLogger;
+module.exports.consoleLogger = consoleLogger;
 

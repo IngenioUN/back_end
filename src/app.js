@@ -3,7 +3,7 @@ const session = require( 'express-session' );
 const passport = require( 'passport' );
 const express = require( 'express' ); // Framework
 const morgan = require( 'morgan' );   // Show browser requests
-const logger = require('./log/facadeLogger');
+const loggerHandler = require('./log/facadeLogger');
 const httpContext = require('express-http-context');
 const cors = require( 'cors' );
 
@@ -13,16 +13,13 @@ const app = express( );
 // Settings
 app.set( 'port', process.env.PORT || 3000 );
 
-// setup the logger in logger.js
-
 // Middleware
-//app.use(httpContext.middleware);
-
-//Assigning a unique identifier to each request
-
-
 app.use(morgan('combined', {
-    "stream": logger.stream
+    "stream": loggerHandler.fileStream
+}));
+
+app.use(morgan('dev', {
+    "stream": loggerHandler.consoleStream
 }));
 
 app.use(cors({

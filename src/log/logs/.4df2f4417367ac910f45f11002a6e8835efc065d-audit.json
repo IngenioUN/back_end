@@ -1,0 +1,14 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "D:\\MEGAsync\\UNAL\\10mo Semestre\\Ingesoft II\\FullApp\\back_end\\src\\log\\logs\\.4df2f4417367ac910f45f11002a6e8835efc065d-audit.json",
+    "files": [
+        {
+            "date": 1592578413396,
+            "name": "D:\\MEGAsync\\UNAL\\10mo Semestre\\Ingesoft II\\FullApp\\back_end\\src\\log\\logs\\access.log.2020-06-19",
+            "hash": "089fa3278f9a106eb6e54cc536b7a44e"
+        }
+    ]
+}
