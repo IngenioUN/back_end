@@ -1,7 +1,6 @@
 const {fileLogger, consoleLogger} = require("./logger");
 
-
- const facadeLogger = {
+const facadeLogger = {
     log: function( level, message ) {
         fileLogger.log( level, message.trim( ) );
         consoleLogger.log( level, message.trim( ) );
@@ -35,8 +34,7 @@ const {fileLogger, consoleLogger} = require("./logger");
 module.exports = facadeLogger;
 module.exports.fileStream = {
     write:
-        message =>message.indexOf( 'status:5' ) >= 0 ? fileLogger.error(message.trim() + error) : fileLogger.info( message.trim( ) ),
-        //If status is greather than 0 it prints error level oyherwise it prints debug level log.
+        message =>message.indexOf( 'status:5' ) >= 0 ? fileLogger.error(message.trim() + error) : fileLogger.info( message.trim( ) )
 };
 module.exports.consoleStream = {
     write:

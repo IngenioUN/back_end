@@ -14,7 +14,7 @@ helpers.isAuthenticated = ( req, res, next ) => {
 
 helpers.isLogged = ( req, res, next ) => {
     if ( !req.isAuthenticated( ) ){
-        logger.info( "HelpertisLogged: To access the following functionality, the user must not be logged in" );
+        logger.info( "Helper.isLogged: To access the following functionality, the user must not be logged in" );
         return next ( );
     }
     logger.warn( "The user is logged in to the platform, cannot access the required functionality" );
