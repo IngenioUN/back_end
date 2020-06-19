@@ -1,4 +1,5 @@
 const Category = require( '../models/Category' );
+const logger = require( '../log/facadeLogger');
 
 const categoriesCtrl = { };
 
@@ -18,20 +19,25 @@ categoriesCtrl.addCategory = async ( req, res ) => {
 
         const { name, description } = req.body;
         if ( !name || !description )
-            throw "Incomplete data";
+            throw "The required data is incomplete";
 
         const newCategory = new Category( req.body );
         await newCategory.save( );
+
+        logger.info("A category has been successfully created");
         return res.status( 201 ).json({
             message: "The category has been created successfully"
         });
     }catch ( err ) {
-        if( !err.message )
+        if( !err.message ) {
+            logger.warn( err );
             return res.status( 400 ).json({ message: err });
-        else
+        } else {
+            logger.error( "There was a problem creating a category" );
             return res.status( 400 ).json({
                 message: "The category could not be created"
             });
+        }
     }
 };
 

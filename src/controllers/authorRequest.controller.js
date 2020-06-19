@@ -1,4 +1,5 @@
 const AuthorRequest = require( '../models/AuthorRequest' );
+const logger = require( '../log/facadeLogger');
 
 const authorRequestCtrl = { };
 
@@ -39,35 +40,52 @@ authorRequestCtrl.addAuthorRequest = async ( req, res ) => {
 // Valeria
 authorRequestCtrl.getAllAuthorRequest = async ( req, res ) => {
     try {
+        if ( req.user.role != 2 )
+            throw "You do not have the required permissions";
+
         const authorRequest = await AuthorRequest.find( ).populate({
             path:'userId',
             select:[ 'firstName','lastName' ]
         }).select( 'userId' );
 
+        logger.info( "The requests requested by the user have been successfully retrieved" );
         return res.status( 200 ).json( authorRequest );
     } catch ( err ) {
-        if( !err.message )
+        if( !err.message ) {
+            logger.warn( err );
             return res.status( 400 ).json({ message: err });
-        else
+        } else {
+            logger.error( "A problem occurred while trying to retrieve requests for authorship" );
             return res.status( 400 ).json({
                 message: "Could not access"
             });
+        }
     }
 }
 
 authorRequestCtrl.getAuthorRequest = async ( req, res ) => {
     try{
-        const userId = req.params.userId;
-        //const { userId } = req.body;
+        if ( req.user.role != 2 )
+            throw "You do not have the required permissions";
 
+        const userId = req.params.userId;
         if ( !userId )
-            throw "Incomplete data";
+            throw "The required data is incomplete";
+
         const authorRequest = await AuthorRequest.findOne({ userId: userId });
+
+        logger.info( "The requested request has been successfully retrieved" );
         return res.status( 200 ).json( authorRequest );
     }catch ( err ) {
-        return res.status( 400 ).json({
-            message: "Could not access requested information"
-        });
+        if( !err.message ){
+            logger.warn( err );
+            return res.status( 400 ).json({ message: err });
+        } else {
+            logger.error( "The id of the requested request does not exist in the system" );
+            return res.status( 400 ).json({
+                message: "The required request is not found in the system"
+            });
+        }
     }
 };
 

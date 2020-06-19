@@ -8,11 +8,11 @@ const {
     signout
 } = require( "../controllers/user.controller" );
 
+const { isLogged, isAuthenticated } = require( "../helpers/authenticated" );
+
 router
     .route( "/signup" )
-    .post( signup );
-
-const { isLogged, isAuthenticated } = require( "../helpers/authenticated" );
+    .post( isLogged, signup );
 
 router
     .route( "/signin" )
