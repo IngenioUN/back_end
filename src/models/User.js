@@ -14,6 +14,12 @@ const User = new Schema({
     employmentHistory: { type: String, required: false },
     academicHistory: { type: String, required: false },
     role: { type: Number, default: 0 },
+    followers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    following: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    subscriptionToCategories: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
+    subscriptionToAuthors: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    savedPublications: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    myPublications: [{ type: Schema.Types.ObjectId, ref: 'Publication' }]
 });
 
 User.methods.encryptPassword = async password => {

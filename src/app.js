@@ -48,6 +48,7 @@ app.use( '/user', require( './routes/user' ) );
 app.use( '/author-request', require( './routes/authorRequest' ) );
 app.use( '/publication', require( './routes/publication' ) );
 app.use( '/category', require( './routes/category' ) );
+app.use( '/notification', require( './routes/notification' ) );
 
 // Juan
 
