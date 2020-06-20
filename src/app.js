@@ -18,9 +18,7 @@ app.use(morgan('combined', {
     "stream": loggerHandler.fileStream
 }));
 
-app.use(morgan('dev', {
-    "stream": loggerHandler.consoleStream
-}));
+app.use(morgan('dev'));
 
 app.use(cors({
     origin: "http://localhost:8080",
