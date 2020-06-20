@@ -96,6 +96,28 @@ usersCtrl.addAuthor = async ( req, res ) => {
         }
     }
 };
+
+usersCtrl.getAllUsers = async ( req, res ) => {
+    try {
+        if ( req.user.role != 2 )
+            throw "You do not have the required permissions";
+
+        const user = await User.find({'role' : 0}).select(['firstName','lastName','email1']);
+
+        logger.info( "The requests requested by the user have been successfully retrieved" );
+        return res.status( 200 ).json( user );
+    } catch ( err ) {
+        if( !err.message ) {
+            logger.warn( err );
+            return res.status( 400 ).json({ message: err });
+        } else {
+            logger.error( "A problem occurred while trying to retrieve requests for authorship" );
+            return res.status( 400 ).json({
+                message: "Could not access"
+            });
+        }
+    }
+}
 // Carlos
 
 // Juan

@@ -6,6 +6,7 @@ const {
 
     // Valeria
     addAuthor,
+    getAllUsers,
     // Carlos
 
     // Tatiana
@@ -27,7 +28,12 @@ const { isAuthenticated } = require( "../helpers/authenticated" );
 // Valeria
 router
     .route( "/add-author" )
-    .put( addAuthor )
+    .put( isAuthenticated, addAuthor )
+
+router
+    .route( "/get-users" )
+    .get( isAuthenticated, getAllUsers )
+
 // Carlos
 
 // Tatiana
