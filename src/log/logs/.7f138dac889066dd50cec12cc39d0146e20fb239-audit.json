@@ -1,0 +1,14 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "/home/gtzp/Documentos/UN/M10/IS2/IngenioUN/back_end/src/log/logs/.7f138dac889066dd50cec12cc39d0146e20fb239-audit.json",
+    "files": [
+        {
+            "date": 1592679858041,
+            "name": "/home/gtzp/Documentos/UN/M10/IS2/IngenioUN/back_end/src/log/logs/access.log.2020-06-20",
+            "hash": "f4856bda4ff37358299b47ba5de7b6d1"
+        }
+    ]
+}

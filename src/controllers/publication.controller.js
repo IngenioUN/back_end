@@ -15,13 +15,14 @@ publicationsCtrl.addPublication = async ( req, res ) => {
         if ( req.user.role != 1 )
             throw "You do not have the required permissions";
 
-        const { title, abstract, keyWords, text } = req.body;
-        if( !title || !abstract || !keyWords || !text )
+        const { title, abstract, keyWords, text, listCategories } = req.body;
+        if( !title || !abstract || !keyWords || !text || !listCategories )
             throw "The required data is incomplete";
 
         const newPublication = new Publication(req.body);
         newPublication.authorId = req.user.id;
         await newPublication.save( );
+        console.log(newPublication);
 
         logger.info( "User successfully added a publication" );
         return res.status( 200 ).json({
