@@ -19,6 +19,7 @@ var fileLogger = createLogger({
     format: format.simple(),
     transports: [
         new transports.DailyRotateFile({
+            level: 'debug',
             filename: `${__dirname}/./logs/access.log`,
             zippedArchive: true,
             maxSize: '20m',

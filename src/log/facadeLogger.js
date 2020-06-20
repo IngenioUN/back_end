@@ -34,9 +34,9 @@ const facadeLogger = {
 module.exports = facadeLogger;
 module.exports.fileStream = {
     write:
-        message =>message.indexOf( 'status:5' ) >= 0 ? fileLogger.error(message.trim() + error) : fileLogger.info( message.trim( ) )
+        message =>message.indexOf( 'status:5' ) >= 0 ? fileLogger.error(message.trim() + error) : fileLogger.debug( message.trim( ) )
 };
 module.exports.consoleStream = {
     write:
-        message =>message.indexOf( 'status:5' ) >= 0 ? consoleLogger.error(message.trim() + error) : consoleLogger.info( message.trim( ) )
+        message =>message.indexOf( 'status:5' ) >= 0 ? consoleLogger.error(message.trim() + error) : consoleLogger.debug( message.trim( ) )
 }
