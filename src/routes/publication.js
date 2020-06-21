@@ -27,7 +27,7 @@ router
     .get( getPublication );
 
 router
-    .route( "/get-all-publications" )
+    .route( "/get-all-publications/:categoryId" )
     .get( getSummaryOfPublications );
 
 const { isAuthenticated } = require( "../helpers/authenticated" );

@@ -8,4 +8,4 @@ mongoose.connect( 'mongodb+srv://Ingenio123:Ingenio123@clusteringenio-jv1l1.gcp.
     useFindAndModify: false
 })
 .then( db => console.log( "DB is connected" ) )
-.catch( err => console.error( err ) );
+.catch( err => console.error( err ));

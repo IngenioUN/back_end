@@ -45,9 +45,9 @@ publicationsCtrl.addPublication = async ( req, res ) => {
 publicationsCtrl.getSummaryOfPublications = async ( req, res ) => {
     try {
         var publications;
-        if( req.body.categoryId )
+        if( req.params.categoryId != "null" )
             publications = await Publication.find({
-                listCategories: req.body.categoryId
+                listCategories: req.params.categoryId
             }, {
                 date: 1,
                 title: 1,
