@@ -168,15 +168,15 @@ usersCtrl.startFollowing = async ( req, res, next ) => {
             await User.findByIdAndUpdate( req.user.id, user );
             return next( );
         } else if ( req.body.userId ) {                // follow user
-            if ( user.following.includes( req.body.categoryId ) )
+            if ( user.following.includes( req.body.userId ) )
                 throw "You are already following this user"
 
             user.following.push( req.body.userId)
             await User.findByIdAndUpdate( req.user.id, user);
 
-            const otherUser = await User.findById( req.body.id )  //update followers list of the following user
+            const otherUser = await User.findById( req.body.userId )  //update followers list of the following user
             otherUser.followers.push( req.user.id);
-            await User.findByIdAndUpdate( req.body.id, otherUser);
+            await User.findByIdAndUpdate( req.body.userId, otherUser);
             logger.info("User now following another user" )
             return res.status( 200 ).json({
                 message: "The subscription has been successful"
@@ -193,8 +193,10 @@ usersCtrl.startFollowing = async ( req, res, next ) => {
                 message = "The category you are trying to subscribe to does not exist"
             else if ( req.body.authorId )
                 message = "The author you are trying to subscribe to does not exist"
-            else
+            else if ( req.body.userId)
                 message = "The user you are trying to follow does not exist"
+            else
+                message = "Sorry! but our Princess is in another castle!"
 
             return res.status( 400 ).json({
                 message: message
