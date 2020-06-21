@@ -2,3 +2,4 @@ node_modules
 access.log*
 *.log
 *-audit.json
+src/log/logs/.*.json

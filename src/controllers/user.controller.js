@@ -146,4 +146,50 @@ usersCtrl.getPersonalData = async ( req, res ) => {
     }
 }
 
+usersCtrl.startFollowing = async ( req, res, next ) => {
+    try {
+        if( req.user.role == 2 )
+            throw "You do not have the required permissions";
+
+        const user = await User.findById( req.user.id )
+        console.log(req.body)
+
+        if( req.body.categoryId ){          // for category subscription
+            if ( user.subscriptionToCategories.includes( req.body.categoryId ) )
+                throw "You are already subscribed to this category"
+
+            user.subscriptionToCategories.push( req.body.categoryId );
+            await User.findByIdAndUpdate( req.user.id, user );
+            return next( );
+        } else if ( req.body.authorId ) {   //for author subscription
+            if ( user.subscriptionToAuthors.includes( req.body.authorId ) )
+                throw "You are already subscribed to this author"
+
+            user.subscriptionToAuthors.push( req.body.authorId );
+            await User.findByIdAndUpdate( req.user.id, user );
+            return next( );
+        } else {                            // follow user
+
+        }
+    } catch ( err ) {
+        if( !err.message ){
+            logger.warn( err );
+            return res.status( 400 ).json({ message: err });
+        } else {
+            var message;
+            logger.error( "The user entered a wrong id" );
+            if (req.body.categoryId)
+                message = "The category you are trying to subscribe to does not exist"
+            else if ( req.body.authorId )
+                message = "The author you are trying to subscribe to does not exist"
+            else
+                message = "The user you are trying to follow does not exist"
+
+            return res.status( 400 ).json({
+                message: message
+            });
+        }
+    }
+}
+
 module.exports = usersCtrl;
