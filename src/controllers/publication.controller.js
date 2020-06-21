@@ -19,7 +19,7 @@ publicationsCtrl.addPublication = async ( req, res ) => {
         if( !title || !abstract || !keyWords || !text || !listCategories )
             throw "The required data is incomplete";
 
-        const newPublication = new Publication(req.body);
+        const newPublication = new Publication( req.body );
         newPublication.authorId = req.user.id;
         await newPublication.save( );
         console.log(newPublication);
@@ -28,7 +28,7 @@ publicationsCtrl.addPublication = async ( req, res ) => {
         return res.status( 200 ).json({
             message: "The publication was successfully added"
         })
-    }catch ( err ) {
+    } catch ( err ) {
         if( !err.message ){
             logger.warn( err );
             return res.status( 400 ).json({ message: err });

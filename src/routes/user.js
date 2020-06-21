@@ -10,9 +10,13 @@ const {
     // Carlos
 
     // Tatiana
-    getPersonalData
+    getPersonalData,
+    startFollowing
 } = require( "../controllers/user.controller" );
 
+const {
+    startSubscription
+} = require( "../controllers/notification.controller" )
 // Juan
 
 // Valeria
@@ -40,5 +44,9 @@ router
 router
     .route( "/get-personal-data" )
     .get( isAuthenticated, getPersonalData )
+
+router
+    .route( "/start-following" )
+    .post( isAuthenticated, startFollowing, startSubscription )
 
 module.exports = router;
