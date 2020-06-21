@@ -29,10 +29,15 @@ notificationCtrl.startSubscription = ( req, res ) => {
             message: "The subscription has been successful"
         })
     } catch ( err ) {
+        if( !err.message ){
+            logger.warn( err );
+            return res.status( 400 ).json({ message: err });
+        } else {
         logger.error( "there is a problem registering subscription notifications" );
-        return res.status( 400 ).json({
-            message: "There was a problem with the requested subscription"
-        })
+            return res.status( 400 ).json({
+                message: "There was a problem with the requested subscription"
+            })
+        }
     }
 
 }
