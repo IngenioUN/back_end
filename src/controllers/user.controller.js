@@ -177,7 +177,10 @@ usersCtrl.startFollowing = async ( req, res, next ) => {
             const otherUser = await User.findById( req.body.id )  //update followers list of the following user
             otherUser.followers.push( req.user.id);
             await User.findByIdAndUpdate( req.body.id, otherUser);
-            return next( );
+            logger.info("User now following another user" )
+            return res.status( 200 ).json({
+                message: "The subscription has been successful"
+            })
         }
     } catch ( err ) {
         if( !err.message ){

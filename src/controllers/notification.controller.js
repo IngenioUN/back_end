@@ -24,8 +24,6 @@ notificationCtrl.startSubscription = ( req, res ) => {
             logger.info( "User subscribed to a category" )
         else if ( req.body.authorId )
             logger.info( "User subscribed to an author" )
-        else
-            logger.info("User now following another user" )
 
         return res.status( 200 ).json({
             message: "The subscription has been successful"
