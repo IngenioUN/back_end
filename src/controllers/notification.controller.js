@@ -22,7 +22,7 @@ notificationCtrl.startSubscription = ( req, res ) => {
 
         if( req.body.categoryId )
             logger.info( "User subscribed a category" )
-        else
+        else if ( req.body.authorId )
             logger.info( "User subscribed an author" )
 
         return res.status( 200 ).json({
