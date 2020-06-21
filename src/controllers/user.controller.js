@@ -167,8 +167,17 @@ usersCtrl.startFollowing = async ( req, res, next ) => {
             user.subscriptionToAuthors.push( req.body.authorId );
             await User.findByIdAndUpdate( req.user.id, user );
             return next( );
-        } else if ( req.body.userId ) {                            // follow user
+        } else if ( req.body.userId ) {                // follow user
+            if ( user.following.includes( req.body.categoryId ) )
+                throw "You are already following this user"
 
+            user.following.push( req.body.userId)
+            await User.findByIdAndUpdate( req.user.id, user);
+
+            const otherUser = await User.findById( req.body.id )  //update followers list of the following user
+            otherUser.followers.push( req.user.id);
+            await User.findByIdAndUpdate( req.body.id, otherUser);
+            return next( );
         }
     } catch ( err ) {
         if( !err.message ){
