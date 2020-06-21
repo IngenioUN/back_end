@@ -152,7 +152,6 @@ usersCtrl.startFollowing = async ( req, res, next ) => {
             throw "You do not have the required permissions";
 
         const user = await User.findById( req.user.id )
-        console.log(req.body)
 
         if( req.body.categoryId ){          // for category subscription
             if ( user.subscriptionToCategories.includes( req.body.categoryId ) )
@@ -168,7 +167,7 @@ usersCtrl.startFollowing = async ( req, res, next ) => {
             user.subscriptionToAuthors.push( req.body.authorId );
             await User.findByIdAndUpdate( req.user.id, user );
             return next( );
-        } else {                            // follow user
+        } else if ( req.body.userId ) {                            // follow user
 
         }
     } catch ( err ) {
