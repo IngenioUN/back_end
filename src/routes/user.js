@@ -12,11 +12,13 @@ const {
 
     // Tatiana
     getPersonalData,
-    startFollowing
+    startFollowing,
+    stopFollowing
 } = require( "../controllers/user.controller" );
 
 const {
-    startSubscription
+    subscribe,
+    unsubscribe
 } = require( "../controllers/notification.controller" )
 // Juan
 
@@ -51,6 +53,10 @@ router
 
 router
     .route( "/start-following" )
-    .post( isAuthenticated, startFollowing, startSubscription )
+    .post( isAuthenticated, startFollowing, subscribe )
+
+router
+    .route( "/stop-following" )
+    .post( isAuthenticated, stopFollowing, unsubscribe )
 
 module.exports = router;
