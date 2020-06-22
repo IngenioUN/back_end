@@ -13,7 +13,6 @@ const notificationCtrl = { };
 
 notificationCtrl.subscribe = async ( req, res ) => {
     try {
-        var notification;
         if ( req.user.role == 2 )
             throw "You do not have the required permissions";
 
@@ -21,9 +20,9 @@ notificationCtrl.subscribe = async ( req, res ) => {
         newNotification.userId = req.user.id;
         await newNotification.save();
 
-        if( req.body.categoryId )
+        if( req.params.categoryId )
             logger.info( "User subscribed to a category" )
-        else if ( req.body.authorId )
+        else if ( req.params.authorId )
             logger.info( "User subscribed to an author" )
         else
             throw "Incomplete data"

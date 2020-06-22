@@ -37,7 +37,7 @@ const { isAuthenticated } = require( "../helpers/authenticated" );
 // Tatiana
 
 router
-    .route( '/get-notifications' )
+    .route( '/get-notifications/:auhtorId/:categoryId' )
     .get( isAuthenticated, getAllNotifications, getInfoPublications, getInfoCategories, getInfoAuthor );
 
 router
