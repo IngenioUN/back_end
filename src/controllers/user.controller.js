@@ -393,7 +393,29 @@ usersCtrl.stopFollowing = async ( req, res, next ) => {
             return next( );
 
         } else if ( req.body.userId ) {     // stop following user
+            if ( !user.following.includes( req.body.userId ) )
+                throw "You are already not following this user"
 
+            for ( i = 0; i < user.following.length; i++ ) {
+                 if ( user.following[ i ] == req.body.userId ) {
+                        user.following.splice( i, 1 );
+                        break;
+                    }
+                }
+            await User.findByIdAndUpdate( req.user.id, user);
+
+            const otherUser = await User.findById( req.body.userId )  //update followers list of the following user
+            for ( i = 0; i < otherUser.followers.length; i++ ) {
+                if ( otherUser.followers[ i ] == req.body.userId ) {
+                        otherUser.followers.splice( i, 1 );
+                        break;
+                   }
+               }
+            await User.findByIdAndUpdate( req.body.userId, otherUser);
+            logger.info("You are not following this user" )
+            return res.status( 200 ).json({
+                message: "The subscription has been successful"
+            })
         }
         throw "Incomplete data"
     } catch ( err ) {
