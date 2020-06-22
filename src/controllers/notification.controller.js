@@ -204,7 +204,6 @@ notificationCtrl.getAllNotifications = async ( req, res, next ) => {
             });
         } else
             throw "Incomplete data";
-        console.log(notification);
 
         const { listPublications } = notification;
         req.body.notificationId = notification.id;
