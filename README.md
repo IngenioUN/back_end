@@ -22,8 +22,8 @@
 
 ## Migración
 1. Para ejecutar una migración desde la carpeta src, se ejecuta:
-	* `npx migrate up <title_migration> -d bd_URL`
-	* `npx migrate down <title_migration> -d bd_URL`
+	* `npx migrate up -d bd_URL`
+	* `npx migrate down -d bd_URL`
 	* `npx migrate list -d bd_URL`
 ## Logger - Juan
 
