@@ -14,6 +14,10 @@ const {
     addPublication
 } = require( "../controllers/publication.controller" );
 
+const {
+    addPublicationToAuthor
+} = require( "../controllers/user.controller" )
+
 // Juan
 
 // Valeria
@@ -41,6 +45,6 @@ const { isAuthenticated } = require( "../helpers/authenticated" );
 // Tatiana
 router
     .route( "/add-publication" )
-    .post( isAuthenticated, addPublication );
+    .post( isAuthenticated, addPublication,addPublicationToAuthor );
 
 module.exports = router;
