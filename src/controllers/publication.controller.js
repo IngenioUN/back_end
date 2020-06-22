@@ -1,5 +1,7 @@
 const Publication = require( '../models/Publication' );
+const User = require( '../models/User' );
 const logger = require( '../log/facadeLogger');
+const { consoleLogger } = require('../log/logger');
 
 const publicationsCtrl = { };
 
@@ -10,7 +12,7 @@ const publicationsCtrl = { };
 // Carlos
 
 // Tatiana
-publicationsCtrl.addPublication = async ( req, res ) => {
+publicationsCtrl.addPublication = async ( req, res, next ) => {
     try{
         if ( req.user.role != 1 )
             throw "You do not have the required permissions";
@@ -25,9 +27,8 @@ publicationsCtrl.addPublication = async ( req, res ) => {
         console.log(newPublication);
 
         logger.info( "User successfully added a publication" );
-        return res.status( 200 ).json({
-            message: "The publication was successfully added"
-        })
+        req.body.publicationId = newPublication.id
+        return next();
     } catch ( err ) {
         if( !err.message ){
             logger.warn( err );

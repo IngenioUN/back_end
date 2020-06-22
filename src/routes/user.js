@@ -7,6 +7,7 @@ const {
     // Valeria
     addAuthor,
     getAllUsers,
+    getAllAuthors,
     // Carlos
 
     // Tatiana
@@ -38,6 +39,9 @@ router
     .route( "/get-users" )
     .get( isAuthenticated, getAllUsers )
 
+router
+    .route( "/get-authors" )
+    .get( isAuthenticated, getAllAuthors )
 // Carlos
 
 // Tatiana

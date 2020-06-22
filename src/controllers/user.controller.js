@@ -118,6 +118,54 @@ usersCtrl.getAllUsers = async ( req, res ) => {
         }
     }
 }
+
+usersCtrl.getAllAuthors = async ( req, res ) => {
+    try {
+        if ( req.user.role != 2 )
+            throw "You do not have the required permissions";
+
+        const author = await User.find({'role' : 1}).select(['firstName','lastName','myPublications']);
+        logger.info( "The requests requested by the user have been successfully retrieved" );
+        return res.status( 200 ).json( author );
+    } catch ( err ) {
+        if( !err.message ) {
+            logger.warn( err );
+            return res.status( 400 ).json({ message: err });
+        } else {
+            logger.error( "A problem occurred while trying to retrieve requests for authorship" );
+            return res.status( 400 ).json({
+                message: "Could not access"
+            });
+        }
+    }
+}
+
+usersCtrl.addPublicationToAuthor = async ( req, res ) => {
+    try {
+        console.log("esta aqui")
+        if( req.user.role != 1 )
+            throw "You do not have the required permissions";
+
+        var user = await User.findById( req.user.id )
+        user.myPublications.push( req.body.publicationId );
+        await User.findByIdAndUpdate( req.user.id, user );
+
+        logger.info( "User successfully added a mypublication" );
+        return res.status( 200 ).json({
+            message: "The publication was successfully added"
+        })
+    } catch (err) {
+        if ( !err.message ) {
+            logger.warn( err );
+            return res.status( 400 ).json({ message: err });
+        } else {
+            logger.error( "Could not create author request successfully" );
+            return res.status( 400 ).json({
+                message: "The author request could not be created"
+            });
+        }
+    }
+};
 // Carlos
 
 // Juan
