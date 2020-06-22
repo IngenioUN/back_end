@@ -141,28 +141,23 @@ usersCtrl.getAllAuthors = async ( req, res ) => {
     }
 }
 
-usersCtrl.addPublicationToAuthor = async ( req, res ) => {
+usersCtrl.addPublicationToAuthor = async ( req, res, next ) => {
     try {
-        console.log("esta aqui")
         if( req.user.role != 1 )
             throw "You do not have the required permissions";
 
         var user = await User.findById( req.user.id )
         user.myPublications.push( req.body.publicationId );
         await User.findByIdAndUpdate( req.user.id, user );
-
-        logger.info( "User successfully added a mypublication" );
-        return res.status( 200 ).json({
-            message: "The publication was successfully added"
-        })
+        return next( );
     } catch (err) {
         if ( !err.message ) {
             logger.warn( err );
             return res.status( 400 ).json({ message: err });
         } else {
-            logger.error( "Could not create author request successfully" );
+            logger.error( "There is a problem adding the post to the author list" );
             return res.status( 400 ).json({
-                message: "The author request could not be created"
+                message: "There is a problem adding the post to your post list"
             });
         }
     }
@@ -174,7 +169,6 @@ usersCtrl.addMySavePublications = async ( req, res ) => {
             throw "You do not have the required permissions";
 
         var user = await User.findById( req.user.id )
-        console.log("ahora aqui")
         user.savedPublications.push( req.body.publicationId);
         await User.findByIdAndUpdate( req.user.id, user );
 
@@ -352,6 +346,39 @@ usersCtrl.stopFollowing = async ( req, res, next ) => {
             return res.status( 400 ).json({
                 message: message
             });
+        }
+    }
+}
+
+usersCtrl.getInfoAuthor = async ( req, res ) => {
+    try {
+        if ( req.user.role == 2 )
+            throw "You do not have the required permissions";
+
+        var author, authorName, authorLastName, authorId, i;
+
+        for( i = 0; i < req.body.response.length; i++ ) {
+            authorId = req.body.response[ i ].authorId;
+            author = await User.findById( authorId );
+            authorName = author.firstName;
+            authorLastName = author.lastName;
+            req.body.response[ i ].authorName = authorName;
+            req.body.response[ i ].authorLastName = authorLastName;
+        }
+        logger.info( "All notifications were successfully obtained" )
+        return res.status( 200 ).json({
+            notificationId: req.body.notificationId,
+            response: req.body.response
+        });
+    } catch ( err ) {
+        if( !err.message ){
+            logger.warn( err );
+            return res.status( 400 ).json({ message: err });
+        } else {
+            logger.error( "The author id does not exist" );
+            return res.status( 400 ).json({
+                message: "The author does not exist"
+            })
         }
     }
 }
