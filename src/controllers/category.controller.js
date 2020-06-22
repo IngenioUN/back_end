@@ -111,4 +111,32 @@ categoriesCtrl.getInfoCategories = async ( req, res, next ) => {
     }
 }
 
+categoriesCtrl.updatePublications = async ( req, res, next ) => {
+    try {
+        if( req.user.role != 1 )
+            throw "You do not have the required permissions";
+        var categorie;
+        for ( var i = 0; i < req.body.listCategories.length; i++ ) {
+            categorie = await Category.findById( req.body.listCategories[ i ] );
+            categorie.publications = categorie.publications + 1;
+            await Category.findByIdAndUpdate( categorie.id, categorie );
+        }
+
+        logger.info( "The publication was created successfully" );
+        return res.status( 201 ).json({
+            message: "The publication was created successfully"
+        })
+    } catch ( err ) {
+        if( !err.message ){
+            logger.warn( err );
+            return res.status( 400 ).json({ message: err });
+        } else {
+            logger.error( "User entered an invalid category ID" );
+            return res.status( 400 ).json({
+                message: "Some of the entered categories does not exist"
+            })
+        }
+    }
+}
+
 module.exports = categoriesCtrl;
