@@ -212,7 +212,7 @@ usersCtrl.getAllSavedPublications = async ( req, res ) => {
 // Carlos
 
 // Juan
-usersCtrl.getAllCategories = async ( req, res ) => {
+usersCtrl.getAllUserCategories = async ( req, res ) => {
         try {
             if ( req.user.role == 2 )
                 throw "You do not have the required permissions";
@@ -245,6 +245,39 @@ usersCtrl.getAllCategories = async ( req, res ) => {
             }
         }
     }
+
+    usersCtrl.getAllFollowings = async ( req, res ) => {
+            try {
+                if ( req.user.role == 2 )
+                    throw "You do not have the required permissions";
+                var followings;
+                if( req.params.userId != "null" )
+                    followings = await User.findById(req.params.userId).select('following');
+                else
+                    followings = await User.findById(req.user.id).select('following');
+
+                var followingId, i;
+                var following = {};
+                var listFollowings = [];
+                for( i in followings["following"]) {
+                    followingId = followings["following"][ i ];
+                    following = await User.findById( followingId ).select(['firstName', 'lastName']);
+                    listFollowings.push(following);
+                }
+                logger.info( "The requests requested by the user have been successfully retrieved" );
+                return res.status( 200 ).json( listFollowings );
+            } catch ( err ) {
+                if( !err.message ) {
+                    logger.warn( err );
+                    return res.status( 400 ).json({ message: err });
+                } else {
+                    logger.error( "A problem occurred while trying to retrieve requests for all user followings" );
+                    return res.status( 400 ).json({
+                        message: "Could not access"
+                    });
+                }
+            }
+        }
 // Tatiana
 
 // Any type of user can access this information

@@ -3,7 +3,8 @@ const router = Router( );
 
 const {
     // Juan
-    getAllCategories,
+    getAllUserCategories,
+    getAllFollowings,
     // Valeria
     addAuthor,
     getAllUsers,
@@ -36,8 +37,11 @@ const { route } = require("./session");
 // Juan
 router
     .route( "/get-user-categories/:userId")
-    .get( isAuthenticated, getAllCategories)
+    .get( isAuthenticated, getAllUserCategories)
 
+ router
+    .route( "/get-following/:userId")
+    .get( isAuthenticated, getAllFollowings)
 // Valeria
 router
     .route( "/add-author" )
