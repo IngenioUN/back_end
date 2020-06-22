@@ -258,11 +258,12 @@ usersCtrl.stopFollowing = async ( req, res, next ) => {
             throw "You do not have the required permissions";
 
         const user = await User.findById( req.user.id );
+        var i = 0;
         if ( req.body.authorId ) {   //for author unsubscription
             if ( !user.subscriptionToAuthors.includes( req.body.authorId ) )
                 throw "You are not subscribed to this Author"
 
-            for ( var i = 0; i < user.subscriptionToAuthors.length; i++ ) {
+            for ( i = 0; i < user.subscriptionToAuthors.length; i++ ) {
                 if ( user.subscriptionToAuthors[ i ] == req.body.authorId ) {
                     user.subscriptionToAuthors.splice( i, 1 );
                     break;
@@ -274,7 +275,7 @@ usersCtrl.stopFollowing = async ( req, res, next ) => {
             if ( !user.subscriptionToCategories.includes( req.body.categoryId ) )
                 throw "You are not subscribed to this category"
 
-            for ( var i = 0; i < user.subscriptionToCategories.length; i++ ) {
+            for ( i = 0; i < user.subscriptionToCategories.length; i++ ) {
                 if ( user.subscriptionToCategories[ i ] == req.body.categoryId ) {
                     user.subscriptionToCategories.splice( i, 1 );
                     break;
