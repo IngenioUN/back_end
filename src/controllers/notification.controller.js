@@ -87,4 +87,140 @@ notificationCtrl.unsubscribe = async ( req, res ) => {
         }
     }
 }
+
+notificationCtrl.updateNotifications = async ( req, res ) => {
+    try {
+        if( req.user.role != 1 )
+            throw "You do not have the required permissions";
+        var notification = await Notification.findOne({ authorId: req.user.id });
+
+        if ( notification ) {
+            notification.listPublications.push( req.body.publicationId );
+            await Notification.findByIdAndUpdate( notification.id, notification );
+        }
+
+        for ( var i = 0; i < req.body.listCategories.length; i++ ) {
+            notification = null;
+            notification = await Notification.findOne({
+                categoryId: req.body.listCategories[ i ]
+            });
+            if ( notification ) {
+                notification.listPublications.push( req.body.publicationId );
+                await Notification.findByIdAndUpdate( notification.id, notification );
+            }
+        }
+        logger.info( "the publication was created successfully" );
+        return res.status( 201 ).json({
+            message: "The publication was created successfully"
+        })
+    } catch ( err ) {
+        logger.error( "User entered an invalid category ID" );
+        return res.status( 400 ).json({
+            message: "Some of the entered categories does not exist"
+        })
+    }
+}
+
+notificationCtrl.removeNotification = async ( req, res ) => {
+    try {
+        if ( req.user.role == 2 )
+            throw "You do not have the required permissions";
+
+        if ( req.body.notificationId )
+            if ( req.body.publicationId ) {
+                const notification = await Notification.findById( req.body.notificationId );
+                for( var i = 0; i < notification.listPublications.length; i++ ) {
+                    if ( notification.listPublications[ i ] == req.body.publicationId ) {
+                        notification.listPublications.splice( i, 1 );
+                        break;
+                    }
+                }
+                await Notification.findByIdAndUpdate( notification.id, notification );
+            }
+        else
+            throw "Incomplete data"
+
+        logger.info( "The user successfully removed the notification" );
+        return res.status( 200 ).json({
+            message: "Notification successfully removed"
+        });
+    } catch ( err ) {
+         if( !err.message ){
+            logger.warn( err );
+            return res.status( 400 ).json({ message: err });
+        } else {
+            logger.error( "The user entered a wrong id" );
+            return res.status( 400 ).json({
+                message: "The notification you are trying to subscribe to does not exist"
+            });
+        }
+    }
+}
+
+notificationCtrl.removeAllNotifications = async ( req, res ) => {
+    try {
+        if ( req.user.role == 2 )
+            throw "You do not have the required permissions";
+
+        if ( req.body.notificationId )
+            var notification = await Notification.findById( req.body.notificationId );
+        else
+            throw "Incomplete data";
+        notification.listPublications = [];
+        await Notification.findByIdAndUpdate( notification.id, notification );
+        logger.info( "The user successfully removed the notifications" );
+        return res.status( 200 ).json({
+            message: "Notifications successfully removed"
+        })
+    } catch ( err ) {
+         if( !err.message ){
+            logger.warn( err );
+            return res.status( 400 ).json({ message: err });
+        } else {
+            logger.error( "The user entered a wrong id" );
+            return res.status( 400 ).json({
+                message: "The notifications you are trying to delete does not exist"
+            });
+        }
+    }
+}
+
+notificationCtrl.getAllNotifications = async ( req, res, next ) => {
+    try {
+        var notification;
+        if ( req.user.role == 2 )
+            throw "You do not have the required permissions";
+
+        if ( req.body.authorId ) {
+            console.log("LLEGA");
+            notification = await Notification.findOne({
+                authorId: "5eef54aefa904c15d5fbf44c",
+                userId: req.user.id
+            });
+        } else if ( req.body.categoryId ) {
+            notification = await Notification.findOne({
+                userId: req.user.id,
+                categoryId: req.body.categoryId
+            });
+        } else
+            throw "Incomplete data";
+        console.log(notification);
+
+        const { listPublications } = notification;
+        req.body.notificationId = notification.id;
+        req.body.listPublications = listPublications;
+        return next( );
+    } catch ( err ) {
+        if( !err.message ){
+            logger.warn( err );
+            return res.status( 400 ).json({ message: err });
+        } else {
+            logger.error( "user has no pending notifications" );
+            return res.status( 400 ).json({
+                message: "You have no notifications"
+            });
+        }
+    }
+}
+
 module.exports = notificationCtrl;

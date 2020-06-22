@@ -16,7 +16,11 @@ const {
 
 const {
     addPublicationToAuthor
-} = require( "../controllers/user.controller" )
+} = require( "../controllers/user.controller" );
+
+const {
+    updateNotifications
+} = require( "../controllers/notification.controller" );
 
 // Juan
 
@@ -45,6 +49,6 @@ const { isAuthenticated } = require( "../helpers/authenticated" );
 // Tatiana
 router
     .route( "/add-publication" )
-    .post( isAuthenticated, addPublication,addPublicationToAuthor );
+    .post( isAuthenticated, addPublication, addPublicationToAuthor, updateNotifications );
 
 module.exports = router;

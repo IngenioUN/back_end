@@ -78,4 +78,37 @@ categoriesCtrl.getListCategories = async ( req, res ) => {
     }
 }
 
+categoriesCtrl.getInfoCategories = async ( req, res, next ) => {
+    try {
+        if ( req.user.role == 2 )
+            throw "You do not have the required permissions";
+
+        var tempList, category, categoryName, categoryId, i, j;
+        var listCategories = [];
+
+        for ( i = 0; i < req.body.response.length; i++ ) {
+            tempList = req.body.response[ i ].listCategories;
+            for( j = 0; j < tempList.length; j++ ) {
+                category = await Category.findById( tempList[ j ],{
+                    name:1
+                });
+                listCategories.push(category);
+            }
+            req.body.response[ i ].listCategories = listCategories;
+            listCategories = [];
+        }
+        return next( );
+    } catch ( err ) {
+        if( !err.message ){
+            logger.warn( err );
+            return res.status( 400 ).json({ message: err });
+        } else {
+            logger.error( "Some of the Categories ID not exist" );
+            return res.status( 400 ).json({
+                message: "Some of the Categories not exist"
+            })
+        }
+    }
+}
+
 module.exports = categoriesCtrl;
