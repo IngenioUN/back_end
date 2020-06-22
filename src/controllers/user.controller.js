@@ -3,6 +3,7 @@ const AuthorRequest = require( '../models/AuthorRequest' );
 const logger = require( '../log/facadeLogger');
 const passport = require( 'passport' );
 const { populate } = require('../models/User');
+const Category = require('../models/Category');
 
 
 const usersCtrl = { };
@@ -211,7 +212,39 @@ usersCtrl.getAllSavedPublications = async ( req, res ) => {
 // Carlos
 
 // Juan
+usersCtrl.getAllCategories = async ( req, res ) => {
+        try {
+            if ( req.user.role == 2 )
+                throw "You do not have the required permissions";
+            var categories;
+            if( req.params.userId != "null" )
+                categories = await User.findById(req.params.userId).select('subscriptionToCategories');
+            else
+                categories = await User.findById(req.user.id).select('subscriptionToCategories');
 
+            var categoryId, i;
+            var category = {};
+            var listCategories = [];
+            for( i in categories["subscriptionToCategories"]) {
+                categoryId = categories["subscriptionToCategories"][ i ];
+                category.isSubscribed = 1;
+                category = await Category.findById( categoryId ).select(['name', 'description', 'publications']);
+                listCategories.push(category);
+            }
+            logger.info( "The requests requested by the user have been successfully retrieved" );
+            return res.status( 200 ).json( listCategories );
+        } catch ( err ) {
+            if( !err.message ) {
+                logger.warn( err );
+                return res.status( 400 ).json({ message: err });
+            } else {
+                logger.error( "A problem occurred while trying to retrieve requests for all user categories" );
+                return res.status( 400 ).json({
+                    message: "Could not access"
+                });
+            }
+        }
+    }
 // Tatiana
 
 // Any type of user can access this information

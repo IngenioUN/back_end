@@ -3,7 +3,7 @@ const router = Router( );
 
 const {
     // Juan
-
+    getAllCategories,
     // Valeria
     addAuthor,
     getAllUsers,
@@ -31,8 +31,12 @@ const {
 // Tatiana
 
 const { isAuthenticated } = require( "../helpers/authenticated" );
+const { route } = require("./session");
 
 // Juan
+router
+    .route( "/get-user-categories/:userId")
+    .get( isAuthenticated, getAllCategories)
 
 // Valeria
 router
