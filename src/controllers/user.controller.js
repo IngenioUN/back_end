@@ -230,8 +230,8 @@ usersCtrl.startFollowing = async ( req, res, next ) => {
             return res.status( 200 ).json({
                 message: "The subscription has been successful"
             })
-        }
-        throw "Incomplete data"
+        } else
+            throw "Incomplete data"
     } catch ( err ) {
         if( !err.message ){
             logger.warn( err );
@@ -258,20 +258,7 @@ usersCtrl.stopFollowing = async ( req, res, next ) => {
             throw "You do not have the required permissions";
 
         const user = await User.findById( req.user.id );
-
-        if( req.body.categoryId ){          // for category unsubscription
-            if ( !user.subscriptionToCategories.includes( req.body.categoryId ) )
-                throw "You are not subscribed to this category"
-
-            for ( var i = 0; i < user.subscriptionToCategories.length; i++ ) {
-                if ( user.subscriptionToCategories[ i ] == req.body.categoryId ) {
-                    user.subscriptionToCategories.splice( i, 1 );
-                    break;
-                }
-            }
-            await User.findByIdAndUpdate( req.user.id, user );
-            return next( );
-        } else if ( req.body.authorId ) {   //for author unsubscription
+        if ( req.body.authorId ) {   //for author unsubscription
             if ( !user.subscriptionToAuthors.includes( req.body.authorId ) )
                 throw "You are not subscribed to this Author"
 
@@ -283,6 +270,19 @@ usersCtrl.stopFollowing = async ( req, res, next ) => {
             }
             await User.findByIdAndUpdate( req.user.id, user );
             return next( );
+        } else if( req.body.categoryId ){          // for category unsubscription
+            if ( !user.subscriptionToCategories.includes( req.body.categoryId ) )
+                throw "You are not subscribed to this category"
+
+            for ( var i = 0; i < user.subscriptionToCategories.length; i++ ) {
+                if ( user.subscriptionToCategories[ i ] == req.body.categoryId ) {
+                    user.subscriptionToCategories.splice( i, 1 );
+                    break;
+                }
+            }
+            await User.findByIdAndUpdate( req.user.id, user );
+            return next( );
+
         } else if ( req.body.userId ) {     // stop following user
 
         }
@@ -294,10 +294,10 @@ usersCtrl.stopFollowing = async ( req, res, next ) => {
         } else {
             var message;
             logger.error( "The user entered a wrong id" );
+            if ( req.body.authorId )
+                message = "The author you are trying to unsubscribe to does not exist"
             if (req.body.categoryId)
                 message = "The category you are trying to unsubscribe to does not exist"
-            else if ( req.body.authorId )
-                message = "The author you are trying to unsubscribe to does not exist"
             else if ( req.body.userId)
                 message = "The user you are trying to stop following does not exist"
             return res.status( 400 ).json({

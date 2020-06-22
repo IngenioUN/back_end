@@ -11,14 +11,30 @@ const notificationCtrl = { };
 
 // Tatiana
 
-notificationCtrl.subscribe = ( req, res ) => {
+notificationCtrl.subscribe = async ( req, res ) => {
     try {
+        var notification;
         if ( req.user.role == 2 )
             throw "You do not have the required permissions";
 
-        const newNotification = new Notification( req.body );
-        newNotification.userId = req.user.id;
-        newNotification.save();
+        console.log(req.body );
+        if ( req.body.categoryId )
+            notification = await Notification.findOne({ categoryId: req.body.categoryId });
+        else if ( req.body.authorId )
+            notification = await Notification.findOne({ authorId: req.body.authorId });
+        else
+            throw "Incomplete data"
+
+        if ( !notification ) {
+            const newNotification = new Notification( req.body );
+            newNotification.subscribers.push( req.user.id );
+            console.log(newNotification);
+            await newNotification.save();
+        } else {
+            notification.subscribers.push( req.user.id );
+            console.log(notification);
+            await Notification.findByIdAndUpdate( notification.id, notification );
+        }
 
         if( req.body.categoryId )
             logger.info( "User subscribed to a category" )
@@ -41,14 +57,33 @@ notificationCtrl.subscribe = ( req, res ) => {
     }
 }
 
-notificationCtrl.unsubscribe = ( req, res ) => {
+notificationCtrl.unsubscribe = async ( req, res ) => {
     try {
+        var notification;
         if ( req.user.role == 2 )
             throw "You do not have the required permissions";
 
-        const newNotification = new Notification( req.body );
-        newNotification.userId = req.user.id;
-        newNotification.save();
+        if ( req.body.categoryId )
+            notification = await Notification.findOne({ categoryId: req.body.categoryId });
+        else if ( req.body.authorId )
+            notification = await Notification.findOne({ authorId: req.body.authorId });
+        else
+            throw "Incomplete data"
+        console.log(notification);
+        if ( notification ) {
+            for ( var i = 0; i < notification.subscribers.length; i++ ) {
+                if ( notification.subscribers[ i ] == req.user.id ) {
+                    notification.subscribers.splice( i, 1 );
+                    break;
+                }
+            }
+            await Notification.findByIdAndUpdate( notification.id, notification );
+        } else {
+            if ( req.body.categoryId )
+                throw "You are not subscribed to this category"
+            else if ( req.body.authorId )
+                throw "You are not subscribed to this author"
+        }
 
         if( req.body.categoryId )
             logger.info( "User unsubscribed to a category" )
