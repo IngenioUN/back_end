@@ -20,8 +20,11 @@
 1. Para instalar las dependencias: `npm install`.
 1. Para ejecutar el programa: `npm run dev`
 
-## Migración - Valeria
-
+## Migración
+1. Para ejecutar una migración desde la carpeta src, se ejecuta:
+	`npx migrate up <title_migration> -d bd_URL`
+	`npx migrate down <title_migration> -d bd_URL`
+	`npx migrate list -d bd_URL`
 ## Logger - Juan
 
 ## Heroku - Carlos
