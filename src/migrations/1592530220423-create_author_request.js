@@ -4,8 +4,7 @@ async function up () {
     email2: 'email2',
     professionalCard: 'professionalCard',
     employmentHistory: 'employmentHistory',
-    academicHistory: 'academicHistory',
-    userId: 'userId'
+    academicHistory: 'academicHistory'
   })
 }
 

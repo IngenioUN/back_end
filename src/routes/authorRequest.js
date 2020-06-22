@@ -39,7 +39,7 @@ router
     .get( isAuthenticated, getAllAuthorRequest );
 router
     .route("/remove-author-request")
-    .delete( isAuthenticated, removeAuthorRequest);
+    .post( isAuthenticated, removeAuthorRequest);
 
 // Carlos
 

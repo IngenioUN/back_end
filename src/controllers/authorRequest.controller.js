@@ -100,7 +100,7 @@ authorRequestCtrl.removeAuthorRequest = async ( req, res ) => {
         if ( !userId )
             throw "The required data is incomplete";
 
-        const authorRequest = await AuthorRequest.deleteOne({ userId: userId });
+        await AuthorRequest.deleteOne({ userId: userId });
 
         logger.info( "The requested has been deleted" );
         return res.status( 200 ).json("The request was delete");
