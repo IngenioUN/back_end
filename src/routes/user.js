@@ -8,6 +8,8 @@ const {
     addAuthor,
     getAllUsers,
     getAllAuthors,
+    addMySavePublications,
+    getAllSavedPublications,
     // Carlos
 
     // Tatiana
@@ -42,6 +44,14 @@ router
 router
     .route( "/get-authors" )
     .get( isAuthenticated, getAllAuthors )
+
+router
+    .route( "/add-save-publication" )
+    .post( isAuthenticated, addMySavePublications );
+
+router
+    .route( "/get-save-publication" )
+    .get( isAuthenticated, getAllSavedPublications );
 // Carlos
 
 // Tatiana
