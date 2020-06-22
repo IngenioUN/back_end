@@ -88,7 +88,7 @@ notificationCtrl.unsubscribe = async ( req, res ) => {
     }
 }
 
-notificationCtrl.updateNotifications = async ( req, res ) => {
+notificationCtrl.updateNotifications = async ( req, res, next ) => {
     try {
         if( req.user.role != 1 )
             throw "You do not have the required permissions";
@@ -109,15 +109,17 @@ notificationCtrl.updateNotifications = async ( req, res ) => {
                 await Notification.findByIdAndUpdate( notification.id, notification );
             }
         }
-        logger.info( "the publication was created successfully" );
-        return res.status( 201 ).json({
-            message: "The publication was created successfully"
-        })
+        return next( );
     } catch ( err ) {
-        logger.error( "User entered an invalid category ID" );
-        return res.status( 400 ).json({
-            message: "Some of the entered categories does not exist"
-        })
+        if( !err.message ){
+            logger.warn( err );
+            return res.status( 400 ).json({ message: err });
+        } else {
+            logger.error( "User entered an invalid category ID" );
+            return res.status( 400 ).json({
+                message: "Some of the entered categories does not exist"
+            })
+        }
     }
 }
 

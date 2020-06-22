@@ -22,6 +22,9 @@ const {
     updateNotifications
 } = require( "../controllers/notification.controller" );
 
+const {
+    updatePublications
+} = require( "../controllers/category.controller" );
 // Juan
 
 // Valeria
@@ -49,6 +52,6 @@ const { isAuthenticated } = require( "../helpers/authenticated" );
 // Tatiana
 router
     .route( "/add-publication" )
-    .post( isAuthenticated, addPublication, addPublicationToAuthor, updateNotifications );
+    .post( isAuthenticated, addPublication, addPublicationToAuthor, updateNotifications, updatePublications );
 
 module.exports = router;
