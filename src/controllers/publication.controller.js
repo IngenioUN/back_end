@@ -2,6 +2,7 @@ const Publication = require( '../models/Publication' );
 const User = require( '../models/User' );
 const logger = require( '../log/facadeLogger');
 const { consoleLogger } = require('../log/logger');
+const { replaceOne } = require('../models/User');
 
 const publicationsCtrl = { };
 

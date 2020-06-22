@@ -2,6 +2,7 @@ const User = require( '../models/User' );
 const AuthorRequest = require( '../models/AuthorRequest' );
 const logger = require( '../log/facadeLogger');
 const passport = require( 'passport' );
+const { populate } = require('../models/User');
 
 
 const usersCtrl = { };
@@ -166,6 +167,53 @@ usersCtrl.addPublicationToAuthor = async ( req, res ) => {
         }
     }
 };
+
+usersCtrl.addMySavePublications = async ( req, res ) => {
+    try {
+        if( req.user.role == 2 )
+            throw "You do not have the required permissions";
+
+        var user = await User.findById( req.user.id )
+        console.log("ahora aqui")
+        user.savedPublications.push( req.body.publicationId);
+        await User.findByIdAndUpdate( req.user.id, user );
+
+        logger.info( "User successfully save a publication" );
+        return res.status( 200 ).json({
+            message: "The publication was successfully added"
+        })
+    } catch ( err ) {
+        logger.error( "The category ID does not exist on the platform" );
+        return res.status( 400 ).json({
+            message: "Category does no exist"
+        })
+    }
+}
+
+
+usersCtrl.getAllSavedPublications = async ( req, res ) => {
+    try {
+        if ( req.user.role == 2 )
+            throw "You do not have the required permissions";
+
+        const user = await User.findById(req.user.id).populate({
+            path:'savedPublications',
+            select:[ 'title','listCategories','abstract','authorId']
+        }).select('savedPublications')
+        logger.info( "The requests requested by the user have been successfully retrieved" );
+        return res.status( 200 ).json(user);
+    } catch ( err ) {
+        if( !err.message ) {
+            logger.warn( err );
+            return res.status( 400 ).json({ message: err });
+        } else {
+            logger.error( "A problem occurred while trying to retrieve requests for authorship" );
+            return res.status( 400 ).json({
+                message: "Could not access"
+            });
+        }
+    }
+}
 // Carlos
 
 // Juan

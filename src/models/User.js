@@ -18,7 +18,7 @@ const User = new Schema({
     following: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     subscriptionToCategories: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
     subscriptionToAuthors: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    savedPublications: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    savedPublications: [{ type: Schema.Types.ObjectId, ref: 'Publication' }],
     myPublications: [{ type: Schema.Types.ObjectId, ref: 'Publication' }]
 });
 
