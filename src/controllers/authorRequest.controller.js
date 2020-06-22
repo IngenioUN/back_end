@@ -90,6 +90,33 @@ authorRequestCtrl.getAuthorRequest = async ( req, res ) => {
     }
 };
 
+
+authorRequestCtrl.removeAuthorRequest = async ( req, res ) => {
+    try{
+        if ( req.user.role != 2 )
+            throw "You do not have the required permissions";
+
+        const userId = req.body.userId;
+        if ( !userId )
+            throw "The required data is incomplete";
+
+        const authorRequest = await AuthorRequest.deleteOne({ userId: userId });
+
+        logger.info( "The requested has been deleted" );
+        return res.status( 200 ).json("The request was delete");
+    }catch ( err ) {
+        if( !err.message ){
+            logger.warn( err );
+            return res.status( 400 ).json({ message: err });
+        } else {
+            logger.error( "The id of the requested request does not exist in the system" );
+            return res.status( 400 ).json({
+                message: "The required request is not found in the system"
+            });
+        }
+    }
+};
+
 // Carlos
 
 // Tatiana

@@ -7,6 +7,7 @@ const {
     // Valeria
     getAuthorRequest,
     getAllAuthorRequest,
+    removeAuthorRequest,
     // Carlos
 
     // Tatiana
@@ -36,6 +37,9 @@ router
 router
     .route( "/get-all-author-requests" )
     .get( isAuthenticated, getAllAuthorRequest );
+router
+    .route("/remove-author-request")
+    .delete( isAuthenticated, removeAuthorRequest);
 
 // Carlos
 
