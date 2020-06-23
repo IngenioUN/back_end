@@ -77,7 +77,15 @@ publicationsCtrl.getPublication = async ( req, res ) => {
         const publicationId = req.params.publicationId;
         if ( !publicationId )
             throw "Incomplate data";
-        const publication = await Publication.findById( publicationId );
+        const publication = await Publication.findById( publicationId ).
+        populate({
+            path: 'authorId',
+            select: ['firstName', 'lastName']
+        })
+        .populate({
+            path: 'listCategories',
+            select: ['name']
+        })
 
         logger.info( "The publication required by the user has been successfully retrieved" );
         return res.status( 200 ).json( publication );

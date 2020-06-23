@@ -336,9 +336,10 @@ usersCtrl.getAllUserCategories = async ( req, res ) => {
 // Any type of user can access this information
 usersCtrl.getPersonalData = async ( req, res ) => {
     try{
+        console.log("entra");
         var user;
-        if ( req.body.id )
-            user = await User.findById( req.body.id );
+        if ( req.params.id != null )
+            user = await User.findById( req.params.userId );
         else
             user = await User.findById( req.user.id );
         const { firstName, lastName, email1, description, role } = user;
