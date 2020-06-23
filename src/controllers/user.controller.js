@@ -245,8 +245,8 @@ usersCtrl.getAllUserCategories = async ( req, res ) => {
             var listCategories = [];
             for( i in categories["subscriptionToCategories"]) {
                 categoryId = categories["subscriptionToCategories"][ i ];
+                category = await Category.findById( categoryId ).lean().select(['name', 'description', 'publications']);
                 category.isSubscribed = 1;
-                category = await Category.findById( categoryId ).select(['name', 'description', 'publications']);
                 listCategories.push(category);
             }
             logger.info( "The requests requested by the user have been successfully retrieved" );
@@ -296,6 +296,41 @@ usersCtrl.getAllUserCategories = async ( req, res ) => {
                 }
             }
         }
+
+        usersCtrl.getAllUserAuthors = async ( req, res ) => {
+                try {
+                    if ( req.user.role == 2 )
+                        throw "You do not have the required permissions";
+
+                    var authors;
+                    if( req.params.userId != "null" )
+                        authors = await User.findById(req.params.userId).select('subscriptionToAuthors');
+                    else
+                        authors = await User.findById(req.user.id).select('subscriptionToAuthors');
+
+                    var authorId, i;
+                    var author = {};
+                    var listAuthors = [];
+                    for( i in authors["subscriptionToAuthors"]) {
+                        authorId = authors["subscriptionToAuthors"][ i ];
+                        author = await User.findById( authorId ).lean().select(['firstName', 'lastName']);
+                        author.isSubscribed = 1;
+                        listAuthors.push(author);
+                    }
+                    logger.info( "The requests requested by the user have been successfully retrieved" );
+                    return res.status( 200 ).json( listAuthors );
+                } catch ( err ) {
+                    if( !err.message ) {
+                        logger.warn( err );
+                        return res.status( 400 ).json({ message: err });
+                    } else {
+                        logger.error( "A problem occurred while trying to retrieve requests for all user followers" );
+                        return res.status( 400 ).json({
+                            message: "Could not access"
+                        });
+                    }
+                }
+            }
 // Tatiana
 
 // Any type of user can access this information

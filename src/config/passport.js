@@ -9,7 +9,7 @@ passport.use( "local-signin", new localStrategy ({
     const user = await User.findOne({ email1: email1 });
     if ( !user )
         return done ( null, false, {
-            message: "Not user founf",
+            message: "Not user found",
             status: 400
         });
     else {
