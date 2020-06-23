@@ -184,6 +184,10 @@ usersCtrl.addMySavePublications = async ( req, res ) => {
             throw "You do not have the required permissions";
 
         var user = await User.findById( req.user.id )
+        for (var i = 0; i < user.savedPublications.length; i++ ) {
+            if ( req.body.publicationId == user.savedPublications[ i ] )
+                throw "you already saved this publication"
+        }
         user.savedPublications.push( req.body.publicationId);
         await User.findByIdAndUpdate( req.user.id, user );
 
@@ -482,6 +486,27 @@ usersCtrl.getInfoAuthor = async ( req, res ) => {
                 message: "The author does not exist"
             })
         }
+    }
+}
+
+usersCtrl.getRandomUsers = async ( req, res ) => {
+    try {
+        if ( req.params.role != null )
+            throw "Incomplete data"
+        var users = User.find({role: req.params.role});
+        var response = [];
+        if ( users.length < 10 )
+            return res.status( 200 ).json(users)
+        else{
+            for( var i = 0; i < 10; i++ ) {
+                response.push( users[ i ] );
+            }
+            return res.status( 200 ).json(response);
+        }
+    } catch ( err ) {
+        return res.status( 400 ).json({
+            message: "Problem DB"
+        })
     }
 }
 
