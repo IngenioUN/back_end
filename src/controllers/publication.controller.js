@@ -74,7 +74,7 @@ publicationsCtrl.getSummaryOfPublications = async ( req, res ) => {
 // Any user can make this request
 publicationsCtrl.getPublication = async ( req, res ) => {
     try {
-        const publicationId = req.body.id;
+        const publicationId = req.params.publicationId;
         if ( !publicationId )
             throw "Incomplate data";
         const publication = await Publication.findById( publicationId );

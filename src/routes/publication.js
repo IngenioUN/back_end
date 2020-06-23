@@ -34,7 +34,7 @@ const {
 // Tatiana
 
 router
-    .route( "/get-publication" )
+    .route( "/get-publication/:publicationId" )
     .get( getPublication );
 
 router
