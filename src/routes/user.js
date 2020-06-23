@@ -68,7 +68,7 @@ router
 
 // Tatiana
 router
-    .route( "/get-personal-data" )
+    .route( "/get-personal-data/:userId" )
     .get( isAuthenticated, getPersonalData )
 
 router
