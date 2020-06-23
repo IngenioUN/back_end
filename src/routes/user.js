@@ -5,6 +5,7 @@ const {
     // Juan
     getAllUserCategories,
     getAllFollowings,
+    getAllFollowers,
     getAllUserAuthors,
     // Valeria
     addAuthor,
@@ -52,6 +53,10 @@ router
 router
     .route( "/get-user-authors/:userId")
     .get( isAuthenticated, getAllUserAuthors)
+
+router
+    .route( "/get-followers/:userId")
+    .get( isAuthenticated, getAllFollowers)
 // Valeria
 router
     .route( "/add-author" )
