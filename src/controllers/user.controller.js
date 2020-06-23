@@ -274,13 +274,23 @@ usersCtrl.getAllUserCategories = async ( req, res ) => {
                 else
                     followings = await User.findById(req.user.id).select('following');
 
-                var followingId, i;
+                var followingId, i, j;
                 var following = {};
                 var listFollowings = [];
                 for( i in followings["following"]) {
                     followingId = followings["following"][ i ];
-                    following = await User.findById( followingId ).select(['firstName', 'lastName']);
-                    listFollowings.push(following);
+                    following = await User.findById( followingId ).lean().select(['firstName', 'lastName', 'followers']);
+                    following.isFollowedByThisUser = 0;
+                        for( j in following["followers"]) {
+                                if (following["followers"][j] == req.user.id)
+                                    following.isFollowedByThisUser = 1;
+                        }
+                    listFollowings.push({
+                        "_id" : following._id,
+                        "firstName" : following.firstName,
+                        "lastName" : following.lastName,
+                        "isFollowing" : following.isFollowedByThisUser
+                    });
                 }
                 logger.info( "The requests requested by the user have been successfully retrieved" );
                 return res.status( 200 ).json( listFollowings );
@@ -296,7 +306,48 @@ usersCtrl.getAllUserCategories = async ( req, res ) => {
                 }
             }
         }
+        usersCtrl.getAllFollowers = async ( req, res ) => {
+                try {
+                    if ( req.user.role == 2 )
+                        throw "You do not have the required permissions";
+                    var followers;
+                    if( req.params.userId != "null" )
+                        followers = await User.findById(req.params.userId).select('followers');
+                    else
+                        followers = await User.findById(req.user.id).select('followers');
 
+                    var followerId, i, j;
+                    var follower = {};
+                    var listFollowers = [];
+                    for( i in followers["followers"]) {
+                        followerId = followers["followers"][ i ];
+                        follower = await User.findById( followerId ).lean().select(['firstName', 'lastName','following']);
+                        follower.isFollowingThisUser = 0;
+                        for( j in follower["following"]) {
+                                if (follower["following"][j] == req.user.id)
+                                    follower.isFollowingThisUser = 1;
+                        }
+                        listFollowers.push({
+                            "_id" : follower._id,
+                            "firstName" : follower.firstName,
+                            "lastName" : follower.lastName,
+                            "isFollowing" : follower.isFollowingThisUser
+                        });
+                    }
+                    logger.info( "The requests requested by the user have been successfully retrieved" );
+                    return res.status( 200 ).json( listFollowers );
+                } catch ( err ) {
+                    if( !err.message ) {
+                        logger.warn( err );
+                        return res.status( 400 ).json({ message: err });
+                    } else {
+                        logger.error( "A problem occurred while trying to retrieve requests for all user followers" );
+                        return res.status( 400 ).json({
+                            message: "Could not access"
+                        });
+                    }
+                }
+            }
         usersCtrl.getAllUserAuthors = async ( req, res ) => {
                 try {
                     if ( req.user.role == 2 )
