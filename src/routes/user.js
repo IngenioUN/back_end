@@ -15,6 +15,7 @@ const {
 
     // Tatiana
     getPersonalData,
+    getRandomUsers,
     startFollowing,
     stopFollowing
 } = require( "../controllers/user.controller" );
@@ -30,7 +31,9 @@ const {
 // Valeria
 
 // Carlos
-
+router
+    .route( "/get-random-users/:role" )
+    .post( getRandomUsers )
 // Tatiana
 
 const { isAuthenticated } = require( "../helpers/authenticated" );
