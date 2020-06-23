@@ -99,7 +99,6 @@ notificationCtrl.updateNotifications = async ( req, res, next ) => {
         }
 
         for ( var i = 0; i < req.body.listCategories.length; i++ ) {
-            notification = null;
             notification = await Notification.findOne({
                 categoryId: req.body.listCategories[ i ]
             });
