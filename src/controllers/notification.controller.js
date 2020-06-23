@@ -20,9 +20,9 @@ notificationCtrl.subscribe = async ( req, res ) => {
         newNotification.userId = req.user.id;
         await newNotification.save();
 
-        if( req.params.categoryId )
+        if( req.body.categoryId )
             logger.info( "User subscribed to a category" )
-        else if ( req.params.authorId )
+        else if ( req.body.authorId )
             logger.info( "User subscribed to an author" )
         else
             throw "Incomplete data"
@@ -192,13 +192,13 @@ notificationCtrl.getAllNotifications = async ( req, res, next ) => {
         if ( req.user.role == 2 )
             throw "You do not have the required permissions";
 
-        if ( req.body.authorId ) {
+        if ( req.params.authorId != null ) {
             console.log("LLEGA");
             notification = await Notification.findOne({
                 authorId: "5eef54aefa904c15d5fbf44c",
                 userId: req.user.id
             });
-        } else if ( req.body.categoryId ) {
+        } else if ( req.params.categoryId != null ) {
             notification = await Notification.findOne({
                 userId: req.user.id,
                 categoryId: req.body.categoryId

@@ -414,7 +414,7 @@ usersCtrl.stopFollowing = async ( req, res, next ) => {
             await User.findByIdAndUpdate( req.body.userId, otherUser);
             logger.info("You are not following this user" )
             return res.status( 200 ).json({
-                message: "The subscription has been successful"
+                message: "Now you follow a new user"
             })
         }
         throw "Incomplete data"
