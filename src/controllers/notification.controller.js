@@ -223,4 +223,40 @@ notificationCtrl.getAllNotifications = async ( req, res, next ) => {
     }
 }
 
+notificationCtrl.createSubscribers = async ( req, res ) => {
+    try {
+        if ( req.user.role != 2 ) {
+            logger.warn( "The user does not have the required permissions" );
+            return res.status( 401 ).json({
+                message: "You do not have the required permissions"
+            });
+        }
+
+        var newNotification;
+
+        for ( var i = 0; i < req.body.followers.length; i++ ) {
+            newNotification = new Notification;
+            newNotification.authorId = req.body.userId;
+            newNotification.userId = req.body.followers[ i ];
+            await newNotification.save();
+        }
+
+        logger.info( "User successfully switched roles" );
+        return res.status( 200 ).json({
+            message: "You are now a IngenioUN author"
+        })
+
+    } catch ( err ) {
+        if ( !err.message ) {
+            logger.warn(err);
+            return res.status( 400 ).json({ message: err });
+        } else {
+            logger.error( "there are problems with your followers" );
+            return res.status( 400 ).json({
+                message: "there are problems with your followers"
+            });
+        }
+    }
+}
+
 module.exports = notificationCtrl;
