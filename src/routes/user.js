@@ -21,8 +21,10 @@ const {
 
 const {
     subscribe,
-    unsubscribe
+    unsubscribe,
+    createSubscribers
 } = require( "../controllers/notification.controller" )
+
 // Juan
 
 // Valeria
@@ -45,7 +47,7 @@ router
 // Valeria
 router
     .route( "/add-author" )
-    .put( isAuthenticated, addAuthor )
+    .put( isAuthenticated, addAuthor, createSubscribers )
 
 router
     .route( "/get-users" )

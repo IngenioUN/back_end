@@ -54,7 +54,7 @@ usersCtrl.signout = ( req, res ) => {
 
 // Valeria
 
-usersCtrl.addAuthor = async ( req, res ) => {
+usersCtrl.addAuthor = async ( req, res, next ) => {
     try {
         if ( req.user.role != 2 ) {
             logger.warn( "The user does not have the required permissions" );
@@ -73,6 +73,22 @@ usersCtrl.addAuthor = async ( req, res ) => {
         var user = await User.findById( userId );
         if ( !user )
             throw "no exits";
+        if ( user.role == 1 )
+            throw "You are already an author"
+
+        var user2;
+        for( var i = 0; i < user.followers.length; i++ ) {
+            user2 = await User.findById( user.followers[ i ] );
+
+            for ( var j = 0; j < user2.following.length; j++ ) {
+                if ( user2.following[ j ] == user.id ) {
+                    user2.following.splice( i, 1 );
+                    break
+                }
+            }
+            user2.subscriptionToAuthors.push( user.id );
+            await User.findByIdAndUpdate( user2.id, user2 );
+        }
 
         user.role = 1;
         user.email2 = request.email2;
@@ -82,10 +98,8 @@ usersCtrl.addAuthor = async ( req, res ) => {
 
         await User.findByIdAndUpdate( userId, user );
 
-        logger.info( "A new author has been added to the system" );
-        return res.status( 200 ).json({
-            message: "The operation was successful"
-        });
+        req.body.followers = user.followers;
+        return next( );
     } catch ( err ) {
         if ( !err.message ) {
             logger.warn(err);
