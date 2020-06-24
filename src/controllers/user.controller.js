@@ -279,7 +279,7 @@ usersCtrl.getAllFollowings = async ( req, res ) => {
         var listFollowings = [];
         for( i in followings["following"]) {
             followingId = followings["following"][ i ];
-            following = await User.findById( followingId ).lean().select(['firstName', 'lastName', 'followers']);
+            following = await User.findById( followingId ).lean().select(['firstName', 'lastName', 'followers', 'role']);
             following.isFollowedByThisUser = 0;
                 for( j in following["followers"]) {
                         if (following["followers"][j] == req.user.id)
@@ -289,7 +289,8 @@ usersCtrl.getAllFollowings = async ( req, res ) => {
                 "_id" : following._id,
                 "firstName" : following.firstName,
                 "lastName" : following.lastName,
-                "isFollowing" : following.isFollowedByThisUser
+                "isFollowing" : following.isFollowedByThisUser,
+                "role": following.role
             });
         }
         logger.info( "The requests requested by the user have been successfully retrieved" );
@@ -322,7 +323,7 @@ usersCtrl.getAllFollowers = async ( req, res ) => {
         var listFollowers = [];
         for( i in followers["followers"]) {
             followerId = followers["followers"][ i ];
-            follower = await User.findById( followerId ).lean().select(['firstName', 'lastName','following']);
+            follower = await User.findById( followerId ).lean().select(['firstName', 'lastName','following', 'role']);
             follower.isFollowingThisUser = 0;
             for( j in follower["following"]) {
                     if (follower["following"][j] == req.user.id)
@@ -332,7 +333,8 @@ usersCtrl.getAllFollowers = async ( req, res ) => {
                 "_id" : follower._id,
                 "firstName" : follower.firstName,
                 "lastName" : follower.lastName,
-                "isFollowing" : follower.isFollowingThisUser
+                "isFollowing" : follower.isFollowingThisUser,
+                "role": follower.role
             });
         }
         logger.info( "The requests requested by the user have been successfully retrieved" );
@@ -427,12 +429,26 @@ usersCtrl.startFollowing = async ( req, res, next ) => {
             if ( user.subscriptionToAuthors.includes( req.body.authorId ) )
                 throw "You are already subscribed to this author"
 
+            if ( req.body.authorId == req.user.id )
+                throw "You can't subscribe to yourself"
+
+            tempUser = await User.findById( req.body.authorId );
+            if ( tempUser.role == 2 )
+                throw "You cannot subscribe to this user"
+
             user.subscriptionToAuthors.push( req.body.authorId );
             await User.findByIdAndUpdate( req.user.id, user );
             return next( );
         } else if ( req.body.userId ) {                // follow user
             if ( user.following.includes( req.body.userId ) )
                 throw "You are already following this user"
+
+            if ( req.body.userId == req.user.id )
+                throw "You can't follow yourself"
+
+            tempUser = await User.findById( req.body.userId );
+            if ( tempUser.role == 2 )
+                throw "You cannot subscribe to this user"
 
             user.following.push( req.body.userId)
             await User.findByIdAndUpdate( req.user.id, user);
@@ -519,9 +535,9 @@ usersCtrl.stopFollowing = async ( req, res, next ) => {
                    }
                }
             await User.findByIdAndUpdate( req.body.userId, otherUser);
-            logger.info("You are not following this user" )
+            logger.info("User stopped following another" )
             return res.status( 200 ).json({
-                message: "Now you follow a new user"
+                message: "You stopped following the user successfully"
             })
         }
         throw "Incomplete data"
