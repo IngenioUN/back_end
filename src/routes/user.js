@@ -35,8 +35,8 @@ const {
 
 // Carlos
 router
-    .route( "/get-random-users/:role" )
-    .post( getRandomUsers )
+    .route( "/get-random-users/:role/:categoryId" )
+    .get( getRandomUsers )
 // Tatiana
 
 const { isAuthenticated } = require( "../helpers/authenticated" );
