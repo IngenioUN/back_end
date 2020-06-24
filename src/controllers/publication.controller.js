@@ -102,35 +102,4 @@ publicationsCtrl.getPublication = async ( req, res ) => {
     }
 }
 
-publicationsCtrl.getInfoPublications = async ( req, res, next ) => {
-    try {
-        if ( req.user.role == 2 )
-            throw "You do not have the required permissions";
-
-        var response = [];
-        var publication;
-        for ( var i = 0; i < req.body.listPublications.length; i++ ) {
-            publication = await Publication.findById( req.body.listPublications[ i ],{
-                title: 1,
-                listCategories: 1,
-                authorId: 1
-            });
-            if ( publication )
-                response.push( publication );
-        }
-        req.body.response = response;
-        return next( );
-    } catch ( err ) {
-        if( !err.message ){
-            logger.warn( err );
-            return res.status( 400 ).json({ message: err });
-        } else {
-            logger.error( "Some of the publications requests do not exist" );
-            return res.status( 400 ).json({
-                message: "Some of the publications requests do not exist"
-            })
-        }
-    }
-}
-
 module.exports = publicationsCtrl;

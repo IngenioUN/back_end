@@ -15,7 +15,7 @@ notificationCtrl.subscribe = async ( req, res ) => {
     try {
         if ( req.user.role == 2 )
             throw "You do not have the required permissions";
-
+        console.log(req.body);
         const newNotification = new Notification( req.body );
         newNotification.userId = req.user.id;
         await newNotification.save();
@@ -191,31 +191,52 @@ notificationCtrl.getAllNotifications = async ( req, res, next ) => {
         if ( req.user.role == 2 )
             throw "You do not have the required permissions";
 
-        if ( req.params.authorId != null ) {
+        if ( req.params.authorId != 'null' ) {
             notification = await Notification.findOne({
-                authorId: "5eef54aefa904c15d5fbf44c",
+                authorId: req.params.authorId,
                 userId: req.user.id
+            }, { id: 1 })
+            .populate({
+                path: 'listPublications',
+                select: [ 'title', 'listCategories' ],
+                populate:[
+                    { path: 'listCategories', select: 'name' },
+                    { path: 'authorId', select: [ 'firstName', 'lastName' ] }
+                ]
             });
-        } else if ( req.params.categoryId != null ) {
+        } else if ( req.params.categoryId != 'null' ) {
             notification = await Notification.findOne({
-                userId: req.user.id,
-                categoryId: req.body.categoryId
+                categoryId: req.params.categoryId,
+                userId: req.user.id
+            }, { id: 1 })
+            .populate({
+                path: 'listPublications',
+                select: [ 'title', 'listCategories' ],
+                populate:[
+                    { path: 'listCategories', select: 'name' },
+                    { path: 'authorId', select: [ 'firstName', 'lastName' ] }
+                ]
             });
         } else
-            throw "Incomplete data";
+            throw "Incomplete data"
 
-        const { listPublications } = notification;
-        req.body.notificationId = notification.id;
-        req.body.listPublications = listPublications;
-        return next( );
+        if ( !notification ) {
+            logger.error( "User has no pending notifications" );
+            return res.status( 400 ).json({
+                message: "You have no notifications"
+            });
+        }
+
+        logger.info( "Notifications were successfully returned" );
+        return res.status( 200 ).json( notification );
     } catch ( err ) {
         if( !err.message ){
             logger.warn( err );
             return res.status( 400 ).json({ message: err });
         } else {
-            logger.error( "user has no pending notifications" );
+            logger.error( "There is a problem with the database" );
             return res.status( 400 ).json({
-                message: "You have no notifications"
+                message: "Could not retrieve notifications"
             });
         }
     }
