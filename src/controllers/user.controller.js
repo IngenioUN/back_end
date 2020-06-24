@@ -430,7 +430,6 @@ usersCtrl.getAuthorPublications = async ( req, res ) => {
 // Any type of user can access this information
 usersCtrl.getPersonalData = async ( req, res ) => {
     try{
-        console.log(req.params);
         var user;
         if ( req.params.userId != 'null' )
             user = await User.findById( req.params.userId );
@@ -498,7 +497,7 @@ usersCtrl.startFollowing = async ( req, res, next ) => {
 
             logger.info("User now following another user" )
             return res.status( 200 ).json({
-                message: "The subscription has been successful"
+                message: "Now you follow a new user!"
             })
         } else
             throw "Incomplete data"
@@ -568,7 +567,7 @@ usersCtrl.stopFollowing = async ( req, res, next ) => {
 
             const otherUser = await User.findById( req.body.userId )  //update followers list of the following user
             for ( i = 0; i < otherUser.followers.length; i++ ) {
-                if ( otherUser.followers[ i ] == req.body.userId ) {
+                if ( otherUser.followers[ i ] == user.id ) {
                         otherUser.followers.splice( i, 1 );
                         break;
                    }

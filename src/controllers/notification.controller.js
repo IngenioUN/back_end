@@ -192,7 +192,6 @@ notificationCtrl.getAllNotifications = async ( req, res, next ) => {
             throw "You do not have the required permissions";
 
         if ( req.params.authorId != null ) {
-            console.log("LLEGA");
             notification = await Notification.findOne({
                 authorId: "5eef54aefa904c15d5fbf44c",
                 userId: req.user.id
