@@ -115,7 +115,6 @@ publicationsCtrl.getInfoPublications = async ( req, res, next ) => {
                 listCategories: 1,
                 authorId: 1
             });
-            console.log(publication);
             if ( publication )
                 response.push( publication );
         }

@@ -82,7 +82,6 @@ categoriesCtrl.getInfoCategories = async ( req, res, next ) => {
     try {
         if ( req.user.role == 2 )
             throw "You do not have the required permissions";
-        console.log("este era el que me aparecia null");
         var tempList, category, i, j;
         var listCategories = [];
 
