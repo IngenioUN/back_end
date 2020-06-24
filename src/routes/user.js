@@ -35,7 +35,7 @@ const {
 
 // Carlos
 router
-    .route( "/get-random-users/:role" )
+    .route( "/get-random-users/:role/:categoryId" )
     .get( getRandomUsers )
 // Tatiana
 

@@ -397,7 +397,7 @@ usersCtrl.getAuthorPublications = async ( req, res ) => {
         else
             tempId = req.user.id;
 
-        author = await User.findById( tempId, {
+        const author = await User.findById( tempId, {
             myPublications: 1,
             role: 1
         })
@@ -494,7 +494,7 @@ usersCtrl.startFollowing = async ( req, res, next ) => {
             if ( req.body.authorId == req.user.id )
                 throw "You can't subscribe to yourself"
 
-            tempUser = await User.findById( req.body.authorId );
+            const tempUser = await User.findById( req.body.authorId );
             if ( tempUser.role == 2 )
                 throw "You cannot subscribe to this user"
 
@@ -508,7 +508,7 @@ usersCtrl.startFollowing = async ( req, res, next ) => {
             if ( req.body.userId == req.user.id )
                 throw "You can't follow yourself"
 
-            tempUser = await User.findById( req.body.userId );
+            const tempUser = await User.findById( req.body.userId );
             if ( tempUser.role == 2 )
                 throw "You cannot subscribe to this user"
 
@@ -625,8 +625,40 @@ usersCtrl.stopFollowing = async ( req, res, next ) => {
 
 usersCtrl.getRandomUsers = async ( req, res ) => {
     try {
+        var users = {};
+        if (req.params.categoryId != 'null') {
+            console.log("Not null");
+            if ( req.params.role != 'null') {
+                users = await User.find({
+                    role: req.params.role,
+                    subscriptionToCategories: req.params.categoryId
+                })
+                .lean().select(['role','firstName','lastName','description']);
+            } else {
+                console.log("Funciona");
+                users = await User.find({
+                subscriptionToCategories: req.params.categoryId
+                })
+                .lean().select(['role','firstName','lastName','description']);
+            }
+        }
+        else if ( req.params.role != 'null') {
+            if (req.params.categoryId != 'null') {
+                users = await User.find({
+                    role: req.params.role,
+                    subscriptionToCategories: req.params.categoryId
+                })
+                .lean().select(['role','firstName','lastName','description']);
+            } else {
+                users = await User.find({
+                    role: req.params.role
+                    })
+                .lean().select(['role','firstName','lastName','description']);
+            }
+        } else {
+            users = await User.find().lean().select(['role','firstName','lastName','description']);
+        }
 
-        var users = await User.find({role: req.params.role}).lean().select(['role','firstName','lastName','description']);
         var response = [];
         if ( users.length < 10 ){
             logger.info("All the users from this role has been returned");
