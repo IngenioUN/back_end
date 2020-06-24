@@ -19,7 +19,8 @@ const {
     getPersonalData,
     getRandomUsers,
     startFollowing,
-    stopFollowing
+    stopFollowing,
+    getAuthorPublications
 } = require( "../controllers/user.controller" );
 
 const {
@@ -91,5 +92,9 @@ router
 router
     .route( "/stop-following" )
     .post( isAuthenticated, stopFollowing, unsubscribe )
+
+router
+    .route( "/get-author-publications/:authorId" )
+    .get( isAuthenticated, getAuthorPublications );
 
 module.exports = router;

@@ -389,6 +389,45 @@ usersCtrl.getAllUserAuthors = async ( req, res ) => {
 // Tatiana
 
 // Any type of user can access this information
+usersCtrl.getAuthorPublications = async ( req, res ) => {
+    try {
+        var tempId;
+        if ( req.params.authorId != "null" )
+            tempId = req.params.authorId;
+        else
+            tempId = req.user.id;
+
+        author = await User.findById( tempId, {
+            myPublications: 1,
+            role: 1
+        })
+        .populate({
+            path: 'myPublications',
+            select: [ 'title', 'abstract', 'listCategories', 'listCategories' ],
+            populate: {
+                path: 'listCategories',
+                select: 'name'
+            }
+        })
+
+        if ( author.role != 1 )
+            throw "This user is not an author"
+
+        return res.status( 200 ).json( author.myPublications )
+    } catch ( err ) {
+        if( !err.message ) {
+            logger.warn( err );
+            return res.status( 400 ).json({ message: err });
+        } else {
+            logger.error( "The entered id does not belong to any user" );
+            return res.status( 400 ).json({
+                message: "The author you are trying to consult does not exist"
+            });
+        }
+    }
+}
+
+// Any type of user can access this information
 usersCtrl.getPersonalData = async ( req, res ) => {
     try{
         console.log(req.params);
