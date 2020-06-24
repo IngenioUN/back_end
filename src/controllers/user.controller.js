@@ -196,9 +196,9 @@ usersCtrl.addMySavePublications = async ( req, res ) => {
             message: "The publication was successfully added"
         })
     } catch ( err ) {
-        logger.error( "The category ID does not exist on the platform" );
+        logger.error( "add publication not completed" );
         return res.status( 400 ).json({
-            message: "Category does no exist"
+            message: "This publication is already in your save pubublications"
         })
     }
 }
