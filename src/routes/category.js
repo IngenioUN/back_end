@@ -11,8 +11,7 @@ const {
     // Tatiana
     getListCategories,
     getCategories,
-    addCategory,
-    welcomeCategories
+    addCategory
 } = require( "../controllers/category.controller" );
 
 // Juan
