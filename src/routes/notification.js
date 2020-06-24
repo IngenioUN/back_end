@@ -15,9 +15,6 @@ const {
 
 } = require( "../controllers/notification.controller" );
 
-const { getInfoPublications } = require( "../controllers/publication.controller" );
-const { getInfoCategories } = require( "../controllers/category.controller" );
-const { getInfoAuthor } = require( "../controllers/user.controller" );
 // Juan
 
 // Valeria
@@ -37,8 +34,8 @@ const { isAuthenticated } = require( "../helpers/authenticated" );
 // Tatiana
 
 router
-    .route( '/get-notifications/:auhtorId/:categoryId' )
-    .get( isAuthenticated, getAllNotifications, getInfoPublications, getInfoCategories, getInfoAuthor );
+    .route( '/get-notifications/:authorId/:categoryId' )
+    .get( isAuthenticated, getAllNotifications );
 
 router
     .route( '/remove-notification' )

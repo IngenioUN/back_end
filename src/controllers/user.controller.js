@@ -623,39 +623,6 @@ usersCtrl.stopFollowing = async ( req, res, next ) => {
     }
 }
 
-usersCtrl.getInfoAuthor = async ( req, res ) => {
-    try {
-        if ( req.user.role == 2 )
-            throw "You do not have the required permissions";
-
-        var author, authorName, authorLastName, authorId, i;
-
-        for( i = 0; i < req.body.response.length; i++ ) {
-            authorId = req.body.response[ i ].authorId;
-            author = await User.findById( authorId );
-            authorName = author.firstName;
-            authorLastName = author.lastName;
-            req.body.response[ i ].authorName = authorName;
-            req.body.response[ i ].authorLastName = authorLastName;
-        }
-        logger.info( "All notifications were successfully obtained" )
-        return res.status( 200 ).json({
-            notificationId: req.body.notificationId,
-            response: req.body.response
-        });
-    } catch ( err ) {
-        if( !err.message ){
-            logger.warn( err );
-            return res.status( 400 ).json({ message: err });
-        } else {
-            logger.error( "The author id does not exist" );
-            return res.status( 400 ).json({
-                message: "The author does not exist"
-            })
-        }
-    }
-}
-
 usersCtrl.getRandomUsers = async ( req, res ) => {
     try {
         if ( req.params.role != null )
