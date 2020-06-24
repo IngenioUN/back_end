@@ -625,21 +625,31 @@ usersCtrl.stopFollowing = async ( req, res, next ) => {
 
 usersCtrl.getRandomUsers = async ( req, res ) => {
     try {
-        if ( req.params.role != null )
-            throw "Incomplete data"
-        var users = User.find({role: req.params.role});
+
+        var users = await User.find({role: req.params.role}).lean().select(['role','firstName','lastName','description']);
         var response = [];
-        if ( users.length < 10 )
+        if ( users.length < 10 ){
+            logger.info("All the users from this role has been returned");
             return res.status( 200 ).json(users)
+        }
         else{
-            for( var i = 0; i < 10; i++ ) {
-                response.push( users[ i ] );
+            var random  = 0;
+            console.log(users.length);
+            while (response.length < 10) {
+                random = Math.floor(Math.random() * (users.length));
+                if ( !response.includes ( users[random] )) {
+                    console.log(random);
+                    response.push(users[random])
+                }
             }
+            console.log(response);
+            logger.info( "Returned 10 random users from this Role" );
             return res.status( 200 ).json(response);
         }
     } catch ( err ) {
+        logger.error( "The Role id does not exist" );
         return res.status( 400 ).json({
-            message: "Problem DB"
+            message: "The Role Id does not exist"
         })
     }
 }
