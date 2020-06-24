@@ -430,22 +430,46 @@ usersCtrl.getAuthorPublications = async ( req, res ) => {
 // Any type of user can access this information
 usersCtrl.getPersonalData = async ( req, res ) => {
     try{
-        var user;
+        var tempId;
         if ( req.params.userId != 'null' )
-            user = await User.findById( req.params.userId );
+            tempId = req.params.userId;
         else
-            user = await User.findById( req.user.id );
-        const { firstName, lastName, email1, description, role } = user;
+            tempId = req.user.id;
+
+        var user = await User.findById( tempId );
+
+        if ( req.params.userId != 'null' ) {
+            if ( user.role == 2 )
+                throw "You cannot see the data of this user"
+
+            const userLoggedIn = await User.findById( req.user.id );
+
+            if ( userLoggedIn.following.includes( user.id ) )
+                user.isFollowing = 1;
+            else
+                user.isFollowing = 0;
+        }
 
         logger.info("The required data has been successfully obtained");
         return res.status( 200 ).json({
-            firstName, lastName, email1, description, role
+            id: user.id,
+            role: user.role,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email1: user.email1,
+            description: user.description,
+            isFollowing: user.isFollowing
         });
     }catch ( err ) {
-        logger.warn("The data you are requesting does not exist on the platform");
-        return res.status( 400 ).json({
-            message: "The user is not registered on the platform"
-        });
+        if( !err.message ){
+            logger.warn( err );
+            return res.status( 400 ).json({ message: err });
+        } else {
+            logger.warn("The data you are requesting does not exist on the platform");
+            return res.status( 400 ).json({
+                message: "The user is not registered on the platform"
+            });
+        }
     }
 }
 
