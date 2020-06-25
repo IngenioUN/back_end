@@ -25,10 +25,6 @@ router
     .route( "/get-all-categories" )
     .get( getCategories );
 
-router
-    .route( "/get-list-categories" )
-    .get( getListCategories );
-
 const { isAuthenticated } = require( "../helpers/authenticated" );
 
 // Juan

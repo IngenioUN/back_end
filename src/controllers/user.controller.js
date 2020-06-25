@@ -430,7 +430,7 @@ usersCtrl.getAuthorPublications = async ( req, res ) => {
 // Any type of user can access this information
 usersCtrl.getPersonalData = async ( req, res ) => {
     try{
-        var tempId;
+        var tempId, isFollowing;
         if ( req.params.userId != 'null' )
             tempId = req.params.userId;
         else
@@ -444,7 +444,12 @@ usersCtrl.getPersonalData = async ( req, res ) => {
 
             const userLoggedIn = await User.findById( req.user.id );
 
-            if ( userLoggedIn.following.includes( user.id ) )
+            if ( user.role == 0 )
+                isFollowing = userLoggedIn.following.includes( user.id )
+            else
+                isFollowing = userLoggedIn.subscriptionToAuthors.includes( user.id )
+
+            if ( isFollowing )
                 user.isFollowing = 1;
             else
                 user.isFollowing = 0;
