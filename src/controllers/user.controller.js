@@ -629,6 +629,7 @@ usersCtrl.getRandomUsers = async ( req, res ) => {
         var response = [];
         var userLoggedIn;
         var random = 0;
+        var isFollowing = true;
 
         if ( req.params.role != 'null') {
             if (req.params.categoryId != 'null') {
@@ -648,9 +649,14 @@ usersCtrl.getRandomUsers = async ( req, res ) => {
         if ( users.length < 10 ){
             if ( req.isAuthenticated( ) ) {
                 userLoggedIn = await User.findById( req.user.id );
+                console.log(userLoggedIn);
                 for (let i = 0; i < users.length; i++) {
-                    console.log('entra aca');
-                    if ( userLoggedIn.following.includes( users[i]._id ) )
+                    if ( req.params.role == 0 )
+                        isFollowing = userLoggedIn.following.includes( users[ i ]._id )
+                    else
+                        isFollowing = userLoggedIn.subscriptionToAuthors.includes( users[ i ]._id )
+
+                    if ( isFollowing )
                         users[ i ].isFollowing = 1;
                     else
                         users[ i ].isFollowing = 0;
@@ -663,8 +669,13 @@ usersCtrl.getRandomUsers = async ( req, res ) => {
             while ( response.length < 10 ) {
                 random = Math.floor( Math.random() * ( users.length ) );
                 if ( req.isAuthenticated( ) ) {
-                    userLogger = await User.findById( req.user.id );
-                    if ( userLogger.following.includes( users[ random ].id ) )
+                    userLoggedIn = await User.findById( req.user.id );
+                    if ( req.params.role == 0 )
+                        isFollowing = userLoggedIn.following.includes( users[ random ]._id )
+                    else
+                        isFollowing = userLoggedIn.subscriptionToAuthors.includes( users[ random ]._id )
+
+                    if ( isFollowing )
                         users[ random ].isFollowing = 1;
                     else
                         users[ random ].isFollowing = 0;
