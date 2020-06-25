@@ -45,7 +45,8 @@ categoriesCtrl.addCategory = async ( req, res ) => {
 categoriesCtrl.getCategories = async ( req, res ) => {
     try{
         const categories = await Category.find({}, {
-            name: 1
+            name: 1,
+            publications: 1
         });
         return res.status( 201 ).json( categories );
     }catch ( err ) {
@@ -54,29 +55,6 @@ categoriesCtrl.getCategories = async ( req, res ) => {
         })
     }
 };
-
-// Any user can access this information
-categoriesCtrl.getListCategories = async ( req, res ) => {
-    try {
-        if( !req.body.listCategories )
-            throw "Incomplete data";
-        var categories = [ ];
-        var temp;
-        for( var i = 0; i < req.body.listCategories.length; i++ ) {
-            temp = await Category.findById( req.body.listCategories[i] );
-            var { id, name } = temp;
-            categories.push({ id, name });
-        }
-        return res.status( 200 ).json( categories );
-    } catch ( err ) {
-        if( !err.message )
-            return res.status( 400 ).json({ message: err });
-        else
-            return res.status( 400 ).json({
-                message: "Some of the categories is not registered"
-            });
-    }
-}
 
 categoriesCtrl.updatePublications = async ( req, res, next ) => {
     try {
