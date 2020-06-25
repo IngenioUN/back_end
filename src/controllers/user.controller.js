@@ -509,7 +509,7 @@ usersCtrl.startFollowing = async ( req, res, next ) => {
                 throw "You can't follow yourself"
 
             const tempUser = await User.findById( req.body.userId );
-            if ( tempUser.role == 2 )
+            if ( tempUser.role == 2 || tempUser.role == 1 )
                 throw "You cannot subscribe to this user"
 
             user.following.push( req.body.userId)
@@ -627,7 +627,6 @@ usersCtrl.getRandomUsers = async ( req, res ) => {
     try {
         var users = {};
         if (req.params.categoryId != 'null') {
-            console.log("Not null");
             if ( req.params.role != 'null') {
                 users = await User.find({
                     role: req.params.role,
@@ -648,30 +647,48 @@ usersCtrl.getRandomUsers = async ( req, res ) => {
                     role: req.params.role,
                     subscriptionToCategories: req.params.categoryId
                 })
-                .lean().select(['role','firstName','lastName','description']);
+                .lean().select([ 'role','firstName','lastName','description' ]);
             } else {
                 users = await User.find({
                     role: req.params.role
                     })
-                .lean().select(['role','firstName','lastName','description']);
+                .lean().select([ 'role','firstName','lastName','description' ]);
             }
         } else {
             users = await User.find().lean().select(['role','firstName','lastName','description']);
         }
-
         var response = [];
+        var userLogger;
         if ( users.length < 10 ){
+            console.log( users[0] );
+            if ( req.user.id != null) {
+                console.log( " Funciona" );
+                for (let i = 0; i < users.length; i++) {
+                    userLogger = await User.findById( req.user.id );
+                    if ( userLogger.following.includes( users[i].id ) )
+                        users[i].isFollowing = 1;
+                    else
+                        users[i].isFollowing = 0;
+                }
+            }
             logger.info("All the users from this role has been returned");
             return res.status( 200 ).json(users)
         }
-        else{
+        else {
             var random  = 0;
             console.log(users.length);
             while (response.length < 10) {
                 random = Math.floor(Math.random() * (users.length));
+                if ( req.user.id ) {
+                    userLogger = await User.findById( req.user.id );
+                    if ( userLogger.following.includes( users[random].id ) )
+                        users[random].isFollowing = 1;
+                    else
+                        users[random].isFollowing = 0;
+                }
+                    console.log(user[random]);
                 if ( !response.includes ( users[random] )) {
-                    console.log(random);
-                    response.push(users[random])
+                        response.push(users[random])
                 }
             }
             console.log(response);

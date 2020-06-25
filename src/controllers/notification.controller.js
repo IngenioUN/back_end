@@ -254,7 +254,7 @@ notificationCtrl.createSubscribers = async ( req, res ) => {
         var newNotification;
 
         for ( var i = 0; i < req.body.followers.length; i++ ) {
-            newNotification = new Notification;
+            newNotification = new Notification();
             newNotification.authorId = req.body.userId;
             newNotification.userId = req.body.followers[ i ];
             await newNotification.save();
