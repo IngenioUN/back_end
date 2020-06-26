@@ -368,7 +368,9 @@ usersCtrl.getAllUserAuthors = async ( req, res ) => {
         var listAuthors = [];
         for( i in authors["subscriptionToAuthors"]) {
             authorId = authors["subscriptionToAuthors"][ i ];
-            author = await User.findById( authorId ).lean().select(['firstName', 'lastName']);
+            author = await User.findById( authorId ).lean().select(['firstName', 'lastName', 'myPublications']);
+            author.publications = author.myPublications.length;
+            author.myPublications = null;
             author.isSubscribed = 1;
             listAuthors.push(author);
         }
