@@ -21,11 +21,13 @@ app.use(morgan('combined', {
 app.use(morgan('dev'));
 
 app.use(cors({
-    origin: "http://localhost:8080",
+    //origin: "http://localhost:8080",
+    origin: "http://ingeniofrontend.herokuapp.com",
     credentials: true
 }) );
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
+    //res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
+    res.header('Access-Control-Allow-Origin', 'http://ingeniofrontend.herokuapp.com');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
     res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
@@ -58,3 +60,4 @@ app.use( '/notification', require( './routes/notification' ) );
 // Tatiana
 
 module.exports = app;
+
