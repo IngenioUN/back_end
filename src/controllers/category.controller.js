@@ -1,4 +1,5 @@
 const Category = require( '../models/Category' );
+const User = require( '../models/User' );
 const logger = require( '../log/facadeLogger');
 
 const categoriesCtrl = { };
@@ -44,10 +45,19 @@ categoriesCtrl.addCategory = async ( req, res ) => {
 // Any user can access this information
 categoriesCtrl.getCategories = async ( req, res ) => {
     try{
-        const categories = await Category.find({}, {
+        var categories = await Category.find({}, {
             name: 1,
             publications: 1
-        });
+        }).lean();
+        if(req.isAuthenticated( )){
+            var user = await User.findById(req.user.id)
+            for(var i = 0 ; i < categories.length; i++ ){
+                if(user.subscriptionToCategories.includes(categories[i]._id))
+                    categories[i].isFollowing = 1;
+                else
+                    categories[i].isFollowing = 0;
+            }
+        }
         return res.status( 201 ).json( categories );
     }catch ( err ) {
         return res.status( 400 ).json({
