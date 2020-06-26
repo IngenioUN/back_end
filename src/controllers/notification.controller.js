@@ -89,22 +89,28 @@ notificationCtrl.unsubscribe = async ( req, res ) => {
 
 notificationCtrl.updateNotifications = async ( req, res, next ) => {
     try {
+        var i, j;
         if( req.user.role != 1 )
             throw "You do not have the required permissions";
-        var notification = await Notification.findOne({ authorId: req.user.id });
+        var notifications = await Notification.find({ authorId: req.user.id });
 
-        if ( notification ) {
-            notification.listPublications.push( req.body.publicationId );
-            await Notification.findByIdAndUpdate( notification.id, notification );
+
+        if ( notifications ) {
+            for ( i = 0; i < notifications.length; i++) {
+                notifications[i].listPublications.push( req.body.publicationId );
+                await Notification.findByIdAndUpdate( notifications[i].id, notifications[i] );
+            }
         }
 
-        for ( var i = 0; i < req.body.listCategories.length; i++ ) {
-            notification = await Notification.findOne({
+        for ( i = 0; i < req.body.listCategories.length; i++ ) {
+            notifications = await Notification.find({
                 categoryId: req.body.listCategories[ i ]
             });
-            if ( notification ) {
-                notification.listPublications.push( req.body.publicationId );
-                await Notification.findByIdAndUpdate( notification.id, notification );
+            if ( notifications ) {
+                for ( j = 0; j < notifications.length; j++) {
+                    notifications[j].listPublications.push( req.body.publicationId );
+                    await Notification.findByIdAndUpdate( notifications[j].id, notifications[j] );
+                }
             }
         }
         return next( );
