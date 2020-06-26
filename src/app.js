@@ -22,12 +22,12 @@ app.use(morgan('dev'));
 
 app.use(cors({
     //origin: "http://localhost:8080",
-    origin: "http://ingeniofrontend.herokuapp.com",
+    origin: "https://ingeniofrontend.herokuapp.com",
     credentials: true
 }) );
 app.use((req, res, next) => {
     //res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
-    res.header('Access-Control-Allow-Origin', 'http://ingeniofrontend.herokuapp.com');
+    res.header('Access-Control-Allow-Origin', 'https://ingeniofrontend.herokuapp.com');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
     res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
