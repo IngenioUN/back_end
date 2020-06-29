@@ -1,0 +1,48 @@
+{
+  "name": "back_end",
+  "version": "1.0.0",
+  "description": "In this repository are attached all the files related to the handling of data recived from the front_end.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "mocha test/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IngenioUN/back_end.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IngenioUN/back_end/issues"
+  },
+  "homepage": "https://github.com/IngenioUN/back_end#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-http-context": "^1.2.3",
+    "express-session": "^1.17.0",
+    "get-random-values": "^1.2.0",
+    "method-override": "^3.0.0",
+    "migrate-mongoose": "^4.0.0",
+    "mocha": "^8.0.1",
+    "mongoose": "^5.9.7",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.3",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "path": "^0.12.7",
+    "rotating-file-stream": "^2.1.1",
+    "supertest": "^4.0.2",
+    "uuid": "^8.1.0",
+    "window": "^4.2.7",
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^4.5.0"
+  },
+  "devDependencies": {}
+}
